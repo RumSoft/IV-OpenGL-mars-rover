@@ -26,6 +26,9 @@
 #include <stdio.h>
 #include "resource.h"
 #include "szescian/Renderer.h"
+#include "szescian/InputHandler.h"
+#include "szescian/Scene.h"
+#include <iostream>
 #define glRGB(x, y, z)	glColor3ub((GLubyte)x, (GLubyte)y, (GLubyte)z)
 #define BITMAP_ID 0x4D42
 #define GL_PI 3.14
@@ -53,85 +56,8 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 BOOL APIENTRY AboutDlgProc(HWND hDlg, UINT message, UINT wParam, LONG lParam);
 
 Renderer* renderer = new Renderer();
-
-void szescian(void)
-{
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	{
-
-
-		GLfloat sa[3] = { 0.0f,0.0f,0.0f };
-		GLfloat sb[3] = { 10.0f,0.0f,0.0f };
-		GLfloat sc[3] = { 10.0f,10.0f,0.0f };
-		GLfloat sd[3] = { 0.0f,10.0f,0.0f };
-		GLfloat se[3] = { 0.0f,0.0f,-10.0f };
-		GLfloat sf[3] = { 10.0f,0.0f,-10.0f };
-		GLfloat sg[3] = { 10.0f,10.0f,-10.0f };
-		GLfloat sh[3] = { 0.0f,10.0f,-10.0f };
-
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glBegin(GL_POLYGON);
-		glVertex3fv(sa);
-		glVertex3fv(sb);
-		glVertex3fv(sc);
-		glVertex3fv(sd);
-		glEnd();
-		glColor3f(0.0f, 1.0f, 0.0f);
-		glBegin(GL_POLYGON);
-		glVertex3fv(sb);
-		glVertex3fv(sf);
-		glVertex3fv(sg);
-		glVertex3fv(sc);
-		glEnd();
-		glColor3f(0.0f, 0.0f, 1.0f);
-		glBegin(GL_POLYGON);
-		glVertex3fv(sf);
-		glVertex3fv(se);
-		glVertex3fv(sh);
-		glVertex3fv(sg);
-		glEnd();
-		glColor3f(1.0f, 1.0f, 0.0f);
-		glBegin(GL_POLYGON);
-		glVertex3fv(se);
-		glVertex3fv(sa);
-		glVertex3fv(sd);
-		glVertex3fv(sh);
-		glEnd();
-		glColor3f(0.0f, 1.0f, 1.0f);
-		glBegin(GL_POLYGON);
-		glVertex3fv(sd);
-		glVertex3fv(sc);
-		glVertex3fv(sg);
-		glVertex3fv(sh);
-		glEnd();
-		glColor3f(1.0f, 0.0f, 1.0f);
-		glBegin(GL_POLYGON);
-		glVertex3fv(sa);
-		glVertex3fv(sb);
-		glVertex3fv(sf);
-		glVertex3fv(se);
-		glEnd();
-	}
-}
-
-void RenderScene(void)
-{
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glPushMatrix();
-	glRotatef(xRot, 1.0f, 0.0f, 0.0f);
-	glRotatef(yRot, 0.0f, 1.0f, 0.0f);
-
-	glPolygonMode(GL_BACK, GL_LINE);
-
-	szescian();
-
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-
-	glFlush();
-}
-
+IScene* scene = new MyScene();
+InputHandler* inputHandler = InputHandler::GetInstance();
 
 int APIENTRY WinMain(HINSTANCE       hInst,
 	HINSTANCE       hPrevInstance,
@@ -194,6 +120,8 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 	static HGLRC hRC;
 	static HDC hDC;
 
+	inputHandler->Update();
+	
 	switch (message)
 	{
 
@@ -209,7 +137,6 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		wglMakeCurrent(hDC, hRC);
 		renderer->SetupRC();
 		glGenTextures(2, &texture[0]);
-
 
 		bitmapData = renderer->LoadBitmapFile("Bitmapy\\checker.bmp", &bitmapInfoHeader);
 		glBindTexture(GL_TEXTURE_2D, texture[0]);
@@ -259,8 +186,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 
 	case WM_PAINT:
 	{
-
-		RenderScene();
+		scene->RenderScene();
 		SwapBuffers(hDC);
 
 		ValidateRect(hWnd, NULL);
@@ -304,6 +230,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 
 	case WM_KEYDOWN:
 	{
+
 		if (wParam == VK_UP)
 			xRot -= 5.0f;
 		if (wParam == VK_DOWN)

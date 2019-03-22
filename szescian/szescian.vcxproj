@@ -149,7 +149,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Gl_template.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\RESOURCE.APS" />
@@ -157,7 +159,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\RESOURCE.H" />
+    <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

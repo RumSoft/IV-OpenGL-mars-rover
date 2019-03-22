@@ -15,11 +15,15 @@
   <ItemGroup>
     <ClCompile Include="..\Gl_template.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\RESOURCE.H">
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="InputHandler.h" />
   </ItemGroup>
 </Project>
