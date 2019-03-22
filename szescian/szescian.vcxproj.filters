@@ -8,7 +8,7 @@
     <Filter Include="System">
       <UniqueIdentifier>{a7067ca1-03b2-444f-98a3-0b7a77ebd2c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Types">
+    <Filter Include="Math">
       <UniqueIdentifier>{446a4195-9108-4213-88b2-11fa48d51f63}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -40,16 +40,16 @@
       <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="Vec3.h">
-      <Filter>Types</Filter>
+      <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="Vec2.h">
-      <Filter>Types</Filter>
+      <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="Quat.h">
-      <Filter>Types</Filter>
+      <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="M33.h">
-      <Filter>Types</Filter>
+      <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

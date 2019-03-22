@@ -2,6 +2,7 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <corecrt_math_defines.h>
 
 
 struct Vec3

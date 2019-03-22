@@ -1,10 +1,18 @@
 #pragma once
 #include "InputHandler.h"
+#include <vector>
+#include "Geom.h"
+#include "Quat.h"
 
-class IScene {
+class IScene : public Entity {
 public:
 	virtual ~IScene() = default;
-	virtual void RenderScene() = 0;
+	virtual void Update() = 0;
+
+	void RenderGeometries();
+
+	std::vector<Geom*> Geometries;
+	InputHandler* input;
 };
 
 class MyScene : public IScene
@@ -12,13 +20,7 @@ class MyScene : public IScene
 public:
 	MyScene();
 	~MyScene();
-
-	int yRot = 0;
-	int xRot = 0;
 	
-	// Inherited via IScene
-	void RenderScene() override;
-
-	InputHandler* input;
+	void Update() override;
 };
 

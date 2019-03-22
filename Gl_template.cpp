@@ -156,7 +156,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_PAINT:
-		scene->RenderScene();
+		scene->Update();
+		scene->RenderGeometries();
 		SwapBuffers(hDC);
 		ValidateRect(hWnd, nullptr);
 		break;
