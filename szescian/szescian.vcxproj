@@ -160,8 +160,12 @@
   <ItemGroup>
     <ClInclude Include="..\RESOURCE.H" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="M33.h" />
+    <ClInclude Include="Quat.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Vec2.h" />
+    <ClInclude Include="Vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
