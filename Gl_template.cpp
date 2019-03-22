@@ -1,5 +1,3 @@
-
-
 #define  _CRT_SECURE_NO_WARNINGS
 
 
@@ -19,21 +17,22 @@
 #      undef UNICODE
 #   endif
 #endif
+
 #include <windows.h>
-#include <gl\gl.h>
-#include <gl\glu.h>
-#include <math.h>
-#include <stdio.h>
+#include <gl/gl.h>
+#include <gl/glu.h>
+#include <cstdio>
 #include "resource.h"
 #include "szescian/Renderer.h"
 #include "szescian/InputHandler.h"
 #include "szescian/Scene.h"
 #include <iostream>
+
 #define glRGB(x, y, z)	glColor3ub((GLubyte)x, (GLubyte)y, (GLubyte)z)
 #define BITMAP_ID 0x4D42
 #define GL_PI 3.14
 
-HPALETTE hPalette = NULL;
+HPALETTE hPalette = nullptr;
 
 static LPCTSTR lpszAppName = "GL Template";
 static HINSTANCE hInstance;
@@ -43,30 +42,21 @@ static GLfloat yRot = 0.0f;
 static GLsizei lastHeight;
 static GLsizei lastWidth;
 
-BITMAPINFOHEADER	bitmapInfoHeader;
+BITMAPINFOHEADER bitmapInfoHeader;
 unsigned char* bitmapData;
-unsigned int		texture[2];
+unsigned int texture[2];
 
-
-LRESULT CALLBACK WndProc(HWND    hWnd,
-	UINT    message,
-	WPARAM  wParam,
-	LPARAM  lParam);
-
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 BOOL APIENTRY AboutDlgProc(HWND hDlg, UINT message, UINT wParam, LONG lParam);
 
 Renderer* renderer = new Renderer();
 IScene* scene = new MyScene();
 InputHandler* inputHandler = InputHandler::GetInstance();
 
-int APIENTRY WinMain(HINSTANCE       hInst,
-	HINSTANCE       hPrevInstance,
-	LPSTR           lpCmdLine,
-	int                     nCmdShow)
+int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	MSG                     msg;
-	WNDCLASS        wc;
-	HWND            hWnd;
+	MSG msg;
+	WNDCLASS wc;
 
 	hInstance = hInst;
 
@@ -75,36 +65,26 @@ int APIENTRY WinMain(HINSTANCE       hInst,
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = hInstance;
-	wc.hIcon = NULL;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hIcon = nullptr;
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 
-	wc.hbrBackground = NULL;
+	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = MAKEINTRESOURCE(IDR_MENU);
 	wc.lpszClassName = lpszAppName;
 
 	if (RegisterClass(&wc) == 0)
 		return FALSE;
 
-	hWnd = CreateWindow(
-		lpszAppName,
-		lpszAppName,
+	HWND hWnd = CreateWindow(lpszAppName, lpszAppName, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, 50,
+		50, 800, 600, NULL, NULL, hInstance, NULL);
 
-		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
-
-		50, 50,
-		400, 400,
-		NULL,
-		NULL,
-		hInstance,
-		NULL);
-
-	if (hWnd == NULL)
+	if (hWnd == nullptr)
 		return FALSE;
 
 	ShowWindow(hWnd, SW_SHOW);
 	UpdateWindow(hWnd);
 
-	while (GetMessage(&msg, NULL, 0, 0))
+	while (GetMessage(&msg, nullptr, 0, 0))
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
@@ -112,19 +92,15 @@ int APIENTRY WinMain(HINSTANCE       hInst,
 	return msg.wParam;
 }
 
-LRESULT CALLBACK WndProc(HWND    hWnd,
-	UINT    message,
-	WPARAM  wParam,
-	LPARAM  lParam)
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	static HGLRC hRC;
 	static HDC hDC;
 
 	inputHandler->Update();
-	
+
 	switch (message)
 	{
-
 	case WM_CREATE:
 
 		hDC = GetDC(hWnd);
@@ -168,14 +144,10 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		break;
 
 	case WM_DESTROY:
-
-		wglMakeCurrent(hDC, NULL);
+		wglMakeCurrent(hDC, nullptr);
 		wglDeleteContext(hRC);
-
-		if (hPalette != NULL)
+		if (hPalette != nullptr)
 			DeleteObject(hPalette);
-
-
 		PostQuitMessage(0);
 		break;
 
@@ -183,31 +155,19 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 		renderer->ChangeSize(LOWORD(lParam), HIWORD(lParam));
 		break;
 
-
 	case WM_PAINT:
-	{
 		scene->RenderScene();
 		SwapBuffers(hDC);
-
-		ValidateRect(hWnd, NULL);
-	}
-	break;
-
+		ValidateRect(hWnd, nullptr);
+		break;
 
 
 	case WM_QUERYNEWPALETTE:
-
 		if (hPalette)
 		{
-			int nRet;
-
 			SelectPalette(hDC, hPalette, FALSE);
-
-
-
-			nRet = RealizePalette(hDC);
-
-			InvalidateRect(hWnd, NULL, FALSE);
+			const int nRet = RealizePalette(hDC);
+			InvalidateRect(hWnd, nullptr, FALSE);
 			return nRet;
 		}
 		break;
@@ -216,13 +176,10 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 	case WM_PALETTECHANGED:
 
 
-		if ((hPalette != NULL) && ((HWND)wParam != hWnd))
+		if (hPalette != nullptr && (HWND)wParam != hWnd)
 		{
-
 			SelectPalette(hDC, hPalette, FALSE);
-
 			RealizePalette(hDC);
-
 			UpdateColors(hDC);
 			return 0;
 		}
@@ -230,18 +187,7 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 
 	case WM_KEYDOWN:
 	{
-
-		if (wParam == VK_UP)
-			xRot -= 5.0f;
-		if (wParam == VK_DOWN)
-			xRot += 5.0f;
-		if (wParam == VK_LEFT)
-			yRot -= 5.0f;
-		if (wParam == VK_RIGHT)
-			yRot += 5.0f;
-		xRot = (const int)xRot % 360;
-		yRot = (const int)yRot % 360;
-		InvalidateRect(hWnd, NULL, FALSE);
+		InvalidateRect(hWnd, nullptr, FALSE);
 	}
 	break;
 
@@ -249,7 +195,6 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 	{
 		switch (LOWORD(wParam))
 		{
-
 		case ID_FILE_EXIT:
 			DestroyWindow(hWnd);
 			break;
@@ -264,19 +209,17 @@ LRESULT CALLBACK WndProc(HWND    hWnd,
 	}
 	break;
 	default:
-		return (DefWindowProc(hWnd, message, wParam, lParam));
+		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
-	return (0L);
+	return 0L;
 }
 
 BOOL APIENTRY AboutDlgProc(HWND hDlg, UINT message, UINT wParam, LONG lParam)
 {
+	int i;
 	switch (message)
 	{
-
 	case WM_INITDIALOG:
-	{
-		int i;
 		GLenum glError;
 
 		SetDlgItemText(hDlg, IDC_OPENGL_VENDOR, LPCSTR(glGetString(GL_VENDOR)));
@@ -288,22 +231,18 @@ BOOL APIENTRY AboutDlgProc(HWND hDlg, UINT message, UINT wParam, LONG lParam)
 		SetDlgItemText(hDlg, IDC_GLU_EXTENSIONS, LPCSTR(gluGetString(GLU_EXTENSIONS)));
 
 		i = 0;
-		do {
+		do
+		{
 			glError = glGetError();
 			SetDlgItemText(hDlg, IDC_ERROR1 + i, LPCSTR(gluErrorString(glError)));
 			i++;
 		} while (i < 6 && glError != GL_NO_ERROR);
-		return (TRUE);
-	}
-	break;
+		return true;
 
 	case WM_COMMAND:
-	{
-
 		if (LOWORD(wParam) == IDOK)
 			EndDialog(hDlg, TRUE);
-	}
-	break;
+		break;
 
 	case WM_CLOSE:
 		EndDialog(hDlg, TRUE);

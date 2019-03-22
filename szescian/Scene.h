@@ -3,6 +3,7 @@
 
 class IScene {
 public:
+	virtual ~IScene() = default;
 	virtual void RenderScene() = 0;
 };
 
@@ -16,7 +17,7 @@ public:
 	int xRot = 0;
 	
 	// Inherited via IScene
-	virtual void RenderScene() override;
+	void RenderScene() override;
 
 	InputHandler* input;
 };

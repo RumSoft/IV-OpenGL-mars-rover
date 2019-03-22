@@ -1,6 +1,5 @@
-#include <Windows.h>
-#include <array>
 #pragma once
+#include <Windows.h>
 
 const int keyboardInputStateArraySize = 256;
 
@@ -14,7 +13,7 @@ enum KeyState {
 class InputHandler
 {
 private:
-	static InputHandler* InputHandler::instance;
+	static InputHandler* instance;
 	InputHandler() = default;
 
 	bool keyboardStateCurrent[keyboardInputStateArraySize];
@@ -28,7 +27,7 @@ public:
 		}
 	}
 
-	bool IsDown(unsigned char key) {
+	bool IsDown(const unsigned char key) {
 		return keyboardStateCurrent[key];
 	}
 

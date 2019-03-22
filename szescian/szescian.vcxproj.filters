@@ -5,6 +5,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{a7067ca1-03b2-444f-98a3-0b7a77ebd2c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Types">
+      <UniqueIdentifier>{446a4195-9108-4213-88b2-11fa48d51f63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\RESOURCE.APS">
@@ -13,17 +19,37 @@
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Gl_template.cpp" />
-    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="..\Gl_template.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\RESOURCE.H">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="Geom.h" />
+    <ClInclude Include="Shape.h" />
+    <ClInclude Include="Renderer.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec3.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Quat.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="M33.h">
+      <Filter>Types</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

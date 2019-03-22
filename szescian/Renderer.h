@@ -37,9 +37,9 @@ public:
 	{
 		float length;
 
-		length = (float)sqrt((vector[0] * vector[0]) +
-			(vector[1] * vector[1]) +
-			(vector[2] * vector[2]));
+		length = (float)sqrt(vector[0] * vector[0] +
+			vector[1] * vector[1] +
+			vector[2] * vector[2]);
 
 		if (length == 0.0f)
 			length = 1.0f;
@@ -164,13 +164,13 @@ public:
 		for (i = 0; i < nColors; i++)
 		{
 
-			pPal->palPalEntry[i].peRed = (i >> pfd.cRedShift) & RedRange;
+			pPal->palPalEntry[i].peRed = i >> pfd.cRedShift & RedRange;
 			pPal->palPalEntry[i].peRed = (unsigned char)(
 				(double)pPal->palPalEntry[i].peRed * 255.0 / RedRange);
-			pPal->palPalEntry[i].peGreen = (i >> pfd.cGreenShift) & GreenRange;
+			pPal->palPalEntry[i].peGreen = i >> pfd.cGreenShift & GreenRange;
 			pPal->palPalEntry[i].peGreen = (unsigned char)(
 				(double)pPal->palPalEntry[i].peGreen * 255.0 / GreenRange);
-			pPal->palPalEntry[i].peBlue = (i >> pfd.cBlueShift) & BlueRange;
+			pPal->palPalEntry[i].peBlue = i >> pfd.cBlueShift & BlueRange;
 			pPal->palPalEntry[i].peBlue = (unsigned char)(
 				(double)pPal->palPalEntry[i].peBlue * 255.0 / BlueRange);
 			pPal->palPalEntry[i].peFlags = (unsigned char)NULL;
