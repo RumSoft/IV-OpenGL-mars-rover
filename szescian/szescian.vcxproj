@@ -160,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\RESOURCE.H" />
+    <ClInclude Include="Axes.h" />
     <ClInclude Include="ColorF.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Geom.h" />

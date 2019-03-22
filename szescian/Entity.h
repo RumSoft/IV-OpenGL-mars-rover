@@ -7,6 +7,9 @@ class Entity
 public:
 	Vec3 Origin;
 	Quat Rotation;
+
+	virtual void PreRender() {}
+	virtual void PostRender() {}
 };
 
 inline float Deg2Rad(const float deg) { return deg * M_PI / 180; }

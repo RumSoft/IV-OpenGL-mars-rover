@@ -33,6 +33,8 @@ void IScene::RenderGeometries()
 	{
 		for (auto shape : geom->Shapes)
 		{
+			geom->PreRender();
+			shape.PreRender();
 			glBegin(TypeToGlMode(shape.Type));
 			glColor4fv(shape.Color.GL());
 			for (const auto point : shape.Points) {
@@ -41,6 +43,8 @@ void IScene::RenderGeometries()
 				glVertex3f(p2.X, p2.Y, p2.Z);
 			}
 			glEnd();
+			shape.PostRender();
+			geom->PostRender();
 		}
 	}
 

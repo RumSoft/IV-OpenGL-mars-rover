@@ -3,6 +3,7 @@
 #include <gl/GL.h>
 #include "M33.h"
 #include "Grid.h"
+#include "Axes.h"
 
 
 MyScene::MyScene()
@@ -23,6 +24,7 @@ MyScene::MyScene()
 	this->Geometries.push_back(g1);
 
 	this->Geometries.push_back(new Grid());
+	this->Geometries.push_back(new Axes());
 }
 
 MyScene::~MyScene() = default;
