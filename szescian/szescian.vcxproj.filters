@@ -1,15 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="System">
       <UniqueIdentifier>{a7067ca1-03b2-444f-98a3-0b7a77ebd2c2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{446a4195-9108-4213-88b2-11fa48d51f63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{f7ca103b-4500-4270-8f4e-88c967ab4fef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="BaseObjects">
+      <UniqueIdentifier>{ec470504-f38f-45e7-b759-7c26cc8f9305}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{fdc2cfde-05c7-4dc1-a80f-745643b2c502}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -19,23 +28,26 @@
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="..\Gl_template.cpp">
       <Filter>System</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>System</Filter>
     </ClCompile>
+    <ClCompile Include="IScene.cpp">
+      <Filter>BaseObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHandler.cpp">
+      <Filter>BaseObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="MyScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\RESOURCE.H">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="Geom.h" />
-    <ClInclude Include="Shape.h" />
     <ClInclude Include="Renderer.h">
       <Filter>System</Filter>
     </ClInclude>
@@ -49,6 +61,30 @@
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="M33.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="IScene.h">
+      <Filter>BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Geom.h">
+      <Filter>BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="MyScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorF.h">
       <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>

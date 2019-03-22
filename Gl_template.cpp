@@ -25,7 +25,7 @@
 #include "resource.h"
 #include "szescian/Renderer.h"
 #include "szescian/InputHandler.h"
-#include "szescian/Scene.h"
+#include "szescian/MyScene.h"
 #include <iostream>
 
 #define glRGB(x, y, z)	glColor3ub((GLubyte)x, (GLubyte)y, (GLubyte)z)

@@ -1,18 +1,13 @@
 #pragma once
 #include <vector>
-#include "Vec3.h"
+#include "Entity.h"
+#include "ColorF.h"
 
-
-class Entity
-{
-public:
-	Vec3 Origin;
-	Vec3 Orientation;
-};
 
 enum ShapeType
 {
 	Line,
+	LineStrip,
 	Triangle,
 	TriangleStrip,
 	TriangleFan
@@ -22,5 +17,6 @@ class Shape : public Entity
 {
 public:
 	std::vector<Vec3> Points;
-	ShapeType Type;
+	ShapeType Type = LineStrip;
+	ColorF Color = BLACK;
 };

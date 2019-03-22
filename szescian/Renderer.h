@@ -70,6 +70,8 @@ public:
 		else
 			glOrtho(-nRange * w / h, nRange * w / h, -nRange, nRange, -nRange, nRange);
 
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
 		/*
 		gluPerspective(60.0f,fAspect,1.0,400);
 		*/
