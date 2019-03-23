@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Geom.h"
 
 class Kadlubek : public Geom
@@ -20,6 +20,7 @@ public:
 			Vec3( 0.7*a,0.9* b, c),
 		};
 
+		// dookoła
 		auto s1 = Shape(TriangleStrip, GREEN);
 		s1.Points.push_back(x[1]);
 		s1.Points.push_back(x[2]);
@@ -33,6 +34,8 @@ public:
 		s1.Points.push_back(x[2]);
 		this->Shapes.push_back(s1);
 
+
+		//dwie dodatkowe sciany których nie ma w tym dookoła
 		auto s2 = Shape(TriangleStrip, BLUE);
 		s2.Points.push_back(x[1]);
 		s2.Points.push_back(x[3]);
