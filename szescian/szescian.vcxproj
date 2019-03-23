@@ -161,12 +161,15 @@
   <ItemGroup>
     <ClInclude Include="..\RESOURCE.H" />
     <ClInclude Include="Axes.h" />
+    <ClInclude Include="Background.h" />
     <ClInclude Include="ColorF.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Geom.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="IScene.h" />
+    <ClInclude Include="Kadlubek.h" />
+    <ClInclude Include="Lazik.h" />
     <ClInclude Include="M33.h" />
     <ClInclude Include="Quat.h" />
     <ClInclude Include="Renderer.h" />

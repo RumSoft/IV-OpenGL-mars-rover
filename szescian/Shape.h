@@ -16,6 +16,9 @@ enum ShapeType
 class Shape : public Entity
 {
 public:
+	Shape() = default;
+	Shape(ShapeType type) : Type(type) {}
+	Shape(ShapeType type, ColorF color) : Type(type), Color(color) {}
 	std::vector<Vec3> Points;
 	ShapeType Type = LineStrip;
 	ColorF Color = BLACK;

@@ -4,13 +4,17 @@
 #include "M33.h"
 #include "Grid.h"
 #include "Axes.h"
+#include "Lazik.h"
+#include "Background.h"
 
 
 MyScene::MyScene()
 {
 	input = InputHandler::GetInstance();
+	this->Geometries.push_back(new Background());
 	this->Geometries.push_back(new Grid());
 	this->Geometries.push_back(new Axes());
+	this->Geometries.push_back(new Lazik());
 }
 
 MyScene::~MyScene() = default;

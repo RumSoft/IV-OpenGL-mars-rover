@@ -7,6 +7,7 @@ public:
 	virtual ~IScene() = default;
 	virtual void Update() = 0;
 
+	void Render();
 	void RenderGeometries();
 	void UpdateChildren();
 

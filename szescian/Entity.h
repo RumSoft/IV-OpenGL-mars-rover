@@ -5,8 +5,10 @@
 class Entity
 {
 public:
+	virtual ~Entity() = default;
 	Vec3 Origin = Vec3::Zero();
 	Quat Rotation = Quat::Identity();
+	Vec3 Scale = Vec3::One();
 
 	virtual void PreRender() {}
 	virtual void PostRender() {}

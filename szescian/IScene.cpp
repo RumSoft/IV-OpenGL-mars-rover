@@ -19,16 +19,8 @@ auto TypeToGlMode(ShapeType type)
 	return GL_LINE_STRIP;
 }
 
-void IScene::RenderGeometries()
+void IScene::Render()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glPushMatrix();
-	glRotatef(Rotation.X, 1.0f, 0.0f, 0.0f);
-	glRotatef(Rotation.Y, 0.0f, 1.0f, 0.0f);
-	glRotatef(Rotation.Z, 0.0f, 0.0f, 1.0f);
-
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	for (auto geom : Geometries)
 	{
 		for (auto shape : geom->Shapes)
@@ -39,7 +31,8 @@ void IScene::RenderGeometries()
 			glColor4fv(shape.Color.GL());
 			for (const auto point : shape.Points) {
 				const auto o = shape.Origin - geom->Origin;
-				const auto p2 = geom->Rotation * shape.Rotation * (point + o);
+				const auto p = Vec3::Scale(Vec3::Scale(point, shape.Scale), geom->Scale);
+				const auto p2 = geom->Rotation * shape.Rotation * (p + o);
 				glVertex3f(p2.X, p2.Y, p2.Z);
 			}
 			glEnd();
@@ -47,6 +40,20 @@ void IScene::RenderGeometries()
 			geom->PostRender();
 		}
 	}
+
+}
+
+void IScene::RenderGeometries()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glPushMatrix();
+	glRotatef(Rotation.X, 1.0f, 0.0f, 0.0f);
+	glRotatef(Rotation.Y, 0.0f, 1.0f, 0.0f);
+	glRotatef(Rotation.Z, 0.0f, 0.0f, 1.0f);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GLU_FILL);
+	Render();
 
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);

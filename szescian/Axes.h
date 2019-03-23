@@ -8,23 +8,17 @@ public:
 	Axes(float width = 500)
 		: Width(width)
 	{
-		auto mainX = Shape();
-		mainX.Color = RED.Opacity(0.5);
-		mainX.Type = Line;
+		auto mainX = Shape(Line, RED.Opacity(0.2));
 		mainX.Points.emplace_back(0, 0, 0);
 		mainX.Points.emplace_back(Width, 0, 0);
 		this->Shapes.push_back(mainX);
 
-		auto mainY = Shape();
-		mainY.Color = GREEN.Opacity(0.5);
-		mainY.Type = Line;
+		auto mainY = Shape(Line, GREEN.Opacity(0.2));
 		mainY.Points.emplace_back(0, 0, 0);
 		mainY.Points.emplace_back(0, Width, 0);
 		this->Shapes.push_back(mainY);
 
-		auto mainZ = Shape();
-		mainY.Color = BLUE.Opacity(0.5).Blue(.5);
-		mainZ.Type = Line;
+		auto mainZ = Shape(Line, BLUE.Opacity(0.2));
 		mainZ.Points.emplace_back(0, 0, 0);
 		mainZ.Points.emplace_back(0, 0, Width);
 		this->Shapes.push_back(mainZ);

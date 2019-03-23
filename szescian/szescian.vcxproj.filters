@@ -20,6 +20,9 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{fdc2cfde-05c7-4dc1-a80f-745643b2c502}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Lazik">
+      <UniqueIdentifier>{1db16fda-c044-4e28-b5f4-7e845cf861ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\RESOURCE.APS">
@@ -88,6 +91,15 @@
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="Axes.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Lazik.h">
+      <Filter>Objects\Lazik</Filter>
+    </ClInclude>
+    <ClInclude Include="Kadlubek.h">
+      <Filter>Objects\Lazik</Filter>
+    </ClInclude>
+    <ClInclude Include="Background.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
