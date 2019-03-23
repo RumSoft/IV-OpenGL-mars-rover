@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Geom.h"
 #include "Kadlubek.h"
 
@@ -11,7 +11,7 @@ public:
 			new Kadlubek(15, 25, 10)
 			//kolo1(Pozycjakola1)
 			//kolo2(pozycjakola2)
-			//mozesz dodac zmienne typu Vec3 okre?laj?ce pozycje kola
+			//mozesz dodac zmienne typu Vec3 określające pozycje kola
 		};
 		for(auto part : parts)
 			Shapes.insert(Shapes.end(), part->Shapes.begin(), part->Shapes.end());
