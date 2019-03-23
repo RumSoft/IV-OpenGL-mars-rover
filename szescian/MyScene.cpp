@@ -4,6 +4,7 @@
 #include "M33.h"
 #include "Grid.h"
 #include "Axes.h"
+#include "Camera.h"
 
 
 MyScene::MyScene()
@@ -23,6 +24,7 @@ MyScene::MyScene()
 	g1->Shapes.push_back(s1);
 	this->Geometries.push_back(g1);
 
+	this->Geometries.push_back(new Camera());
 	this->Geometries.push_back(new Grid());
 	this->Geometries.push_back(new Axes());
 }
@@ -31,18 +33,5 @@ MyScene::~MyScene() = default;
 
 void MyScene::Update()
 {
-	if (input->IsDown('W'))
-		Rotation.X = (int(Rotation.X) + 5) % 360;
-	if (input->IsDown('S'))
-		Rotation.X = (360 + int(Rotation.X) - 5) % 360;
 
-	if (input->IsDown('A'))
-		Rotation.Z = (int(Rotation.Z) + 5) % 360;
-	if (input->IsDown('D'))
-		Rotation.Z = (360 + int(Rotation.Z) - 5) % 360;
-
-	if (input->IsDown('Q'))
-		Rotation.Y = (int(Rotation.Y) + 5) % 360;
-	if (input->IsDown('E'))
-		Rotation.Y = (360 + int(Rotation.Y) - 5) % 360;
 }

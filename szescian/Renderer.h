@@ -62,21 +62,7 @@ public:
 
 		glViewport(0, 0, w, h);
 
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
 
-		if (w <= h)
-			glOrtho(-nRange, nRange, -nRange * h / w, nRange * h / w, -nRange, nRange);
-		else
-			glOrtho(-nRange * w / h, nRange * w / h, -nRange, nRange, -nRange, nRange);
-
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
-		/*
-		gluPerspective(60.0f,fAspect,1.0,400);
-		*/
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
 	}
 	unsigned char* LoadBitmapFile(char* filename, BITMAPINFOHEADER* bitmapInfoHeader)
 	{
