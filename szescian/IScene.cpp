@@ -53,3 +53,13 @@ void IScene::RenderGeometries()
 
 	glFlush();
 }
+
+void IScene::UpdateChildren()
+{
+	for (auto geom : Geometries)
+	{
+		geom->Update();
+		for (auto shape : geom->Shapes)
+			shape.Update();
+	}
+}

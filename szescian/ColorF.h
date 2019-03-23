@@ -21,12 +21,10 @@ public:
 		rgba[3] = a;
 	}
 
-	ColorF Opacity(const float f)
-	{
-		rgba[3] = f;
-		return *this;
-	}
-
+	ColorF Red(const float r)		{ rgba[0] = r; return *this; }
+	ColorF Green(const float g)		{ rgba[1] = g; return *this; }
+	ColorF Blue(const float b)		{ rgba[2] = b; return *this; }
+	ColorF Opacity(const float a)	{ rgba[3] = a; return *this; }
 	GLfloat* GL() { return rgba; }
 };
 

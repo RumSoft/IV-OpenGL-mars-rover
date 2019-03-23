@@ -23,7 +23,7 @@ public:
 		this->Shapes.push_back(mainY);
 
 		auto mainZ = Shape();
-		mainY.Color = BLUE.Opacity(0.5);
+		mainY.Color = BLUE.Opacity(0.5).Blue(.5);
 		mainZ.Type = Line;
 		mainZ.Points.emplace_back(0, 0, 0);
 		mainZ.Points.emplace_back(0, 0, Width);

@@ -8,6 +8,7 @@ public:
 	virtual void Update() = 0;
 
 	void RenderGeometries();
+	void UpdateChildren();
 
 	std::vector<Geom*> Geometries;
 	InputHandler* input;

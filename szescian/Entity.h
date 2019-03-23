@@ -5,11 +5,13 @@
 class Entity
 {
 public:
-	Vec3 Origin;
-	Quat Rotation;
+	Vec3 Origin = Vec3::Zero();
+	Quat Rotation = Quat::Identity();
 
 	virtual void PreRender() {}
 	virtual void PostRender() {}
+
+	virtual void Update() {}
 };
 
 inline float Deg2Rad(const float deg) { return deg * M_PI / 180; }
