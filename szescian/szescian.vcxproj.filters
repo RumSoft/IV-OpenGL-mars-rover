@@ -102,5 +102,8 @@
     <ClInclude Include="Background.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Kolo.h">
+      <Filter>Objects\Lazik</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
