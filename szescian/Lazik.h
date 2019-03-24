@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Geom.h"
 #include "Kadlubek.h"
+#include "Kolo.h"
 
 class Lazik : public Geom
 {
@@ -8,6 +9,12 @@ public:
 	Lazik()
 	{
 		Geom* parts[] = {
+			new Kolo(5, -18, -15, 7, 10),
+			new Kolo(5, 0, -15, 7, 10),
+			new Kolo(5, 18, -15, 7, 10),
+			new Kolo(-15, -18, -15, 7, 10),
+			new Kolo(-15, 0, -15, 7, 10),
+			new Kolo(-15, 18, -15, 7, 10),
 			new Kadlubek(15, 25, 10)
 			//kolo1(Pozycjakola1)
 			//kolo2(pozycjakola2)
