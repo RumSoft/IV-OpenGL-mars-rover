@@ -164,6 +164,7 @@
     <ClInclude Include="Background.h" />
     <ClInclude Include="Chwytak.h" />
     <ClInclude Include="ColorF.h" />
+    <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Geom.h" />
     <ClInclude Include="Grid.h" />

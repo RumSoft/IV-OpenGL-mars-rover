@@ -5,6 +5,7 @@
 #include "Ramie.h"
 #include "Chwytak.h"
 #include "Kamera.h"
+#include "Cylinder.h"
 
 class Lazik : public Geom
 {

@@ -120,5 +120,8 @@
     <ClInclude Include="Kamera.h">
       <Filter>Objects\Lazik</Filter>
     </ClInclude>
+    <ClInclude Include="Cylinder.h">
+      <Filter>Objects\Shapes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

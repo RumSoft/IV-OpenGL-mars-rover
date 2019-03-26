@@ -31,15 +31,15 @@ public:
 
 	void Build()
 	{
-
+		auto diff = Vec3::Normalized(From - To);
 		Body = new Shape(TriangleStrip, RED);
-		auto rot = Quat::FromToRotation(From, To);
-
+		auto rot = Quat::FromEuler(diff.Y, diff.X, diff.Z);
+	
 		const float f = 2 * M_PI / Steps;
 		for (int i = 0; i <= Steps; i++)
 		{
-			Body->Points.push_back(To + rot*Vec3(Radius * sin(i * f), Radius * cos(i * f)));
-			Body->Points.push_back(From + rot*Vec3(Radius * sin(i * f), Radius * cos(i * f)));
+			Body->Points.push_back(To + rot * Vec3(Radius * sin(i * f), Radius * cos(i * f)));
+			Body->Points.push_back(From + rot * Vec3(Radius * sin(i * f), Radius * cos(i * f)));
 		}
 		this->Shapes.push_back(Body);
 
