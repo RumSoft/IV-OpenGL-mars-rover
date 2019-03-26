@@ -173,9 +173,11 @@
     <ClInclude Include="Lazik.h" />
     <ClInclude Include="M33.h" />
     <ClInclude Include="Quat.h" />
+    <ClInclude Include="Ramie.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="MyScene.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Vec3.h" />
   </ItemGroup>

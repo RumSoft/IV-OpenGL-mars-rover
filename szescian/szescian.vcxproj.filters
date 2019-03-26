@@ -105,5 +105,11 @@
     <ClInclude Include="Kolo.h">
       <Filter>Objects\Lazik</Filter>
     </ClInclude>
+    <ClInclude Include="Ramie.h">
+      <Filter>Objects\Lazik</Filter>
+    </ClInclude>
+    <ClInclude Include="Sphere.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

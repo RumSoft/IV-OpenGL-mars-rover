@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Geom.h"
+#include "Sphere.h"
 
 class Kadlubek : public Geom
 {
@@ -49,5 +50,6 @@ public:
 		s3.Points.push_back(x[6]);
 		s3.Points.push_back(x[2]);
 		this->Shapes.push_back(s3);
+
 	}
 };
