@@ -35,4 +35,9 @@ void MyScene::Update()
 		Rotation.Y = (int(Rotation.Y) + 5) % 360;
 	if (input->IsDown('E'))
 		Rotation.Y = (360 + int(Rotation.Y) - 5) % 360;
+
+	if (input->IsDown(VK_UP))
+		Geometries[3]->Origin += Vec3(0, 5, 0);
+	if (input->IsDown(VK_DOWN))
+		Geometries[3]->Origin -= Vec3(0, 4, 0);
 }
