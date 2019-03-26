@@ -38,10 +38,9 @@ public:
 		const float f = 2 * M_PI / Steps;
 		for (int i = 0; i <= Steps; i++)
 		{
-			Body->Points.push_back(To + Vec3(Radius * sin(i * f), Radius * cos(i * f)));
-			Body->Points.push_back(From + Vec3(Radius * sin(i * f), Radius * cos(i * f)));
+			Body->Points.push_back(To + rot*Vec3(Radius * sin(i * f), Radius * cos(i * f)));
+			Body->Points.push_back(From + rot*Vec3(Radius * sin(i * f), Radius * cos(i * f)));
 		}
-		this->Rotation = rot;
 		this->Shapes.push_back(Body);
 
 		if (JointRadius > 0)
