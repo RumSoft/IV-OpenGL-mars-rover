@@ -26,17 +26,17 @@ void IScene::Render()
 		for (auto shape : geom->Shapes)
 		{
 			geom->PreRender();
-			shape.PreRender();
-			glBegin(TypeToGlMode(shape.Type));
-			glColor4fv(shape.Color.GL());
-			for (const auto point : shape.Points) {
-				const auto o = shape.Origin + geom->Origin;
-				const auto p = Vec3::Scale(Vec3::Scale(point, shape.Scale), geom->Scale);
-				const auto p2 = geom->Rotation * shape.Rotation * (p + o);
+			shape->PreRender();
+			glBegin(TypeToGlMode(shape->Type));
+			glColor4fv(shape->Color.GL());
+			for (const auto point : shape->Points) {
+				const auto o = shape->Origin + geom->Origin;
+				const auto p = Vec3::Scale(Vec3::Scale(point, shape->Scale), geom->Scale);
+				const auto p2 = geom->Rotation * shape->Rotation * (p + o);
 				glVertex3f(p2.X, p2.Y, p2.Z);
 			}
 			glEnd();
-			shape.PostRender();
+			shape->PostRender();
 			geom->PostRender();
 		}
 	}
@@ -67,6 +67,6 @@ void IScene::UpdateChildren()
 	{
 		geom->Update();
 		for (auto shape : geom->Shapes)
-			shape.Update();
+			shape->Update();
 	}
 }

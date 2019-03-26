@@ -1,32 +1,55 @@
 #pragma once
 #include "Geom.h"
 
-class Ramie : public Geom {
+class Ramie : public Geom
+{
 public:
-	Ramie(Vec3 p1, Vec3 p2, int steps = 3, float r = 2, ColorF color = RED) : Ramie(p1, p2, steps, r, 0, color) {}
-	Ramie(Vec3 p1, Vec3 p2, int steps = 3, float r = 2, float r2 = 0, ColorF color = RED) {
-		auto s1 = Shape(TriangleStrip, RED);
-		s1.Points.push_back(p1);
-		s1.Points.push_back(p2);
-		this->Shapes.push_back(s1);
+	Shape* SphereP1;
+	Shape* SphereP2;
+	Shape* Body;
+	Vec3 From;
+	Vec3 To;
+	int Steps;
+	float Radius;
+	float JointRadius;
+	ColorF Color;
 
-		auto s2 = Shape(TriangleStrip, RED);
-		auto rot = Quat::FromToRotation(p1, p2);
-		auto len = Vec3::Magnitude(p2 - p1);
-		
-		float f = 2 * M_PI / steps;
-		for (int i = 0; i <= steps; i++)
+	Ramie(Vec3 p1, Vec3 p2, int steps = 3, float r = 2, ColorF color = RED) : Ramie(p1, p2, steps, r, 0, color)
+	{
+	}
+
+	Ramie(Vec3 p1, Vec3 p2, int steps = 3, float r = 2, float r2 = 0, ColorF color = RED)
+	{
+		From = p1;
+		To = p2;
+		Steps = steps;
+		Radius = r;
+		JointRadius = r2;
+		Color = color;
+		Build();
+	}
+
+	void Build()
+	{
+
+		Body = new Shape(TriangleStrip, RED);
+		auto rot = Quat::FromToRotation(From, To);
+
+		const float f = 2 * M_PI / Steps;
+		for (int i = 0; i <= Steps; i++)
 		{
-			s2.Points.push_back(p2 + Vec3(r * sin(i * f), r * cos(i * f)));
-			s2.Points.push_back(p1 + Vec3(r * sin(i * f), r * cos(i * f)));
+			Body->Points.push_back(To + Vec3(Radius * sin(i * f), Radius * cos(i * f)));
+			Body->Points.push_back(From + Vec3(Radius * sin(i * f), Radius * cos(i * f)));
 		}
 		this->Rotation = rot;
-		this->Shapes.push_back(s2);
+		this->Shapes.push_back(Body);
 
-
-		if (r2 > 0) {
-			this->Shapes.push_back(Sphere(p1, r2, 5, color).GetShape());
-			this->Shapes.push_back(Sphere(p2, r2, 5, color).GetShape());
+		if (JointRadius > 0)
+		{
+			SphereP1 = new Sphere(From, JointRadius, 5, Color);
+			SphereP2 = new Sphere(To, JointRadius, 5, Color);
+			this->Shapes.push_back(SphereP1);
+			this->Shapes.push_back(SphereP2);
 		}
 	}
 };

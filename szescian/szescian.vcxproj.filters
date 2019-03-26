@@ -23,6 +23,9 @@
     <Filter Include="Objects\Lazik">
       <UniqueIdentifier>{1db16fda-c044-4e28-b5f4-7e845cf861ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Shapes">
+      <UniqueIdentifier>{0c27bd52-bf71-4c22-b002-3b30b1d3b138}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\RESOURCE.APS">
@@ -109,7 +112,7 @@
       <Filter>Objects\Lazik</Filter>
     </ClInclude>
     <ClInclude Include="Sphere.h">
-      <Filter>Objects</Filter>
+      <Filter>Objects\Shapes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

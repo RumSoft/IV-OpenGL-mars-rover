@@ -13,8 +13,6 @@ public:
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.5, 0.5, 0.5, 1);
 
-
-
 		float ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 		float diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
