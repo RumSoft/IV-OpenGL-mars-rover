@@ -45,9 +45,7 @@ public:
 	void Update() override
 	{
 		if (input->IsDown('X')) {
-			Wheels[0]->AddShapesOrigin(Vec3(0, 1, 0));
-			WheelArms[0]->To += Vec3(0, 1, 0);
-			WheelArms[0]->Build();
+			
 		}
 	}
 };
