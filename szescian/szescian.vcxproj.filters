@@ -117,5 +117,8 @@
     <ClInclude Include="Chwytak.h">
       <Filter>Objects\Lazik</Filter>
     </ClInclude>
+    <ClInclude Include="Kamera.h">
+      <Filter>Objects\Lazik</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

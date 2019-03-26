@@ -170,6 +170,7 @@
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="IScene.h" />
     <ClInclude Include="Kadlubek.h" />
+    <ClInclude Include="Kamera.h" />
     <ClInclude Include="Kolo.h" />
     <ClInclude Include="Lazik.h" />
     <ClInclude Include="M33.h" />
