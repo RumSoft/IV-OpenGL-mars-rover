@@ -4,6 +4,7 @@
 #include "Kolo.h"
 #include "Ramie.h"
 #include "Chwytak.h"
+#include "Kamera.h"
 
 class Lazik : public Geom
 {
@@ -25,6 +26,7 @@ public:
 		parts.push_back(new Kadlubek(15, 25, 10));
 		auto Chwyt = new Chwytak(Vec3(0, 23, 9), 4, 6, 25);
 		parts.push_back(Chwyt);
+		parts.push_back(new Kamera(Vec3(8, -20, 10), 20, 3, 8, 5));
 
 		for (auto wheel : wheels) {
 			auto w = new Kolo(wheel, r, h);
