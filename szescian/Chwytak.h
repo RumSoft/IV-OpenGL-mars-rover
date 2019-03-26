@@ -13,58 +13,57 @@ public:
 		int steps = 10;
 		float f = 2 * M_PI / steps;
 
-		auto s1 = Shape(TriangleStrip, ColorF(0.3, 0.3, 0.3));												//walec w kad³ubku
+		auto s1 = new Shape(TriangleStrip, ColorF(0.3, 0.3, 0.3));												//walec w kad³ubku
 		for (int i = 0; i <= steps; i++)
 		{
-			s1.Origin = chwyts;
-			s1.Points.push_back(Vec3(-h / 2, R * sin(f * i), R * cos(f * i)));
-			s1.Points.push_back(Vec3(h / 2, R * sin(f * i), R * cos(f * i)));
+			s1->Origin = chwyts;
+			s1->Points.emplace_back(-h / 2, R * sin(f * i), R * cos(f * i));
+			s1->Points.emplace_back(h / 2, R * sin(f * i), R * cos(f * i));
 		}
 		this->Shapes.push_back(s1);
 
-		auto s2 = Shape(TriangleFan, ColorF(0.3, 0.3, 0.3));
-		s2.Origin = chwyts;
+		auto s2 = new Shape(TriangleFan, ColorF(0.3, 0.3, 0.3));
+		s2->Origin = chwyts;
 		for (int i = 0; i <= steps; i++)
-		{
-			s2.Points.push_back(Vec3(-h / 2, R * sin(f * i), R * cos(f * i)));
-		}
+			s2->Points.emplace_back(-h / 2, R * sin(f * i), R * cos(f * i));
 		this->Shapes.push_back(s2);
 
-		auto s3 = Shape(TriangleFan, ColorF(0.3, 0.3, 0.3));
-		s3.Origin = chwyts;
+		auto s3 = new Shape(TriangleFan, ColorF(0.3, 0.3, 0.3));
+		s3->Origin = chwyts;
 		for (int i = 0; i <= steps; i++)
 		{
-			s3.Points.push_back(Vec3(h / 2, R * sin(f * i), R * cos(f * i)));
+			s3->Points.emplace_back(h / 2, R * sin(f * i), R * cos(f * i));
 		}
 		this->Shapes.push_back(s3);
 
-		float firstang = M_PI / 2;																			//Kat pierwszego ramienia MAX = M_PI/2;		MIN = 0;
-
-		auto r1 = new Ramie(chwyts, chwyts + Vec3(0, cos(firstang)*hr, sin(firstang)*hr), 3, 2, 0, RED);	//pierwsze ramie
+		float firstang = M_PI / 2; // Kat pierwszego ramienia MAX = M_PI/2; MIN = 0;
+		
+		//pierwsze ramie
+		auto r1 = new Ramie(chwyts, chwyts + Vec3(0, cos(firstang)*hr, sin(firstang)*hr), 3, 2, 0, RED);	
 		parts.push_back(r1);
 
-		auto s5 = Shape(TriangleStrip, ColorF(0.3, 0.3, 0.3));												//walec miedzy ramionami
+		auto s5 = new Shape(TriangleStrip, ColorF(0.3, 0.3, 0.3));												//walec miedzy ramionami
 		for (int i = 0; i <= steps; i++)
 		{
-			s5.Origin = chwyts + Vec3(0, cos(firstang)*hr, sin(firstang)*hr);
-			s5.Points.push_back(Vec3(-h / 2, R * sin(f * i), R * cos(f * i)));
-			s5.Points.push_back(Vec3(h / 2, R * sin(f * i), R * cos(f * i)));
+			s5->Origin = chwyts + Vec3(0, cos(firstang)*hr, sin(firstang)*hr);
+			s5->Points.emplace_back(-h / 2, R * sin(f * i), R * cos(f * i));
+			s5->Points.emplace_back(h / 2, R * sin(f * i), R * cos(f * i));
 		}
 		this->Shapes.push_back(s5);
 
-		auto s6 = Shape(TriangleFan, ColorF(0.3, 0.3, 0.3));
-		s6.Origin = chwyts + Vec3(0, cos(firstang)*hr, sin(firstang)*hr);
+		auto s6 = new Shape(TriangleFan, ColorF(0.3, 0.3, 0.3));
+		s6->Origin = chwyts + Vec3(0, cos(firstang)*hr, sin(firstang)*hr);
 		for (int i = 0; i <= steps; i++)
 		{
-			s6.Points.push_back(Vec3(-h / 2, R * sin(f * i), R * cos(f * i)));
+			s6->Points.emplace_back(-h / 2, R * sin(f * i), R * cos(f * i));
 		}
 		this->Shapes.push_back(s6);
 
-		auto s7 = Shape(TriangleFan, ColorF(0.3, 0.3, 0.3));
-		s7.Origin = chwyts + Vec3(0, cos(firstang)*hr, sin(firstang)*hr);;
+		auto s7 = new Shape(TriangleFan, ColorF(0.3, 0.3, 0.3));
+		s7->Origin = chwyts + Vec3(0, cos(firstang)*hr, sin(firstang)*hr);;
 		for (int i = 0; i <= steps; i++)
 		{
-			s7.Points.push_back(Vec3(h / 2, R * sin(f * i), R * cos(f * i)));
+			s7->Points.emplace_back(h / 2, R * sin(f * i), R * cos(f * i));
 		}
 		this->Shapes.push_back(s7);
 
@@ -73,28 +72,28 @@ public:
 		auto r2 = new Ramie(chwyts2, chwyts2 + Vec3(0, cos(secondang)*hr, sin(secondang)*hr), 3, 2, 0, RED);//drugie ramie
 		parts.push_back(r2);
 
-		auto s8 = Shape(TriangleStrip, ColorF(0.3, 0.3, 0.3));												//walec miedzy ramionami
+		auto s8 = new Shape(TriangleStrip, ColorF(0.3, 0.3, 0.3));												//walec miedzy ramionami
 		for (int i = 0; i <= steps; i++)
 		{
-			s8.Origin = chwyts2 + Vec3(0, cos(secondang)*hr, sin(secondang)*hr);
-			s8.Points.push_back(Vec3(-h / 2, R * sin(f * i), R * cos(f * i)));
-			s8.Points.push_back(Vec3(h / 2, R * sin(f * i), R * cos(f * i)));
+			s8->Origin = chwyts2 + Vec3(0, cos(secondang)*hr, sin(secondang)*hr);
+			s8->Points.emplace_back(-h / 2, R * sin(f * i), R * cos(f * i));
+			s8->Points.emplace_back(h / 2, R * sin(f * i), R * cos(f * i));
 		}
 		this->Shapes.push_back(s8);
 
-		auto s9 = Shape(TriangleFan, ColorF(0.3, 0.3, 0.3));
-		s9.Origin = chwyts2 + Vec3(0, cos(secondang)*hr, sin(secondang)*hr);
+		auto s9 = new Shape(TriangleFan, ColorF(0.3, 0.3, 0.3));
+		s9->Origin = chwyts2 + Vec3(0, cos(secondang)*hr, sin(secondang)*hr);
 		for (int i = 0; i <= steps; i++)
 		{
-			s9.Points.push_back(Vec3(-h / 2, R * sin(f * i), R * cos(f * i)));
+			s9->Points.emplace_back(-h / 2, R * sin(f * i), R * cos(f * i));
 		}
 		this->Shapes.push_back(s9);
 
-		auto s10 = Shape(TriangleFan, ColorF(0.3, 0.3, 0.3));
-		s10.Origin = chwyts2 + Vec3(0, cos(secondang)*hr, sin(secondang)*hr);
+		auto s10 = new Shape(TriangleFan, ColorF(0.3, 0.3, 0.3));
+		s10->Origin = chwyts2 + Vec3(0, cos(secondang)*hr, sin(secondang)*hr);
 		for (int i = 0; i <= steps; i++)
 		{
-			s10.Points.push_back(Vec3(h / 2, R * sin(f * i), R * cos(f * i)));
+			s10->Points.emplace_back(h / 2, R * sin(f * i), R * cos(f * i));
 		}
 		this->Shapes.push_back(s10);
 
@@ -111,6 +110,5 @@ public:
 
 		for (auto part : parts)
 			Shapes.insert(Shapes.end(), part->Shapes.begin(), part->Shapes.end());
-
 	}
 };
