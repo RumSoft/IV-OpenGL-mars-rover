@@ -4,6 +4,7 @@
 
 class IScene : public Entity {
 public:
+
 	virtual ~IScene() = default;
 	virtual void Update() = 0;
 

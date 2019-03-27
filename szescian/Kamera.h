@@ -12,36 +12,36 @@ public:
 		auto r1 = new Ramie(kams, kams + Vec3(0, 0, h), 3, 2, 0, RED);	//pierwsze ramie
 		parts.push_back(r1);
 
-		auto s1 = Shape(TriangleStrip, BLUE);
-		s1.Origin = kams + Vec3(0, 0, h);
-		s1.Points.push_back(Vec3(-a, b, c));
-		s1.Points.push_back(Vec3(a, b, c));
-		s1.Points.push_back(Vec3(-a, -a, c));
-		s1.Points.push_back(Vec3(a, -a, c));
-		s1.Points.push_back(Vec3(-a, -b, c / 3));
-		s1.Points.push_back(Vec3(a, -b, c / 3));
-		s1.Points.push_back(Vec3(-a, -b, 0));
-		s1.Points.push_back(Vec3(a, -b, 0));
-		s1.Points.push_back(Vec3(-a, b, 0));
-		s1.Points.push_back(Vec3(a, b, 0));
+		auto s1 = new Shape(TriangleStrip, BLUE);
+		s1->Origin = kams + Vec3(0, 0, h);
+		s1->Points.emplace_back(-a, b, c);
+		s1->Points.emplace_back(a, b, c);
+		s1->Points.emplace_back(-a, -a, c);
+		s1->Points.emplace_back(a, -a, c);
+		s1->Points.emplace_back(-a, -b, c / 3);
+		s1->Points.emplace_back(a, -b, c / 3);
+		s1->Points.emplace_back(-a, -b, 0);
+		s1->Points.emplace_back(a, -b, 0);
+		s1->Points.emplace_back(-a, b, 0);
+		s1->Points.emplace_back(a, b, 0);
 		this->Shapes.push_back(s1);
 
-		auto s2 = Shape(TriangleStrip, BLUE);
-		s2.Origin = kams + Vec3(0, 0, h);
-		s2.Points.push_back(Vec3(-a, -b, 0));
-		s2.Points.push_back(Vec3(-a, -b, c / 3));
-		s2.Points.push_back(Vec3(a, -b, 0));
-		s2.Points.push_back(Vec3(a, -b, c / 3));
-		s2.Points.push_back(Vec3(a, -a, 0));
-		s2.Points.push_back(Vec3(a, -a, c));
-		s2.Points.push_back(Vec3(a, b, 0));
-		s2.Points.push_back(Vec3(a, b, c));
-		s2.Points.push_back(Vec3(-a, b, 0));
-		s2.Points.push_back(Vec3(-a, b, c));
-		s2.Points.push_back(Vec3(-a, -a, 0));
-		s2.Points.push_back(Vec3(-a, -a, c));
-		s2.Points.push_back(Vec3(-a, -b, 0));
-		s2.Points.push_back(Vec3(-a, -b, c / 3));
+		auto s2 = new Shape(TriangleStrip, BLUE);
+		s2->Origin = kams + Vec3(0, 0, h);
+		s2->Points.emplace_back(-a, -b, 0);
+		s2->Points.emplace_back(-a, -b, c / 3);
+		s2->Points.emplace_back(a, -b, 0);
+		s2->Points.emplace_back(a, -b, c / 3);
+		s2->Points.emplace_back(a, -a, 0);
+		s2->Points.emplace_back(a, -a, c);
+		s2->Points.emplace_back(a, b, 0);
+		s2->Points.emplace_back(a, b, c);
+		s2->Points.emplace_back(-a, b, 0);
+		s2->Points.emplace_back(-a, b, c);
+		s2->Points.emplace_back(-a, -a, 0);
+		s2->Points.emplace_back(-a, -a, c);
+		s2->Points.emplace_back(-a, -b, 0);
+		s2->Points.emplace_back(-a, -b, c / 3);
 		this->Shapes.push_back(s2);
 
 		for (auto part : parts)

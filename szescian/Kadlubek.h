@@ -22,33 +22,32 @@ public:
 		};
 
 		// dookoła
-		auto s1 = Shape(TriangleStrip, GREEN);
-		s1.Points.push_back(x[1]);
-		s1.Points.push_back(x[2]);
-		s1.Points.push_back(x[3]);
-		s1.Points.push_back(x[4]);
-		s1.Points.push_back(x[7]);
-		s1.Points.push_back(x[8]);
-		s1.Points.push_back(x[5]);
-		s1.Points.push_back(x[6]);
-		s1.Points.push_back(x[1]);
-		s1.Points.push_back(x[2]);
+		auto s1 = new Shape(TriangleStrip, LIGHTGRAY);
+		s1->Points.push_back(x[1]);
+		s1->Points.push_back(x[2]);
+		s1->Points.push_back(x[3]);
+		s1->Points.push_back(x[4]);
+		s1->Points.push_back(x[7]);
+		s1->Points.push_back(x[8]);
+		s1->Points.push_back(x[5]);
+		s1->Points.push_back(x[6]);
+		s1->Points.push_back(x[1]);
+		s1->Points.push_back(x[2]);
 		this->Shapes.push_back(s1);
 
 
-		//dwie dodatkowe sciany których nie ma w tym dookoła
-		auto s2 = Shape(TriangleStrip, BLUE);
-		s2.Points.push_back(x[1]);
-		s2.Points.push_back(x[3]);
-		s2.Points.push_back(x[5]);
-		s2.Points.push_back(x[7]);
+		auto s2 = new Shape(TriangleStrip, GRAY);
+		s2->Points.push_back(x[1]);
+		s2->Points.push_back(x[3]);
+		s2->Points.push_back(x[5]);
+		s2->Points.push_back(x[7]);
 		this->Shapes.push_back(s2);
 
-		auto s3 = Shape(TriangleStrip, RED);
-		s3.Points.push_back(x[8]);
-		s3.Points.push_back(x[4]);
-		s3.Points.push_back(x[6]);
-		s3.Points.push_back(x[2]);
+		auto s3 = new Shape(TriangleStrip, GRAY);
+		s3->Points.push_back(x[8]);
+		s3->Points.push_back(x[4]);
+		s3->Points.push_back(x[6]);
+		s3->Points.push_back(x[2]);
 		this->Shapes.push_back(s3);
 
 	}

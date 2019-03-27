@@ -5,14 +5,18 @@
 #include "Ramie.h"
 #include "Chwytak.h"
 #include "Kamera.h"
+#include "Cylinder.h"
 
 class Lazik : public Geom
 {
+private:
+	InputHandler* input;
 public:
 	std::vector<Geom*> parts;
-
 	Lazik()
 	{
+		this->Origin += Vec3(0, 0, 16.5);
+
 		float r = 7, h = 10;
 		Vec3 wheels[] = {
 			Vec3(25,-20, -10),
@@ -24,9 +28,8 @@ public:
 		};
 
 		parts.push_back(new Kadlubek(15, 25, 10));
-		auto Chwyt = new Chwytak(Vec3(0, 23, 9), 4, 6, 25);
-		parts.push_back(Chwyt);
-		parts.push_back(new Kamera(Vec3(8, -20, 10), 20, 3, 8, 5));
+		parts.push_back(new Chwytak(Vec3(0, 23, 9), 4, 6, 25));
+		parts.push_back(new Kamera(Vec3(8, -20, 10), 15, 3, 8, 5));
 
 		for (auto wheel : wheels) {
 			auto w = new Kolo(wheel, r, h);
@@ -36,6 +39,16 @@ public:
 		}
 
 		for (auto part : parts)
-			Shapes.insert(Shapes.end(), part->Shapes.begin(), part->Shapes.end());
+			for (auto shape : part->Shapes)
+				Shapes.push_back(shape);
+
+		input = InputHandler::GetInstance();
+	}
+
+	void Update() override
+	{
+		if (input->IsDown('X')) {
+			
+		}
 	}
 };
