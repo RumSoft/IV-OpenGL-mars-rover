@@ -31,10 +31,15 @@ public:
 
 	void Build()
 	{
+		auto color2 = Color;
+		color2 = color2.Red(color2.rgba[0] / 2);
+		color2 = color2.Green(color2.rgba[1] / 2);
+		color2 = color2.Blue(color2.rgba[2] / 2);
 		auto diff = Vec3::Normalized(From - To);
-		Body = new Shape(TriangleStrip, RED);
-		auto rot = Quat::FromEuler(diff.Y, diff.X, diff.Z);
-	
+		Body = new Shape(TriangleStrip, color2);
+		auto rot = Quat::FromEuler(diff.Z, diff.X, diff.Y);
+		rot = Quat::LookRotation(diff);
+
 		const float f = 2 * M_PI / Steps;
 		for (int i = 0; i <= Steps; i++)
 		{

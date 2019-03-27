@@ -12,7 +12,7 @@ MyScene::MyScene()
 {
 	input = InputHandler::GetInstance();
 	this->Geometries.push_back(new Background());
-	this->Geometries.push_back(new Grid());
+	this->Geometries.push_back(new Grid(500, 50));
 	this->Geometries.push_back(new Axes());
 	this->Geometries.push_back(new Lazik());
 }

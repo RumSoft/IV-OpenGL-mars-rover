@@ -33,3 +33,8 @@ public:
 #define BLUE  ColorF(0,0,1)
 #define BLACK ColorF(0,0,0)
 #define WHITE ColorF(1,1,1)
+#define GRAY ColorF(0.5,0.5,0.5)
+#define DARKGRAY ColorF(0.25,0.25,0.25)
+#define LIGHTGRAY ColorF(0.75,0.75,0.75)
+
+

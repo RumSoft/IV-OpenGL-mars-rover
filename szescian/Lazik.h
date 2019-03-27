@@ -15,6 +15,8 @@ public:
 	std::vector<Geom*> parts;
 	Lazik()
 	{
+		this->Origin += Vec3(0, 0, 16.5);
+
 		float r = 7, h = 10;
 		Vec3 wheels[] = {
 			Vec3(25,-20, -10),
