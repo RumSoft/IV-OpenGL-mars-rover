@@ -45,6 +45,7 @@ public:
 		Normals.push_back(n);
 	}
 
+
 	void AddPoint(Vec3 p, Vec3 n) {
 		Points.push_back(p);
 		Normals.push_back(n);

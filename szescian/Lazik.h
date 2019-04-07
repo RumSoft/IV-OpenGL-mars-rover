@@ -6,14 +6,17 @@
 #include "Chwytak.h"
 #include "Kamera.h"
 #include "Cylinder.h"
+#include <iostream>
+#include <string>
 
 class Lazik : public Geom
 {
 private:
 	InputHandler* input;
 public:
-	std::vector<Geom*> parts;
 	Chwytak* chwytak;
+	Kadlubek* kadlubek;
+	Kamera* kamera;
 	Lazik()
 	{
 		this->Origin += Vec3(0, 0, 16.5);
@@ -28,31 +31,37 @@ public:
 			Vec3(-25, 20, -10)
 		};
 
+		kadlubek = new Kadlubek(15, 25, 10);
 		chwytak = new Chwytak(Vec3(0, 23, 9), 4, 6, 25);
-		parts.push_back(new Kadlubek(15, 25, 10));
-		parts.push_back(chwytak);
-		parts.push_back(new Kamera(Vec3(8, -20, 10), 15, 3, 8, 5));
+		kamera = (Kamera*)(new Kamera(15, 3, 8, 5))->WithPosition(Vec3(8, -20, 10));
 
-		for (auto wheel : wheels) {
-			auto w = new Kolo(wheel, r, h);
-			auto r = new Ramie(Vec3::Scale(wheel, Vec3(.4, .8, -0.1)), wheel - Vec3(wheel.X > 0 ? h / 2 : -h / 2, 0, 0), 3, 2, 3, RED);
-			parts.push_back(w);
-			parts.push_back(r);
+		this->Children.push_back(kadlubek);
+		this->Children.push_back(chwytak);
+		this->Children.push_back(kamera);
+
+		for (const auto wheel : wheels) {
+			auto w = (new Kolo(r, h))->WithPosition(wheel);
+			auto rr = new Ramie(Vec3::Scale(wheel, Vec3(.4, .8, -0.1)), wheel - Vec3(wheel.X > 0 ? h / 2 : -h / 2, 0, 0), 3, 2, 3, RED);
+			this->Children.push_back(w);
+			this->Children.push_back(rr);
 		}
 
-		for (auto part : parts)
-			for (auto shape : part->Shapes)
-				Shapes.push_back(shape);
-
-		this->Shapes.push_back(new Sphere(Vec3(50, 50, 50), 20, 10, GREEN));
-
+		//this->Shapes.push_back(new Sphere(Vec3(50, 50, 50), 20, 10, GREEN));
 		input = InputHandler::GetInstance();
 	}
-
+	
 	void Update() override
 	{
 		if (input->IsDown('X')) {
-			chwytak->AddShapesOrigin(Vec3::Forward());
+			this->Origin += Vec3(0, 1, 0);
+		}
+
+		if (input->IsDown('Z')) {
+			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(10), Vec3::Up());
+		}
+
+		if (input->IsDown('C')) {
+			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(-10), Vec3::Up());
 		}
 	}
 };
