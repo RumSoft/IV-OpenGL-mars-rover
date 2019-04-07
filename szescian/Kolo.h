@@ -34,7 +34,5 @@ public:
 			->WithRotation(Quat::FromAngleAxis(Deg2Rad(90), Vec3::Forward())));
 
 		this->Shapes.push_back(s1);
-
-		this->Children.push_back((new Kadlubek(2,5,5))->WithScale(r / 2)->WithPosition(Vec3(10, 0, 0)));
 	}
 };

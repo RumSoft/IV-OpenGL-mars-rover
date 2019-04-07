@@ -87,13 +87,6 @@ void IScene::RecursivelyRenderGeometries(Geom* geom, Entity* parent)
 						geom->Rotation * Vec3::Scale(pt, geom->Scale) + geom->Origin,
 						shape->Scale) + shape->Origin,
 					parent->Scale) + parent->Origin;
-			
-			const auto o = geom->Origin + shape->Origin;
-			const auto r = geom->Rotation * shape->Rotation;
-
-			pos->Rotation = r * parent->Rotation;
-			pos->Origin = o + parent->Origin;
-			pos->Scale = Vec3::Scale(Vec3::Scale(Vec3::Scale(Vec3::One(), parent->Scale), geom->Scale), shape->Scale);
 			glVertex3f(p.X, p.Y, p.Z);
 		}
 		for(auto n : shape->Normals)
@@ -104,6 +97,12 @@ void IScene::RecursivelyRenderGeometries(Geom* geom, Entity* parent)
 		shape->PostRender();
 		geom->PostRender();
 	}
+
+
+	pos->Rotation = geom->Rotation * parent->Rotation;
+	pos->Origin = parent->Rotation*geom->Origin + parent->Origin;
+	pos->Scale = Vec3::Scale(Vec3::Scale(Vec3::One(), parent->Scale), geom->Scale);
+
 	for (auto child : geom->Children)
 		RecursivelyRenderGeometries(child, pos);
 }
