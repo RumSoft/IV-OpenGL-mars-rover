@@ -151,7 +151,6 @@
     <ClCompile Include="..\Gl_template.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="IScene.cpp" />
-    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="MyScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +161,7 @@
     <ClInclude Include="..\RESOURCE.H" />
     <ClInclude Include="Axes.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Chwytak.h" />
     <ClInclude Include="ColorF.h" />
     <ClInclude Include="Cylinder.h" />

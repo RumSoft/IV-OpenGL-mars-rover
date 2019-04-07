@@ -80,10 +80,10 @@ int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR lpCmdLine, 
 
 	if (hWnd == nullptr)
 		return FALSE;
-
 	ShowWindow(hWnd, SW_SHOW);
-	UpdateWindow(hWnd);
 
+		UpdateWindow(hWnd);
+	
 	while (GetMessage(&msg, nullptr, 0, 0))
 	{
 		TranslateMessage(&msg);
@@ -161,6 +161,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		scene->RenderScene();
 		SwapBuffers(hDC);
 		ValidateRect(hWnd, nullptr);
+		InvalidateRect(hWnd, nullptr, NULL);
 		break;
 
 

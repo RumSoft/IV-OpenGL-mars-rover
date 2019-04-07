@@ -67,5 +67,7 @@ public:
 
 		if (input->IsDown('V'))
 			this->Origin -= Rotation * speed;
+
+		this->Rotation *= Quat::FromAngleAxis(Deg2Rad(1), Vec3::Up());
 	}
 };

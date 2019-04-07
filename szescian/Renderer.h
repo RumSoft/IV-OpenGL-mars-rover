@@ -6,7 +6,8 @@
 #include <gl/GLU.h>
 #include <cmath>
 
-class Renderer {
+class Renderer
+{
 public:
 	int LastWidth;
 	int LastHeight;
@@ -65,38 +66,34 @@ public:
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 
-		if (w <= h)
-			glOrtho(-nRange, nRange, -nRange * h / w, nRange * h / w, -nRange, nRange);
-		else
-			glOrtho(-nRange * w / h, nRange * w / h, -nRange, nRange, -nRange, nRange);
-
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
-		/*
-		gluPerspective(60.0f,fAspect,1.0,400);
-		*/
+
+		gluPerspective(60.0f, fAspect, 1.0, 1000);
+
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 	}
+
 	unsigned char* LoadBitmapFile(char* filename, BITMAPINFOHEADER* bitmapInfoHeader)
 	{
 		FILE* filePtr;
-		BITMAPFILEHEADER	bitmapFileHeader;
+		BITMAPFILEHEADER bitmapFileHeader;
 		unsigned char* bitmapImage;
-		int					imageIdx = 0;
-		unsigned char		tempRGB;
+		int imageIdx = 0;
+		unsigned char tempRGB;
 
 
 		filePtr = fopen(filename, "rb");
-		if (filePtr == NULL)
-			return NULL;
+		if (filePtr == nullptr)
+			return nullptr;
 
 		fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
 
 		if (bitmapFileHeader.bfType != BITMAP_ID)
 		{
 			fclose(filePtr);
-			return NULL;
+			return nullptr;
 		}
 
 		fread(bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
@@ -109,15 +106,15 @@ public:
 		{
 			free(bitmapImage);
 			fclose(filePtr);
-			return NULL;
+			return nullptr;
 		}
 
 		fread(bitmapImage, 1, bitmapInfoHeader->biSizeImage, filePtr);
 
-		if (bitmapImage == NULL)
+		if (bitmapImage == nullptr)
 		{
 			fclose(filePtr);
-			return NULL;
+			return nullptr;
 		}
 
 		for (imageIdx = 0; imageIdx < bitmapInfoHeader->biSizeImage; imageIdx += 3)
@@ -130,9 +127,10 @@ public:
 		fclose(filePtr);
 		return bitmapImage;
 	}
+
 	HPALETTE GetOpenGLPalette(HDC hDC)
 	{
-		HPALETTE hRetPal = NULL;
+		HPALETTE hRetPal = nullptr;
 		PIXELFORMATDESCRIPTOR pfd;
 		LOGPALETTE* pPal;
 		int nPixelFormat;
@@ -141,13 +139,12 @@ public:
 		BYTE RedRange, GreenRange, BlueRange;
 
 
-
 		nPixelFormat = GetPixelFormat(hDC);
 		DescribePixelFormat(hDC, nPixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &pfd);
 
 
 		if (!(pfd.dwFlags & PFD_NEED_PALETTE))
-			return NULL;
+			return nullptr;
 
 		nColors = 1 << pfd.cColorBits;
 
@@ -157,15 +154,12 @@ public:
 		pPal->palNumEntries = nColors;
 
 
-
-
 		RedRange = (1 << pfd.cRedBits) - 1;
 		GreenRange = (1 << pfd.cGreenBits) - 1;
 		BlueRange = (1 << pfd.cBlueBits) - 1;
 
 		for (i = 0; i < nColors; i++)
 		{
-
 			pPal->palPalEntry[i].peRed = i >> pfd.cRedShift & RedRange;
 			pPal->palPalEntry[i].peRed = (unsigned char)(
 				(double)pPal->palPalEntry[i].peRed * 255.0 / RedRange);
@@ -187,6 +181,7 @@ public:
 
 		return hRetPal;
 	}
+
 	void SetDCPixelFormat(HDC hDC)
 	{
 		int nPixelFormat;
@@ -198,15 +193,15 @@ public:
 			PFD_DOUBLEBUFFER,
 			PFD_TYPE_RGBA,
 			24,
-			0,0,0,0,0,0,
-			0,0,
-			0,0,0,0,0,
+			0, 0, 0, 0, 0, 0,
+			0, 0,
+			0, 0, 0, 0, 0,
 			32,
 			0,
 			0,
 			PFD_MAIN_PLANE,
 			0,
-			0,0,0
+			0, 0, 0
 		};
 
 
@@ -214,6 +209,7 @@ public:
 
 		SetPixelFormat(hDC, nPixelFormat, &pfd);
 	}
+
 	void SetupRC()
 	{
 		glEnable(GL_DEPTH_TEST);
@@ -223,5 +219,4 @@ public:
 
 		glColor3f(0.0, 0.0, 0.0);
 	}
-
 };

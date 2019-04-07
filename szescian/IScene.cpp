@@ -33,19 +33,13 @@ void IScene::Update()
 void IScene::RenderScene()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	glPushMatrix();
-	glRotatef(Rotation.X, 1.0f, 0.0f, 0.0f);
-	glRotatef(Rotation.Y, 0.0f, 1.0f, 0.0f);
-	glRotatef(Rotation.Z, 0.0f, 0.0f, 1.0f);
-
 	glPolygonMode(GL_FRONT_AND_BACK, GLU_FILL);
 
 	RenderAllObjects();
 
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
-
 	glFlush();
 }
 

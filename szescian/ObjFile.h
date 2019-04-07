@@ -27,7 +27,7 @@ struct objFace
 		int vvn2,
 		int vvn3)
 	{
-		v1 = vv2;
+		v1 = vv1;
 		v2 = vv2;
 		v3 = vv3;
 		vt1 = vvt1;
@@ -45,7 +45,8 @@ public:
 	ObjFile()
 	{
 		bool res = loadOBJ("cube.obj");
-		this->Scale = Vec3::One() * 10;
+		this->Scale = Vec3::One() * 30;
+		this->Origin = Vec3(0, 0, -50);
 	}
 
 	bool loadOBJ(const char* path)
@@ -62,7 +63,7 @@ public:
 		}
 		string line;
 
-		auto s1 = new Shape(Triangle, GREEN);
+		auto s1 = new Shape(Triangle, ColorF(0xff6600));
 		while (getline(in, line))
 		{
 			if (line.substr(0, 2) == "v ")
@@ -70,8 +71,8 @@ public:
 				istringstream s(line.substr(2));
 				Vec3 v;
 				s >> v.X;
-				s >> v.Y;
 				s >> v.Z;
+				s >> v.Y;
 				vertices.push_back(v);
 			}
 			if (line.substr(0, 3) == "vn ")
@@ -79,8 +80,8 @@ public:
 				istringstream s(line.substr(3));
 				Vec3 vn;
 				s >> vn.X;
-				s >> vn.Y;
 				s >> vn.Z;
+				s >> vn.Y;
 				normals.push_back(vn);
 			}
 			else if (line.substr(0, 2) == "f ")
@@ -88,17 +89,32 @@ public:
 				istringstream s(line.substr(2));
 				int vv[3], vt[3], vn[3];
 
-				sscanf_s(s.str().c_str(), "%d/%d/%d %d/%d/%d %d/%d/%d",
+
+				int r = sscanf_s(s.str().c_str(), "%d/%d/%d %d/%d/%d %d/%d/%d",
 					&vv[0], &vt[0], &vn[0],
 					&vv[1], &vt[1], &vn[1],
 					&vv[2], &vt[2], &vn[2]);
-				vv[0]--; vv[1]--; vv[2]--;
-				vt[0]--; vt[1]--; vt[2]--;
-				vn[0]--; vn[1]--; vn[2]--;
+				if(r == 9)
+				{
+					vv[0]--; vv[1]--; vv[2]--;
+					vt[0]--; vt[1]--; vt[2]--;
+					vn[0]--; vn[1]--; vn[2]--;
+				}
+				else {
+					sscanf_s(s.str().c_str(), "%d//%d %d//%d %d//%d",
+						&vv[0], &vn[0],
+						&vv[1], &vn[1],
+						&vv[2], &vn[2]);
+
+					vv[0]--; vv[1]--; vv[2]--;
+					vn[0]--; vn[1]--; vn[2]--;
+					vt[0] = vt[1] = vt[2] = 0;
+				}
+
 
 				faces.emplace_back(
-					vv[0], vv[1], vv[2], 
-					vt[0], vt[1], vt[2], 
+					vv[0], vv[1], vv[2],
+					vt[0], vt[1], vt[2],
 					vn[0], vn[1], vn[2]);
 			}
 			else if (line[0] == '#')
@@ -113,11 +129,25 @@ public:
 
 		for (auto f : faces)
 		{
-			s1->AddPoint(vertices[f.v1], normals[f.vn1]);
-			s1->AddPoint(vertices[f.v2], normals[f.vn2]);
-			s1->AddPoint(vertices[f.v3], normals[f.vn3]);
+			const int v = vertices.size();
+			const int n = normals.size();
+			if (f.v1 < v
+				&& f.v2 < v
+				&& f.v3 < v
+				&& f.vn1 < n
+				&& f.vn2 < n
+				&& f.vn3 < n)
+			{
+				s1->AddPoint(vertices[f.v1], normals[f.vn1]);
+				s1->AddPoint(vertices[f.v2], normals[f.vn2]);
+				s1->AddPoint(vertices[f.v3], normals[f.vn3]);
+			}
 		}
-		this->Shapes.push_back(s1->WithScale(10));
+		this->Shapes.push_back(s1);
+
+		vertices.clear();
+		normals.clear();
+		faces.clear();
 	}
 
 };
