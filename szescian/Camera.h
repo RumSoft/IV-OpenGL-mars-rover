@@ -8,6 +8,10 @@ class Camera : public Geom
 public:
 	Geom* entity;
 	InputHandler* input;
+	int anim = 100;
+	int size = 15;
+	Quat from;
+	Quat to;
 	Camera(Geom* ent)
 	{
 		entity = ent;
@@ -17,7 +21,7 @@ public:
 
 	void Update() override
 	{
-		auto offset = Rotation * Vec3(-100, -100, 100);
+		auto offset = Rotation * Vec3(-50, -100, 70)*2;
 		auto obj = entity->Origin;
 		auto eyes = obj + offset;
 		glLoadIdentity();
@@ -30,15 +34,42 @@ public:
 		str.append(to_string(dir.Z)); str.append("\n");
 		OutputDebugStringA(str.c_str());
 
-		if (input->IsDown(VK_LEFT))
-			Rotation *= Quat::FromAngleAxis(Deg2Rad(5), Vec3::Up());
-		if (input->IsDown(VK_RIGHT))
-			Rotation *= Quat::FromAngleAxis(Deg2Rad(-5), Vec3::Up());
+		if(anim < size)
+		{
+			anim++;
+			auto f = (float)anim / size;
+			Rotation = Quat::Lerp(from, to, sin(f * 3.14 * 0.5f));
+		}
 
-		//auto forwardDir = Quat::Lerp()
-		if (input->IsDown(VK_UP))
-			Rotation *= Quat::FromAngleAxis(Deg2Rad(5), Vec3::Right());
-		if (input->IsDown(VK_DOWN))
-			Rotation *= Quat::FromAngleAxis(Deg2Rad(-5), Vec3::Right());
+		if (input->IsDown(VK_LEFT))
+			RequestRotationBy(Quat::FromAngleAxis(D2R(30), axisZ));
+
+		if (input->IsDown(VK_RIGHT)) 
+			RequestRotationBy(Quat::FromAngleAxis(D2R(-30), axisZ));
+
+		if (input->IsDown('X'))
+			RequestRotationTo(entity->Rotation);
+
+		if (input->IsDown('V'))
+			RequestRotationTo(entity->Rotation * Quat::FromAngleAxis(D2R(-120), axisZ));
+
+		//to je krzyweee 
+		//if (input->IsDown(VK_UP))
+		//	RequestAnim(Rotation * Quat::FromAngleAxis(Deg2Rad(-25), Vec3::Right()));
+		//if (input->IsDown(VK_DOWN))
+		//	RequestAnim(Rotation * Quat::FromAngleAxis(Deg2Rad(-25), Vec3::Right()));
+	}
+
+private:
+	void RequestRotationBy(Quat by)
+	{
+		RequestRotationTo(Rotation * by);
+	}
+
+	void RequestRotationTo(Quat _to)
+	{
+		anim = 0;
+		from = Rotation;
+		to = _to;
 	}
 };

@@ -5,6 +5,13 @@
 #include <corecrt_math_defines.h>
 
 
+#define UP Vec3::Up()
+#define DOWN Vec3::Down()
+#define FORWARD Vec3::Forward()
+#define BACKWARD Vec3::Back()
+
+#define axisZ UP
+
 struct Vec3
 {
 	union
