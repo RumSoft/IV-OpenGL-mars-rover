@@ -79,6 +79,7 @@ void IScene::RecursivelyRenderGeometries(Geom* geom, Entity* parent)
 		shape->PreRender();
 		glBegin(TypeToGlMode(shape->Type));
 		glColor4fv(shape->Color.GL());
+		int i = 0;
 		for(auto pt : shape->Points)
 		{
 			const auto p =
@@ -88,11 +89,16 @@ void IScene::RecursivelyRenderGeometries(Geom* geom, Entity* parent)
 						shape->Scale) + shape->Origin,
 					parent->Scale) + parent->Origin;
 			glVertex3f(p.X, p.Y, p.Z);
+
+			i++;
+			if(i < shape->Normals.size())
+			{
+				const auto n = shape->Normals[i];
+				glNormal3f(n.X, n.Y, n.Z);
+			}
+
 		}
-		for(auto n : shape->Normals)
-		{
-			glNormal3f(n.X, n.Y, n.Z);
-		}
+	
 		glEnd();
 		shape->PostRender();
 		geom->PostRender();

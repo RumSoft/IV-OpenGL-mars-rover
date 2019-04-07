@@ -21,23 +21,13 @@ MyScene::~MyScene() = default;
 
 void MyScene::Update()
 {
-	if (input->IsDown('W'))
+	if (input->IsDown(VK_UP))
 		Rotation.X = (int(Rotation.X) + 5) % 360;
-	if (input->IsDown('S'))
+	if (input->IsDown(VK_DOWN))
 		Rotation.X = (360 + int(Rotation.X) - 5) % 360;
 
-	if (input->IsDown('A'))
+	if (input->IsDown(VK_LEFT))
 		Rotation.Z = (int(Rotation.Z) + 5) % 360;
-	if (input->IsDown('D'))
+	if (input->IsDown(VK_RIGHT))
 		Rotation.Z = (360 + int(Rotation.Z) - 5) % 360;
-
-	if (input->IsDown('Q'))
-		Rotation.Y = (int(Rotation.Y) + 5) % 360;
-	if (input->IsDown('E'))
-		Rotation.Y = (360 + int(Rotation.Y) - 5) % 360;
-
-	if (input->IsDown(VK_UP))
-		Geometries[3]->Origin += Vec3(0, 5, 0);
-	if (input->IsDown(VK_DOWN))
-		Geometries[3]->Origin -= Vec3(0, 4, 0);
 }

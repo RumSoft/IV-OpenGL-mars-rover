@@ -10,9 +10,6 @@ public:
 		Type = ShapeType::TriangleStrip;
 		Color = color;
 
-		int tess = 2;
-		//for(int i = 0; i<tess)
-
 		auto center = (a + b + c + d) / 4;
 		this->Origin = center;
 
@@ -26,7 +23,7 @@ public:
 		this->Points.push_back(x3);
 		this->Points.push_back(x4);
 		
-		auto n = Vec3::Normalized(Vec3::Cross(b - a, c - a));
+		auto n = Vec3::Normalized(Vec3::Cross(x2 - x1, x3 - x1));
 		
 		this->Normals.push_back(n);
 		this->Normals.push_back(n);
@@ -50,4 +47,5 @@ public:
 
 		glLineWidth(1);
 	}
+
 };
