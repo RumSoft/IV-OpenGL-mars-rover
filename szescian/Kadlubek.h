@@ -13,8 +13,8 @@ public:
 		Vec3 x[9] = {
 			Vec3(-A,-B, 0), // nie uzywam, tylko po to bo licze od 1
 			Vec3(-A,-B, 0), //x1
-			Vec3(-A, B, 0), //x2 itd
-			Vec3(A,-B, 0),
+			Vec3(-A, B, 0), //x2
+			Vec3(A,-B, 0),  //x3 itd
 			Vec3(A, B, 0),
 			Vec3(0.7 * -A,0.9 * -B, C),
 			Vec3(0.7 * -A,0.9 * B, C),

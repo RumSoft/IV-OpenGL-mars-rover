@@ -1,12 +1,13 @@
 #pragma once
 #include "Geom.h"
 #include "Disc.h"
+#include "Chwytak.h"
 
 class Kolo : public Geom
 {
 public:
 	float R, H;
-	Kolo(Vec3 pos, float r, float h) : R(r), H(h)
+	Kolo(float r, float h) : R(r), H(h)
 	{
 		int steps = 15;
 		float f = 2 * M_PI / steps;
@@ -29,11 +30,11 @@ public:
 		}
 
 		this->Shapes.push_back((new Disc(GRAY))
-			->WithPosition(pos)
 			->WithScale(r)
 			->WithRotation(Quat::FromAngleAxis(Deg2Rad(90), Vec3::Forward())));
 
-		s1->Origin = pos;
 		this->Shapes.push_back(s1);
+
+		this->Children.push_back((new Kadlubek(2,5,5))->WithScale(r / 2)->WithPosition(Vec3(10, 0, 0)));
 	}
 };
