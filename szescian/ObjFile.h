@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include "Vec2.h"
+#include <stdio.h>
 using namespace std;
 
 struct objFace
@@ -44,7 +45,7 @@ class ObjFile : public Geom
 public:
 	ObjFile()
 	{
-		bool res = loadOBJ("cube.obj");
+		bool res = loadOBJ("marsground.obj");
 		this->Scale = Vec3::One() * 30;
 		this->Origin = Vec3(0, 0, -50);
 	}
@@ -101,7 +102,7 @@ public:
 					vn[0]--; vn[1]--; vn[2]--;
 				}
 				else {
-					sscanf_s(s.str().c_str(), "%d//%d %d//%d %d//%d",
+					r = sscanf_s(s.str().c_str(), "%d//%d %d//%d %d//%d",
 						&vv[0], &vn[0],
 						&vv[1], &vn[1],
 						&vv[2], &vn[2]);

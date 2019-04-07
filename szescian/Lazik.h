@@ -60,14 +60,12 @@ public:
 			this->Origin += Rotation * speed;
 
 		if (input->IsDown('Z'))
-			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(10), Vec3::Up());
+			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(5), Vec3::Up());
 
 		if (input->IsDown('C'))
-			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(-10), Vec3::Up());
+			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(-5), Vec3::Up());
 
 		if (input->IsDown('V'))
 			this->Origin -= Rotation * speed;
-
-		this->Rotation *= Quat::FromAngleAxis(Deg2Rad(1), Vec3::Up());
 	}
 };

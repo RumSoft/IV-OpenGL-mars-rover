@@ -11,17 +11,17 @@ struct M33
 	{
 		struct
 		{
-			double D00;
-			double D01;
-			double D02;
-			double D10;
-			double D11;
-			double D12;
-			double D20;
-			double D21;
-			double D22;
+			float D00;
+			float D01;
+			float D02;
+			float D10;
+			float D11;
+			float D12;
+			float D20;
+			float D21;
+			float D22;
 		};
-		double data[3][3];
+		float data[3][3];
 	};
 
 
@@ -29,10 +29,10 @@ struct M33
 	 * Constructors.
 	 */
 	inline M33();
-	inline M33(double data[]);
+	inline M33(float data[]);
 	inline M33(Vec3 row0, Vec3 row1, Vec3 row2);
-	inline M33(double d00, double d01, double d02, double d10, double d11,
-		double d12, double d20, double d21, double d22);
+	inline M33(float d00, float d01, float d02, float d10, float d11,
+		float d12, float d20, float d21, float d22);
 
 
 	/**
@@ -48,7 +48,7 @@ struct M33
 	 * @param matrix: The input matrix.
 	 * @return: A scalar value.
 	 */
-	static inline double Determinate(M33 matrix);
+	static inline float Determinate(M33 matrix);
 
 	/**
 	 * Converts a Quat to a rotation matrix.
@@ -96,23 +96,23 @@ struct M33
 	/**
 	 * Operator overloading.
 	 */
-	inline struct M33& operator+=(const double rhs);
-	inline struct M33& operator-=(const double rhs);
-	inline struct M33& operator*=(const double rhs);
-	inline struct M33& operator/=(const double rhs);
+	inline struct M33& operator+=(const float rhs);
+	inline struct M33& operator-=(const float rhs);
+	inline struct M33& operator*=(const float rhs);
+	inline struct M33& operator/=(const float rhs);
 	inline struct M33& operator+=(const M33 rhs);
 	inline struct M33& operator-=(const M33 rhs);
 	inline struct M33& operator*=(const M33 rhs);
 };
 
 inline M33 operator-(M33 rhs);
-inline M33 operator+(M33 lhs, const double rhs);
-inline M33 operator-(M33 lhs, const double rhs);
-inline M33 operator*(M33 lhs, const double rhs);
-inline M33 operator/(M33 lhs, const double rhs);
-inline M33 operator+(const double lhs, M33 rhs);
-inline M33 operator-(const double lhs, M33 rhs);
-inline M33 operator*(const double lhs, M33 rhs);
+inline M33 operator+(M33 lhs, const float rhs);
+inline M33 operator-(M33 lhs, const float rhs);
+inline M33 operator*(M33 lhs, const float rhs);
+inline M33 operator/(M33 lhs, const float rhs);
+inline M33 operator+(const float lhs, M33 rhs);
+inline M33 operator-(const float lhs, M33 rhs);
+inline M33 operator*(const float lhs, M33 rhs);
 inline M33 operator+(M33 lhs, const M33 rhs);
 inline M33 operator-(M33 lhs, const M33 rhs);
 inline M33 operator*(M33 lhs, const M33 rhs);
@@ -128,14 +128,14 @@ inline bool operator!=(const M33 lhs, const M33 rhs);
 
 M33::M33() : D00(1), D01(0), D02(0), D10(0), D11(1), D12(0), D20(0),
 D21(0), D22(1) {}
-M33::M33(double data[]) : D00(data[0]), D01(data[1]), D02(data[2]),
+M33::M33(float data[]) : D00(data[0]), D01(data[1]), D02(data[2]),
 D10(data[3]), D11(data[4]), D12(data[5]), D20(data[6]), D21(data[7]),
 D22(data[8]) {}
 M33::M33(Vec3 row0, Vec3 row1, Vec3 row2) : D00(row0.X),
 D01(row0.Y), D02(row0.Z), D10(row1.X), D11(row1.Y), D12(row1.Z),
 D20(row2.X), D21(row2.Y), D22(row2.Z) {}
-M33::M33(double d00, double d01, double d02, double d10, double d11,
-	double d12, double d20, double d21, double d22) : D00(d00), D01(d01),
+M33::M33(float d00, float d01, float d02, float d10, float d11,
+	float d12, float d20, float d21, float d22) : D00(d00), D01(d01),
 	D02(d02), D10(d10), D11(d11), D12(d12), D20(d20), D21(d21), D22(d22) {}
 
 
@@ -155,13 +155,13 @@ M33 M33::One()
 }
 
 
-double M33::Determinate(M33 matrix)
+float M33::Determinate(M33 matrix)
 {
-	double v1 = matrix.D00 * (matrix.D22 * matrix.D11 -
+	float v1 = matrix.D00 * (matrix.D22 * matrix.D11 -
 		matrix.D21 * matrix.D12);
-	double v2 = matrix.D10 * (matrix.D22 * matrix.D01 -
+	float v2 = matrix.D10 * (matrix.D22 * matrix.D01 -
 		matrix.D21 * matrix.D02);
-	double v3 = matrix.D20 * (matrix.D12 * matrix.D01 -
+	float v3 = matrix.D20 * (matrix.D12 * matrix.D01 -
 		matrix.D11 * matrix.D02);
 	return v1 - v2 + v3;
 }
@@ -169,18 +169,18 @@ double M33::Determinate(M33 matrix)
 M33 M33::FromQuat(Quat rotation)
 {
 	M33 m;
-	double sqw = rotation.W * rotation.W;
-	double sqx = rotation.X * rotation.X;
-	double sqy = rotation.Y * rotation.Y;
-	double sqz = rotation.Z * rotation.Z;
+	float sqw = rotation.W * rotation.W;
+	float sqx = rotation.X * rotation.X;
+	float sqy = rotation.Y * rotation.Y;
+	float sqz = rotation.Z * rotation.Z;
 
-	double invSqr = 1 / (sqx + sqy + sqz + sqw);
+	float invSqr = 1 / (sqx + sqy + sqz + sqw);
 	m.D00 = (sqx - sqy - sqz + sqw) * invSqr;
 	m.D11 = (-sqx + sqy - sqz + sqw) * invSqr;
 	m.D22 = (-sqx - sqy + sqz + sqw) * invSqr;
 
-	double tmp1 = rotation.X * rotation.Y;
-	double tmp2 = rotation.Z * rotation.W;
+	float tmp1 = rotation.X * rotation.Y;
+	float tmp2 = rotation.Z * rotation.W;
 	m.D10 = 2.0 * (tmp1 + tmp2) * invSqr;
 	m.D01 = 2.0 * (tmp1 - tmp2) * invSqr;
 
@@ -233,10 +233,10 @@ M33 M33::Scale(M33 a, M33 b)
 Quat M33::ToQuat(M33 rotation)
 {
 	Quat q;
-	double trace = rotation.D00 + rotation.D11 + rotation.D22;
+	float trace = rotation.D00 + rotation.D11 + rotation.D22;
 	if (trace > 0)
 	{
-		double s = 0.5 / sqrt(trace + 1);
+		float s = 0.5 / sqrt(trace + 1);
 		q.W = 0.25 / s;
 		q.X = (rotation.D21 - rotation.D12) * s;
 		q.Y = (rotation.D02 - rotation.D20) * s;
@@ -246,7 +246,7 @@ Quat M33::ToQuat(M33 rotation)
 	{
 		if (rotation.D00 > rotation.D11 && rotation.D00 > rotation.D22)
 		{
-			double s = 2 * sqrt(1 + rotation.D00 - rotation.D11 - rotation.D22);
+			float s = 2 * sqrt(1 + rotation.D00 - rotation.D11 - rotation.D22);
 			q.W = (rotation.D21 - rotation.D12) / s;
 			q.X = 0.25 * s;
 			q.Y = (rotation.D01 + rotation.D10) / s;
@@ -254,7 +254,7 @@ Quat M33::ToQuat(M33 rotation)
 		}
 		else if (rotation.D11 > rotation.D22)
 		{
-			double s = 2 * sqrt(1 + rotation.D11 - rotation.D00 - rotation.D22);
+			float s = 2 * sqrt(1 + rotation.D11 - rotation.D00 - rotation.D22);
 			q.W = (rotation.D02 - rotation.D20) / s;
 			q.X = (rotation.D01 + rotation.D10) / s;
 			q.Y = 0.25 * s;
@@ -262,7 +262,7 @@ Quat M33::ToQuat(M33 rotation)
 		}
 		else
 		{
-			double s = 2 * sqrt(1 + rotation.D22 - rotation.D00 - rotation.D11);
+			float s = 2 * sqrt(1 + rotation.D22 - rotation.D00 - rotation.D11);
 			q.W = (rotation.D10 - rotation.D01) / s;
 			q.X = (rotation.D02 + rotation.D20) / s;
 			q.Y = (rotation.D12 + rotation.D21) / s;
@@ -274,7 +274,7 @@ Quat M33::ToQuat(M33 rotation)
 
 M33 M33::Transpose(M33 matrix)
 {
-	double tmp;
+	float tmp;
 	tmp = matrix.D01;
 	matrix.D01 = matrix.D10;
 	matrix.D10 = tmp;
@@ -288,7 +288,7 @@ M33 M33::Transpose(M33 matrix)
 }
 
 
-struct M33& M33::operator+=(const double rhs)
+struct M33& M33::operator+=(const float rhs)
 {
 	D00 += rhs; D01 += rhs; D02 += rhs;
 	D10 += rhs; D11 += rhs; D12 += rhs;
@@ -296,7 +296,7 @@ struct M33& M33::operator+=(const double rhs)
 	return *this;
 }
 
-struct M33& M33::operator-=(const double rhs)
+struct M33& M33::operator-=(const float rhs)
 {
 	D00 -= rhs; D01 -= rhs; D02 -= rhs;
 	D10 -= rhs; D11 -= rhs; D12 -= rhs;
@@ -304,7 +304,7 @@ struct M33& M33::operator-=(const double rhs)
 	return *this;
 }
 
-struct M33& M33::operator*=(const double rhs)
+struct M33& M33::operator*=(const float rhs)
 {
 	D00 *= rhs; D01 *= rhs; D02 *= rhs;
 	D10 *= rhs; D11 *= rhs; D12 *= rhs;
@@ -312,7 +312,7 @@ struct M33& M33::operator*=(const double rhs)
 	return *this;
 }
 
-struct M33& M33::operator/=(const double rhs)
+struct M33& M33::operator/=(const float rhs)
 {
 	D00 /= rhs; D01 /= rhs; D02 /= rhs;
 	D10 /= rhs; D11 /= rhs; D12 /= rhs;
@@ -353,13 +353,13 @@ struct M33& M33::operator*=(const M33 rhs)
 }
 
 M33 operator-(M33 rhs) { return rhs * -1; }
-M33 operator+(M33 lhs, const double rhs) { return lhs += rhs; }
-M33 operator-(M33 lhs, const double rhs) { return lhs -= rhs; }
-M33 operator*(M33 lhs, const double rhs) { return lhs *= rhs; }
-M33 operator/(M33 lhs, const double rhs) { return lhs /= rhs; }
-M33 operator+(const double lhs, M33 rhs) { return rhs += lhs; }
-M33 operator-(const double lhs, M33 rhs) { return rhs -= lhs; }
-M33 operator*(const double lhs, M33 rhs) { return rhs *= lhs; }
+M33 operator+(M33 lhs, const float rhs) { return lhs += rhs; }
+M33 operator-(M33 lhs, const float rhs) { return lhs -= rhs; }
+M33 operator*(M33 lhs, const float rhs) { return lhs *= rhs; }
+M33 operator/(M33 lhs, const float rhs) { return lhs /= rhs; }
+M33 operator+(const float lhs, M33 rhs) { return rhs += lhs; }
+M33 operator-(const float lhs, M33 rhs) { return rhs -= lhs; }
+M33 operator*(const float lhs, M33 rhs) { return rhs *= lhs; }
 M33 operator+(M33 lhs, const M33 rhs) { return lhs += rhs; }
 M33 operator-(M33 lhs, const M33 rhs) { return lhs -= rhs; }
 M33 operator*(M33 lhs, const M33 rhs) { return lhs *= rhs; }

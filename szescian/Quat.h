@@ -3,7 +3,7 @@
 #include <cmath>
 #include "Vec3.h"
 
-#define SMALL_DOUBLE 0.0000000001
+#define SMALL_float 0.0000000001
 
 struct Quat
 {
@@ -11,12 +11,12 @@ struct Quat
 	{
 		struct
 		{
-			double X;
-			double Y;
-			double Z;
-			double W;
+			float X;
+			float Y;
+			float Z;
+			float W;
 		};
-		double data[4];
+		float data[4];
 	};
 
 
@@ -24,9 +24,9 @@ struct Quat
 	 * Constructors.
 	 */
 	inline Quat();
-	inline Quat(double data[]);
-	inline Quat(Vec3 vector, double scalar);
-	inline Quat(double x, double y, double z, double w);
+	inline Quat(float data[]);
+	inline Quat(Vec3 vector, float scalar);
+	inline Quat(float x, float y, float z, float w);
 
 
 	/**
@@ -42,7 +42,7 @@ struct Quat
 	 * @param b: The second quaternion.
 	 * @return: A scalar value.
 	 */
-	static inline double Angle(Quat a, Quat b);
+	static inline float Angle(Quat a, Quat b);
 
 	/**
 	 * Returns the conjugate of a quaternion.
@@ -57,7 +57,7 @@ struct Quat
 	 * @param rhs: The right side of the multiplication.
 	 * @return: A scalar value.
 	 */
-	static inline double Dot(Quat lhs, Quat rhs);
+	static inline float Dot(Quat lhs, Quat rhs);
 
 	/**
 	 * Creates a new quaternion from the angle-axis representation of
@@ -66,7 +66,7 @@ struct Quat
 	 * @param axis: The vector about which the rotation occurs.
 	 * @return: A new quaternion.
 	 */
-	static inline Quat FromAngleAxis(double angle, Vec3 axis);
+	static inline Quat FromAngleAxis(float angle, Vec3 axis);
 
 	/**
 	 * Create a new quaternion from the euler angle representation of
@@ -86,7 +86,7 @@ struct Quat
 	 * @param z: The rotation about the z-axis in radians.
 	 * @return: A new quaternion.
 	 */
-	static inline Quat FromEuler(double x, double y, double z);
+	static inline Quat FromEuler(float x, float y, float z);
 
 	/**
 	 * Create a quaternion rotation which rotates "fromVector" to "toVector".
@@ -111,7 +111,7 @@ struct Quat
 	 * @param b: The ending rotation.
 	 * @return: A new quaternion.
 	 */
-	static inline Quat Lerp(Quat a, Quat b, double t);
+	static inline Quat Lerp(Quat a, Quat b, float t);
 
 	/**
 	 * Interpolates between a and b by t. This normalizes the result when
@@ -122,7 +122,7 @@ struct Quat
 	 * @return: A new quaternion.
 	 */
 	static inline Quat LerpUnclamped(Quat a, Quat b,
-		double t);
+		float t);
 
 	/**
 	 * Creates a rotation with the specified forward direction. This is the
@@ -147,7 +147,7 @@ struct Quat
 	 * @param rotation: The quaternion in question.
 	 * @return: A scalar value.
 	 */
-	static inline double Norm(Quat rotation);
+	static inline float Norm(Quat rotation);
 
 	/**
 	 * Returns a quaternion with identical rotation and a norm of one.
@@ -166,7 +166,7 @@ struct Quat
 	 * @return: A new Quaternion.
 	 */
 	static inline Quat RotateTowards(Quat from, Quat to,
-		double maxRadiansDelta);
+		float maxRadiansDelta);
 
 	/**
 	 * Returns a new quaternion interpolated between a and b, using spherical
@@ -177,7 +177,7 @@ struct Quat
 	 * @param t: The interpolation value.
 	 * @return: A new quaternion.
 	 */
-	static inline Quat Slerp(Quat a, Quat b, double t);
+	static inline Quat Slerp(Quat a, Quat b, float t);
 
 	/**
 	 * Returns a new quaternion interpolated between a and b, using spherical
@@ -188,7 +188,7 @@ struct Quat
 	 * @return: A new quaternion.
 	 */
 	static inline Quat SlerpUnclamped(Quat a, Quat b,
-		double t);
+		float t);
 
 	/**
 	 * Outputs the angle axis representation of the provided quaternion.
@@ -196,7 +196,7 @@ struct Quat
 	 * @param angle: The output angle.
 	 * @param axis: The output axis.
 	 */
-	static inline void ToAngleAxis(Quat rotation, double &angle,
+	static inline void ToAngleAxis(Quat rotation, float &angle,
 		Vec3 &axis);
 
 	/**
@@ -210,24 +210,24 @@ struct Quat
 	/**
 	 * Operator overloading.
 	 */
-	inline struct Quat& operator+=(const double rhs);
-	inline struct Quat& operator-=(const double rhs);
-	inline struct Quat& operator*=(const double rhs);
-	inline struct Quat& operator/=(const double rhs);
+	inline struct Quat& operator+=(const float rhs);
+	inline struct Quat& operator-=(const float rhs);
+	inline struct Quat& operator*=(const float rhs);
+	inline struct Quat& operator/=(const float rhs);
 	inline struct Quat& operator+=(const Quat rhs);
 	inline struct Quat& operator-=(const Quat rhs);
 	inline struct Quat& operator*=(const Quat rhs);
 };
 
 inline Quat operator-(Quat rhs);
-inline Quat operator+(Quat lhs, const double rhs);
-inline Quat operator-(Quat lhs, const double rhs);
-inline Quat operator*(Quat lhs, const double rhs);
-inline Quat operator/(Quat lhs, const double rhs);
-inline Quat operator+(const double lhs, Quat rhs);
-inline Quat operator-(const double lhs, Quat rhs);
-inline Quat operator*(const double lhs, Quat rhs);
-inline Quat operator/(const double lhs, Quat rhs);
+inline Quat operator+(Quat lhs, const float rhs);
+inline Quat operator-(Quat lhs, const float rhs);
+inline Quat operator*(Quat lhs, const float rhs);
+inline Quat operator/(Quat lhs, const float rhs);
+inline Quat operator+(const float lhs, Quat rhs);
+inline Quat operator-(const float lhs, Quat rhs);
+inline Quat operator*(const float lhs, Quat rhs);
+inline Quat operator/(const float lhs, Quat rhs);
 inline Quat operator+(Quat lhs, const Quat rhs);
 inline Quat operator-(Quat lhs, const Quat rhs);
 inline Quat operator*(Quat lhs, const Quat rhs);
@@ -242,20 +242,20 @@ inline bool operator!=(const Quat lhs, const Quat rhs);
  */
 
 Quat::Quat() : X(0), Y(0), Z(0), W(1) {}
-Quat::Quat(double data[]) : X(data[0]), Y(data[1]), Z(data[2]),
+Quat::Quat(float data[]) : X(data[0]), Y(data[1]), Z(data[2]),
 W(data[3]) {}
-Quat::Quat(Vec3 vector, double scalar) : X(vector.X),
+Quat::Quat(Vec3 vector, float scalar) : X(vector.X),
 Y(vector.Y), Z(vector.Z), W(scalar) {}
-Quat::Quat(double x, double y, double z, double w) : X(x), Y(y),
+Quat::Quat(float x, float y, float z, float w) : X(x), Y(y),
 Z(z), W(w) {}
 
 
 Quat Quat::Identity() { return Quat(0, 0, 0, 1); }
 
 
-double Quat::Angle(Quat a, Quat b)
+float Quat::Angle(Quat a, Quat b)
 {
-	double dot = Dot(a, b);
+	float dot = Dot(a, b);
 	return acos(fmin(fabs(dot), 1)) * 2;
 }
 
@@ -264,16 +264,16 @@ Quat Quat::Conjugate(Quat rotation)
 	return Quat(-rotation.X, -rotation.Y, -rotation.Z, rotation.W);
 }
 
-double Quat::Dot(Quat lhs, Quat rhs)
+float Quat::Dot(Quat lhs, Quat rhs)
 {
 	return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z + lhs.W * rhs.W;
 }
 
-Quat Quat::FromAngleAxis(double angle, Vec3 axis)
+Quat Quat::FromAngleAxis(float angle, Vec3 axis)
 {
 	Quat q;
-	double m = sqrt(axis.X * axis.X + axis.Y * axis.Y + axis.Z * axis.Z);
-	double s = sin(angle / 2) / m;
+	float m = sqrt(axis.X * axis.X + axis.Y * axis.Y + axis.Z * axis.Z);
+	float s = sin(angle / 2) / m;
 	q.X = axis.X * s;
 	q.Y = axis.Y * s;
 	q.Z = axis.Z * s;
@@ -286,14 +286,14 @@ Quat Quat::FromEuler(Vec3 rotation)
 	return FromEuler(rotation.X, rotation.Y, rotation.Z);
 }
 
-Quat Quat::FromEuler(double x, double y, double z)
+Quat Quat::FromEuler(float x, float y, float z)
 {
-	double cx = cos(x * 0.5);
-	double cy = cos(y * 0.5);
-	double cz = cos(z * 0.5);
-	double sx = sin(x * 0.5);
-	double sy = sin(y * 0.5);
-	double sz = sin(z * 0.5);
+	float cx = cos(x * 0.5);
+	float cy = cos(y * 0.5);
+	float cz = cos(z * 0.5);
+	float sx = sin(x * 0.5);
+	float sy = sin(y * 0.5);
+	float sz = sin(z * 0.5);
 	Quat q;
 	q.X = cx * sy * sz + cy * cz * sx;
 	q.Y = cx * cz * sy - cy * sx * sz;
@@ -304,8 +304,8 @@ Quat Quat::FromEuler(double x, double y, double z)
 
 Quat Quat::FromToRotation(Vec3 fromVector, Vec3 toVector)
 {
-	double dot = Vec3::Dot(fromVector, toVector);
-	double k = sqrt(Vec3::SqrMagnitude(fromVector) *
+	float dot = Vec3::Dot(fromVector, toVector);
+	float k = sqrt(Vec3::SqrMagnitude(fromVector) *
 		Vec3::SqrMagnitude(toVector));
 	if (fabs(dot / k + 1) < 0.00001)
 	{
@@ -318,18 +318,18 @@ Quat Quat::FromToRotation(Vec3 fromVector, Vec3 toVector)
 
 Quat Quat::Inverse(Quat rotation)
 {
-	double n = Norm(rotation);
+	float n = Norm(rotation);
 	return Conjugate(rotation) / (n * n);
 }
 
-Quat Quat::Lerp(Quat a, Quat b, double t)
+Quat Quat::Lerp(Quat a, Quat b, float t)
 {
 	if (t < 0) return Normalized(a);
 	else if (t > 1) return Normalized(b);
 	return LerpUnclamped(a, b, t);
 }
 
-Quat Quat::LerpUnclamped(Quat a, Quat b, double t)
+Quat Quat::LerpUnclamped(Quat a, Quat b, float t)
 {
 	Quat quaternion;
 	if (Dot(a, b) >= 0)
@@ -350,21 +350,21 @@ Quat Quat::LookRotation(Vec3 forward, Vec3 upwards)
 	forward = Vec3::Normalized(forward);
 	upwards = Vec3::Normalized(upwards);
 	// Don't allow zero vectors
-	if (Vec3::SqrMagnitude(forward) < SMALL_DOUBLE || Vec3::SqrMagnitude(upwards) < SMALL_DOUBLE)
+	if (Vec3::SqrMagnitude(forward) < SMALL_float || Vec3::SqrMagnitude(upwards) < SMALL_float)
 		return Quat::Identity();
 	// Handle alignment with up direction
-	if (1 - fabs(Vec3::Dot(forward, upwards)) < SMALL_DOUBLE)
+	if (1 - fabs(Vec3::Dot(forward, upwards)) < SMALL_float)
 		return FromToRotation(Vec3::Forward(), forward);
 	// Get orthogonal vectors
 	Vec3 right = Vec3::Normalized(Vec3::Cross(upwards, forward));
 	upwards = Vec3::Cross(forward, right);
 	// Calculate rotation
 	Quat quaternion;
-	double radicand = right.X + upwards.Y + forward.Z;
+	float radicand = right.X + upwards.Y + forward.Z;
 	if (radicand > 0)
 	{
 		quaternion.W = sqrt(1.0 + radicand) * 0.5;
-		double recip = 1.0 / (4.0 * quaternion.W);
+		float recip = 1.0 / (4.0 * quaternion.W);
 		quaternion.X = (upwards.Z - forward.Y) * recip;
 		quaternion.Y = (forward.X - right.Z) * recip;
 		quaternion.Z = (right.Y - upwards.X) * recip;
@@ -372,7 +372,7 @@ Quat Quat::LookRotation(Vec3 forward, Vec3 upwards)
 	else if (right.X >= upwards.Y && right.X >= forward.Z)
 	{
 		quaternion.X = sqrt(1.0 + right.X - upwards.Y - forward.Z) * 0.5;
-		double recip = 1.0 / (4.0 * quaternion.X);
+		float recip = 1.0 / (4.0 * quaternion.X);
 		quaternion.W = (upwards.Z - forward.Y) * recip;
 		quaternion.Z = (forward.X + right.Z) * recip;
 		quaternion.Y = (right.Y + upwards.X) * recip;
@@ -380,7 +380,7 @@ Quat Quat::LookRotation(Vec3 forward, Vec3 upwards)
 	else if (upwards.Y > forward.Z)
 	{
 		quaternion.Y = sqrt(1.0 - right.X + upwards.Y - forward.Z) * 0.5;
-		double recip = 1.0 / (4.0 * quaternion.Y);
+		float recip = 1.0 / (4.0 * quaternion.Y);
 		quaternion.Z = (upwards.Z + forward.Y) * recip;
 		quaternion.W = (forward.X - right.Z) * recip;
 		quaternion.X = (right.Y + upwards.X) * recip;
@@ -388,7 +388,7 @@ Quat Quat::LookRotation(Vec3 forward, Vec3 upwards)
 	else
 	{
 		quaternion.Z = sqrt(1.0 - right.X - upwards.Y + forward.Z) * 0.5;
-		double recip = 1.0 / (4.0 * quaternion.Z);
+		float recip = 1.0 / (4.0 * quaternion.Z);
 		quaternion.Y = (upwards.Z + forward.Y) * recip;
 		quaternion.X = (forward.X + right.Z) * recip;
 		quaternion.W = (right.Y - upwards.X) * recip;
@@ -396,7 +396,7 @@ Quat Quat::LookRotation(Vec3 forward, Vec3 upwards)
 	return quaternion;
 }
 
-double Quat::Norm(Quat rotation)
+float Quat::Norm(Quat rotation)
 {
 	return sqrt(rotation.X * rotation.X +
 		rotation.Y * rotation.Y +
@@ -410,28 +410,28 @@ Quat Quat::Normalized(Quat rotation)
 }
 
 Quat Quat::RotateTowards(Quat from, Quat to,
-	double maxRadiansDelta)
+	float maxRadiansDelta)
 {
-	double angle = Quat::Angle(from, to);
+	float angle = Quat::Angle(from, to);
 	if (angle == 0)
 		return to;
 	maxRadiansDelta = fmax(maxRadiansDelta, angle - M_PI);
-	double t = fmin(1, maxRadiansDelta / angle);
+	float t = fmin(1, maxRadiansDelta / angle);
 	return Quat::SlerpUnclamped(from, to, t);
 }
 
-Quat Quat::Slerp(Quat a, Quat b, double t)
+Quat Quat::Slerp(Quat a, Quat b, float t)
 {
 	if (t < 0) return Normalized(a);
 	else if (t > 1) return Normalized(b);
 	return SlerpUnclamped(a, b, t);
 }
 
-Quat Quat::SlerpUnclamped(Quat a, Quat b, double t)
+Quat Quat::SlerpUnclamped(Quat a, Quat b, float t)
 {
-	double n1;
-	double n2;
-	double n3 = Dot(a, b);
+	float n1;
+	float n2;
+	float n3 = Dot(a, b);
 	bool flag = false;
 	if (n3 < 0)
 	{
@@ -445,8 +445,8 @@ Quat Quat::SlerpUnclamped(Quat a, Quat b, double t)
 	}
 	else
 	{
-		double n4 = acos(n3);
-		double n5 = 1 / sin(n4);
+		float n4 = acos(n3);
+		float n5 = 1 / sin(n4);
 		n2 = sin((1 - t) * n4) * n5;
 		n1 = flag ? -sin(t * n4) * n5 : sin(t * n4) * n5;
 	}
@@ -458,12 +458,12 @@ Quat Quat::SlerpUnclamped(Quat a, Quat b, double t)
 	return Normalized(quaternion);
 }
 
-void Quat::ToAngleAxis(Quat rotation, double &angle, Vec3 &axis)
+void Quat::ToAngleAxis(Quat rotation, float &angle, Vec3 &axis)
 {
 	if (rotation.W > 1)
 		rotation = Normalized(rotation);
 	angle = 2 * acos(rotation.W);
-	double s = sqrt(1 - rotation.W * rotation.W);
+	float s = sqrt(1 - rotation.W * rotation.W);
 	if (s < 0.00001) {
 		axis.X = 1;
 		axis.Y = 0;
@@ -478,13 +478,13 @@ void Quat::ToAngleAxis(Quat rotation, double &angle, Vec3 &axis)
 
 Vec3 Quat::ToEuler(Quat rotation)
 {
-	double sqw = rotation.W * rotation.W;
-	double sqx = rotation.X * rotation.X;
-	double sqy = rotation.Y * rotation.Y;
-	double sqz = rotation.Z * rotation.Z;
+	float sqw = rotation.W * rotation.W;
+	float sqx = rotation.X * rotation.X;
+	float sqy = rotation.Y * rotation.Y;
+	float sqz = rotation.Z * rotation.Z;
 	// If normalized is one, otherwise is correction factor
-	double unit = sqx + sqy + sqz + sqw;
-	double test = rotation.X * rotation.W - rotation.Y * rotation.Z;
+	float unit = sqx + sqy + sqz + sqw;
+	float test = rotation.X * rotation.W - rotation.Y * rotation.Z;
 	Vec3 v;
 	// Singularity at north pole
 	if (test > 0.4995f * unit)
@@ -513,7 +513,7 @@ Vec3 Quat::ToEuler(Quat rotation)
 	return v;
 }
 
-struct Quat& Quat::operator+=(const double rhs)
+struct Quat& Quat::operator+=(const float rhs)
 {
 	X += rhs;
 	Y += rhs;
@@ -522,7 +522,7 @@ struct Quat& Quat::operator+=(const double rhs)
 	return *this;
 }
 
-struct Quat& Quat::operator-=(const double rhs)
+struct Quat& Quat::operator-=(const float rhs)
 {
 	X -= rhs;
 	Y -= rhs;
@@ -531,7 +531,7 @@ struct Quat& Quat::operator-=(const double rhs)
 	return *this;
 }
 
-struct Quat& Quat::operator*=(const double rhs)
+struct Quat& Quat::operator*=(const float rhs)
 {
 	X *= rhs;
 	Y *= rhs;
@@ -540,7 +540,7 @@ struct Quat& Quat::operator*=(const double rhs)
 	return *this;
 }
 
-struct Quat& Quat::operator/=(const double rhs)
+struct Quat& Quat::operator/=(const float rhs)
 {
 	X /= rhs;
 	Y /= rhs;
@@ -579,14 +579,14 @@ struct Quat& Quat::operator*=(const Quat rhs)
 }
 
 Quat operator-(Quat rhs) { return rhs * -1; }
-Quat operator+(Quat lhs, const double rhs) { return lhs += rhs; }
-Quat operator-(Quat lhs, const double rhs) { return lhs -= rhs; }
-Quat operator*(Quat lhs, const double rhs) { return lhs *= rhs; }
-Quat operator/(Quat lhs, const double rhs) { return lhs /= rhs; }
-Quat operator+(const double lhs, Quat rhs) { return rhs += lhs; }
-Quat operator-(const double lhs, Quat rhs) { return rhs -= lhs; }
-Quat operator*(const double lhs, Quat rhs) { return rhs *= lhs; }
-Quat operator/(const double lhs, Quat rhs) { return rhs /= lhs; }
+Quat operator+(Quat lhs, const float rhs) { return lhs += rhs; }
+Quat operator-(Quat lhs, const float rhs) { return lhs -= rhs; }
+Quat operator*(Quat lhs, const float rhs) { return lhs *= rhs; }
+Quat operator/(Quat lhs, const float rhs) { return lhs /= rhs; }
+Quat operator+(const float lhs, Quat rhs) { return rhs += lhs; }
+Quat operator-(const float lhs, Quat rhs) { return rhs -= lhs; }
+Quat operator*(const float lhs, Quat rhs) { return rhs *= lhs; }
+Quat operator/(const float lhs, Quat rhs) { return rhs /= lhs; }
 Quat operator+(Quat lhs, const Quat rhs)
 {
 	return lhs += rhs;
@@ -603,7 +603,7 @@ Quat operator*(Quat lhs, const Quat rhs)
 Vec3 operator*(Quat lhs, const Vec3 rhs)
 {
 	Vec3 u = Vec3(lhs.X, lhs.Y, lhs.Z);
-	double s = lhs.W;
+	float s = lhs.W;
 	return u * (Vec3::Dot(u, rhs) * 2)
 		+ rhs * (s * s - Vec3::Dot(u, u))
 		+ Vec3::Cross(u, rhs) * (2.0 * s);

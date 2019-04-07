@@ -11,11 +11,11 @@ struct Vec3
 	{
 		struct
 		{
-			double X;
-			double Y;
-			double Z;
+			float X;
+			float Y;
+			float Z;
 		};
-		double data[3];
+		float data[3];
 	};
 
 
@@ -23,10 +23,10 @@ struct Vec3
 	 * Constructors.
 	 */
 	inline Vec3();
-	inline Vec3(double data[]);
-	inline Vec3(double value);
-	inline Vec3(double x, double y);
-	inline Vec3(double x, double y, double z);
+	inline Vec3(float data[]);
+	inline Vec3(float value);
+	inline Vec3(float x, float y);
+	inline Vec3(float x, float y, float z);
 
 
 	/**
@@ -48,7 +48,7 @@ struct Vec3
 	 * @param b: The second vector.
 	 * @return: A scalar value.
 	 */
-	static inline double Angle(Vec3 a, Vec3 b);
+	static inline float Angle(Vec3 a, Vec3 b);
 
 	/**
 	 * Returns a vector with its magnitude clamped to maxLength.
@@ -56,7 +56,7 @@ struct Vec3
 	 * @param maxLength: The maximum length of the return vector.
 	 * @return: A new vector.
 	 */
-	static inline Vec3 ClampMagnitude(Vec3 vector, double maxLength);
+	static inline Vec3 ClampMagnitude(Vec3 vector, float maxLength);
 
 	/**
 	 * Returns the component of a in the direction of b (scalar projection).
@@ -64,7 +64,7 @@ struct Vec3
 	 * @param b: The vector being compared against.
 	 * @return: A scalar value.
 	 */
-	static inline double Component(Vec3 a, Vec3 b);
+	static inline float Component(Vec3 a, Vec3 b);
 
 	/**
 	 * Returns the cross product of two vectors.
@@ -80,7 +80,7 @@ struct Vec3
 	 * @param b: The second point.
 	 * @return: A scalar value.
 	 */
-	static inline double Distance(Vec3 a, Vec3 b);
+	static inline float Distance(Vec3 a, Vec3 b);
 
 	/**
 	 * Returns the dot product of two vectors.
@@ -88,7 +88,7 @@ struct Vec3
 	 * @param rhs: The right side of the multiplication.
 	 * @return: A scalar value.
 	 */
-	static inline double Dot(Vec3 lhs, Vec3 rhs);
+	static inline float Dot(Vec3 lhs, Vec3 rhs);
 
 	/**
 	 * Converts a spherical representation of a vector into cartesian
@@ -99,7 +99,7 @@ struct Vec3
 	 * @param phi: The angle from the positive Z axis to the vector.
 	 * @return: A new vector.
 	 */
-	static inline Vec3 FromSpherical(double rad, double theta, double phi);
+	static inline Vec3 FromSpherical(float rad, float theta, float phi);
 
 	/**
 	 * Returns a vector linearly interpolated between a and b, moving along
@@ -109,7 +109,7 @@ struct Vec3
 	 * @param t: The interpolation value [0-1].
 	 * @return: A new vector.
 	 */
-	static inline Vec3 Lerp(Vec3 a, Vec3 b, double t);
+	static inline Vec3 Lerp(Vec3 a, Vec3 b, float t);
 
 	/**
 	 * Returns a vector linearly interpolated between a and b, moving along
@@ -119,14 +119,14 @@ struct Vec3
 	 * @param t: The interpolation value [0-1] (no actual bounds).
 	 * @return: A new vector.
 	 */
-	static inline Vec3 LerpUnclamped(Vec3 a, Vec3 b, double t);
+	static inline Vec3 LerpUnclamped(Vec3 a, Vec3 b, float t);
 
 	/**
 	 * Returns the magnitude of a vector.
 	 * @param v: The vector in question.
 	 * @return: A scalar value.
 	 */
-	static inline double Magnitude(Vec3 v);
+	static inline float Magnitude(Vec3 v);
 
 	/**
 	 * Returns a vector made from the largest components of two other vectors.
@@ -153,7 +153,7 @@ struct Vec3
 	 * @return: A new vector.
 	 */
 	static inline Vec3 MoveTowards(Vec3 current, Vec3 target,
-		double maxDistanceDelta);
+		float maxDistanceDelta);
 
 	/**
 	 * Returns a new vector with magnitude of one.
@@ -233,8 +233,8 @@ struct Vec3
 	 * @return: A new vector.
 	 */
 	static inline Vec3 RotateTowards(Vec3 current, Vec3 target,
-		double maxRadiansDelta,
-		double maxMagnitudeDelta);
+		float maxRadiansDelta,
+		float maxMagnitudeDelta);
 
 	/**
 	 * Multiplies two vectors element-wise.
@@ -252,7 +252,7 @@ struct Vec3
 	 * @param b: The ending direction.
 	 * @param t: The interpolation value [0-1].
 	 */
-	static inline Vec3 Slerp(Vec3 a, Vec3 b, double t);
+	static inline Vec3 Slerp(Vec3 a, Vec3 b, float t);
 
 	/**
 	 * Returns a vector rotated towards b from a by the percent t.
@@ -262,7 +262,7 @@ struct Vec3
 	 * @param b: The ending direction.
 	 * @param t: The interpolation value [0-1].
 	 */
-	static inline Vec3 SlerpUnclamped(Vec3 a, Vec3 b, double t);
+	static inline Vec3 SlerpUnclamped(Vec3 a, Vec3 b, float t);
 
 	/**
 	 * Returns the squared magnitude of a vector.
@@ -272,7 +272,7 @@ struct Vec3
 	 * @param v: The vector in question.
 	 * @return: A scalar value.
 	 */
-	static inline double SqrMagnitude(Vec3 v);
+	static inline float SqrMagnitude(Vec3 v);
 
 	/**
 	 * Calculates the spherical coordinate space representation of a vector.
@@ -282,30 +282,30 @@ struct Vec3
 	 * @param theta: The angle in the XY plane from the X axis.
 	 * @param phi: The angle from the positive Z axis to the vector.
 	 */
-	static inline void ToSpherical(Vec3 vector, double &rad, double &theta,
-		double &phi);
+	static inline void ToSpherical(Vec3 vector, float &rad, float &theta,
+		float &phi);
 
 
 	/**
 	 * Operator overloading.
 	 */
-	inline struct Vec3& operator+=(const double rhs);
-	inline struct Vec3& operator-=(const double rhs);
-	inline struct Vec3& operator*=(const double rhs);
-	inline struct Vec3& operator/=(const double rhs);
+	inline struct Vec3& operator+=(const float rhs);
+	inline struct Vec3& operator-=(const float rhs);
+	inline struct Vec3& operator*=(const float rhs);
+	inline struct Vec3& operator/=(const float rhs);
 	inline struct Vec3& operator+=(const Vec3 rhs);
 	inline struct Vec3& operator-=(const Vec3 rhs);
 };
 
 inline Vec3 operator-(Vec3 rhs);
-inline Vec3 operator+(Vec3 lhs, const double rhs);
-inline Vec3 operator-(Vec3 lhs, const double rhs);
-inline Vec3 operator*(Vec3 lhs, const double rhs);
-inline Vec3 operator/(Vec3 lhs, const double rhs);
-inline Vec3 operator+(const double lhs, Vec3 rhs);
-inline Vec3 operator-(const double lhs, Vec3 rhs);
-inline Vec3 operator*(const double lhs, Vec3 rhs);
-inline Vec3 operator/(const double lhs, Vec3 rhs);
+inline Vec3 operator+(Vec3 lhs, const float rhs);
+inline Vec3 operator-(Vec3 lhs, const float rhs);
+inline Vec3 operator*(Vec3 lhs, const float rhs);
+inline Vec3 operator/(Vec3 lhs, const float rhs);
+inline Vec3 operator+(const float lhs, Vec3 rhs);
+inline Vec3 operator-(const float lhs, Vec3 rhs);
+inline Vec3 operator*(const float lhs, Vec3 rhs);
+inline Vec3 operator/(const float lhs, Vec3 rhs);
 inline Vec3 operator+(Vec3 lhs, const Vec3 rhs);
 inline Vec3 operator-(Vec3 lhs, const Vec3 rhs);
 inline bool operator==(const Vec3 lhs, const Vec3 rhs);
@@ -318,10 +318,10 @@ inline bool operator!=(const Vec3 lhs, const Vec3 rhs);
  */
 
 Vec3::Vec3() : X(0), Y(0), Z(0) {}
-Vec3::Vec3(double data[]) : X(data[0]), Y(data[1]), Z(data[2]) {}
-Vec3::Vec3(double value) : X(value), Y(value), Z(value) {}
-Vec3::Vec3(double x, double y) : X(x), Y(y), Z(0) {}
-Vec3::Vec3(double x, double y, double z) : X(x), Y(y), Z(z) {}
+Vec3::Vec3(float data[]) : X(data[0]), Y(data[1]), Z(data[2]) {}
+Vec3::Vec3(float value) : X(value), Y(value), Z(value) {}
+Vec3::Vec3(float x, float y) : X(x), Y(y), Z(0) {}
+Vec3::Vec3(float x, float y, float z) : X(x), Y(y), Z(z) {}
 
 
 Vec3 Vec3::Zero() { return Vec3(0, 0, 0); }
@@ -334,46 +334,46 @@ Vec3 Vec3::Forward() { return Vec3(0, 1, 0); }
 Vec3 Vec3::Backward() { return Vec3(0, -1, 0); }
 
 
-double Vec3::Angle(Vec3 a, Vec3 b)
+float Vec3::Angle(Vec3 a, Vec3 b)
 {
-	double v = Dot(a, b) / (Magnitude(a) * Magnitude(b));
+	float v = Dot(a, b) / (Magnitude(a) * Magnitude(b));
 	v = fmax(v, -1.0);
 	v = fmin(v, 1.0);
 	return acos(v);
 }
 
-Vec3 Vec3::ClampMagnitude(Vec3 vector, double maxLength)
+Vec3 Vec3::ClampMagnitude(Vec3 vector, float maxLength)
 {
-	double length = Magnitude(vector);
+	float length = Magnitude(vector);
 	if (length > maxLength)
 		vector *= maxLength / length;
 	return vector;
 }
 
-double Vec3::Component(Vec3 a, Vec3 b)
+float Vec3::Component(Vec3 a, Vec3 b)
 {
 	return Dot(a, b) / Magnitude(b);
 }
 
 Vec3 Vec3::Cross(Vec3 lhs, Vec3 rhs)
 {
-	double x = lhs.Y * rhs.Z - lhs.Z * rhs.Y;
-	double y = lhs.Z * rhs.X - lhs.X * rhs.Z;
-	double z = lhs.X * rhs.Y - lhs.Y * rhs.X;
+	float x = lhs.Y * rhs.Z - lhs.Z * rhs.Y;
+	float y = lhs.Z * rhs.X - lhs.X * rhs.Z;
+	float z = lhs.X * rhs.Y - lhs.Y * rhs.X;
 	return Vec3(x, y, z);
 }
 
-double Vec3::Distance(Vec3 a, Vec3 b)
+float Vec3::Distance(Vec3 a, Vec3 b)
 {
 	return Vec3::Magnitude(a - b);
 }
 
-double Vec3::Dot(Vec3 lhs, Vec3 rhs)
+float Vec3::Dot(Vec3 lhs, Vec3 rhs)
 {
 	return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z;
 }
 
-Vec3 Vec3::FromSpherical(double rad, double theta, double phi)
+Vec3 Vec3::FromSpherical(float rad, float theta, float phi)
 {
 	Vec3 v;
 	v.X = rad * sin(theta) * cos(phi);
@@ -382,44 +382,44 @@ Vec3 Vec3::FromSpherical(double rad, double theta, double phi)
 	return v;
 }
 
-Vec3 Vec3::Lerp(Vec3 a, Vec3 b, double t)
+Vec3 Vec3::Lerp(Vec3 a, Vec3 b, float t)
 {
 	if (t < 0) return a;
 	else if (t > 1) return b;
 	return LerpUnclamped(a, b, t);
 }
 
-Vec3 Vec3::LerpUnclamped(Vec3 a, Vec3 b, double t)
+Vec3 Vec3::LerpUnclamped(Vec3 a, Vec3 b, float t)
 {
 	return (b - a) * t + a;
 }
 
-double Vec3::Magnitude(Vec3 v)
+float Vec3::Magnitude(Vec3 v)
 {
 	return sqrt(SqrMagnitude(v));
 }
 
 Vec3 Vec3::Max(Vec3 a, Vec3 b)
 {
-	double x = a.X > b.X ? a.X : b.X;
-	double y = a.Y > b.Y ? a.Y : b.Y;
-	double z = a.Z > b.Z ? a.Z : b.Z;
+	float x = a.X > b.X ? a.X : b.X;
+	float y = a.Y > b.Y ? a.Y : b.Y;
+	float z = a.Z > b.Z ? a.Z : b.Z;
 	return Vec3(x, y, z);
 }
 
 Vec3 Vec3::Min(Vec3 a, Vec3 b)
 {
-	double x = a.X > b.X ? b.X : a.X;
-	double y = a.Y > b.Y ? b.Y : a.Y;
-	double z = a.Z > b.Z ? b.Z : a.Z;
+	float x = a.X > b.X ? b.X : a.X;
+	float y = a.Y > b.Y ? b.Y : a.Y;
+	float z = a.Z > b.Z ? b.Z : a.Z;
 	return Vec3(x, y, z);
 }
 
 Vec3 Vec3::MoveTowards(Vec3 current, Vec3 target,
-	double maxDistanceDelta)
+	float maxDistanceDelta)
 {
 	Vec3 d = target - current;
-	double m = Magnitude(d);
+	float m = Magnitude(d);
 	if (m < maxDistanceDelta || m == 0)
 		return target;
 	return current + (d * maxDistanceDelta / m);
@@ -427,7 +427,7 @@ Vec3 Vec3::MoveTowards(Vec3 current, Vec3 target,
 
 Vec3 Vec3::Normalized(Vec3 v)
 {
-	double mag = Magnitude(v);
+	float mag = Magnitude(v);
 	if (mag == 0)
 		return Vec3::Zero();
 	return v / mag;
@@ -451,7 +451,7 @@ void Vec3::OrthoNormalize(Vec3 &normal, Vec3 &tangent,
 
 Vec3 Vec3::Project(Vec3 a, Vec3 b)
 {
-	double m = Magnitude(b);
+	float m = Magnitude(b);
 	return Dot(a, b) / (m * m) * b;
 }
 
@@ -471,24 +471,24 @@ Vec3 Vec3::Reject(Vec3 a, Vec3 b)
 }
 
 Vec3 Vec3::RotateTowards(Vec3 current, Vec3 target,
-	double maxRadiansDelta,
-	double maxMagnitudeDelta)
+	float maxRadiansDelta,
+	float maxMagnitudeDelta)
 {
-	double magCur = Magnitude(current);
-	double magTar = Magnitude(target);
-	double newMag = magCur + maxMagnitudeDelta *
+	float magCur = Magnitude(current);
+	float magTar = Magnitude(target);
+	float newMag = magCur + maxMagnitudeDelta *
 		((magTar > magCur) - (magCur > magTar));
 	newMag = fmin(newMag, fmax(magCur, magTar));
 	newMag = fmax(newMag, fmin(magCur, magTar));
 
-	double totalAngle = Angle(current, target) - maxRadiansDelta;
+	float totalAngle = Angle(current, target) - maxRadiansDelta;
 	if (totalAngle <= 0)
 		return Normalized(target) * newMag;
 	else if (totalAngle >= M_PI)
 		return Normalized(-target) * newMag;
 
 	Vec3 axis = Cross(current, target);
-	double magAxis = Magnitude(axis);
+	float magAxis = Magnitude(axis);
 	if (magAxis == 0)
 		axis = Normalized(Cross(current, current + Vec3(3.95, 5.32, -4.24)));
 	else
@@ -504,38 +504,38 @@ Vec3 Vec3::Scale(Vec3 a, Vec3 b)
 	return Vec3(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
 }
 
-Vec3 Vec3::Slerp(Vec3 a, Vec3 b, double t)
+Vec3 Vec3::Slerp(Vec3 a, Vec3 b, float t)
 {
 	if (t < 0) return a;
 	else if (t > 1) return b;
 	return SlerpUnclamped(a, b, t);
 }
 
-Vec3 Vec3::SlerpUnclamped(Vec3 a, Vec3 b, double t)
+Vec3 Vec3::SlerpUnclamped(Vec3 a, Vec3 b, float t)
 {
-	double magA = Magnitude(a);
-	double magB = Magnitude(b);
+	float magA = Magnitude(a);
+	float magB = Magnitude(b);
 	a /= magA;
 	b /= magB;
-	double dot = Dot(a, b);
+	float dot = Dot(a, b);
 	dot = fmax(dot, -1.0);
 	dot = fmin(dot, 1.0);
-	double theta = acos(dot) * t;
+	float theta = acos(dot) * t;
 	Vec3 relativeVec = Normalized(b - a * dot);
 	Vec3 newVec = a * cos(theta) + relativeVec * sin(theta);
 	return newVec * (magA + (magB - magA) * t);
 }
 
-double Vec3::SqrMagnitude(Vec3 v)
+float Vec3::SqrMagnitude(Vec3 v)
 {
 	return v.X * v.X + v.Y * v.Y + v.Z * v.Z;
 }
 
-void Vec3::ToSpherical(Vec3 vector, double &rad, double &theta,
-	double &phi)
+void Vec3::ToSpherical(Vec3 vector, float &rad, float &theta,
+	float &phi)
 {
 	rad = Magnitude(vector);
-	double v = vector.Z / rad;
+	float v = vector.Z / rad;
 	v = fmax(v, -1.0);
 	v = fmin(v, 1.0);
 	theta = acos(v);
@@ -543,7 +543,7 @@ void Vec3::ToSpherical(Vec3 vector, double &rad, double &theta,
 }
 
 
-struct Vec3& Vec3::operator+=(const double rhs)
+struct Vec3& Vec3::operator+=(const float rhs)
 {
 	X += rhs;
 	Y += rhs;
@@ -551,7 +551,7 @@ struct Vec3& Vec3::operator+=(const double rhs)
 	return *this;
 }
 
-struct Vec3& Vec3::operator-=(const double rhs)
+struct Vec3& Vec3::operator-=(const float rhs)
 {
 	X -= rhs;
 	Y -= rhs;
@@ -559,7 +559,7 @@ struct Vec3& Vec3::operator-=(const double rhs)
 	return *this;
 }
 
-struct Vec3& Vec3::operator*=(const double rhs)
+struct Vec3& Vec3::operator*=(const float rhs)
 {
 	X *= rhs;
 	Y *= rhs;
@@ -567,7 +567,7 @@ struct Vec3& Vec3::operator*=(const double rhs)
 	return *this;
 }
 
-struct Vec3& Vec3::operator/=(const double rhs)
+struct Vec3& Vec3::operator/=(const float rhs)
 {
 	X /= rhs;
 	Y /= rhs;
@@ -592,14 +592,14 @@ struct Vec3& Vec3::operator-=(const Vec3 rhs)
 }
 
 Vec3 operator-(Vec3 rhs) { return rhs * -1; }
-Vec3 operator+(Vec3 lhs, const double rhs) { return lhs += rhs; }
-Vec3 operator-(Vec3 lhs, const double rhs) { return lhs -= rhs; }
-Vec3 operator*(Vec3 lhs, const double rhs) { return lhs *= rhs; }
-Vec3 operator/(Vec3 lhs, const double rhs) { return lhs /= rhs; }
-Vec3 operator+(const double lhs, Vec3 rhs) { return rhs += lhs; }
-Vec3 operator-(const double lhs, Vec3 rhs) { return rhs -= lhs; }
-Vec3 operator*(const double lhs, Vec3 rhs) { return rhs *= lhs; }
-Vec3 operator/(const double lhs, Vec3 rhs) { return rhs /= lhs; }
+Vec3 operator+(Vec3 lhs, const float rhs) { return lhs += rhs; }
+Vec3 operator-(Vec3 lhs, const float rhs) { return lhs -= rhs; }
+Vec3 operator*(Vec3 lhs, const float rhs) { return lhs *= rhs; }
+Vec3 operator/(Vec3 lhs, const float rhs) { return lhs /= rhs; }
+Vec3 operator+(const float lhs, Vec3 rhs) { return rhs += lhs; }
+Vec3 operator-(const float lhs, Vec3 rhs) { return rhs -= lhs; }
+Vec3 operator*(const float lhs, Vec3 rhs) { return rhs *= lhs; }
+Vec3 operator/(const float lhs, Vec3 rhs) { return rhs /= lhs; }
 Vec3 operator+(Vec3 lhs, const Vec3 rhs) { return lhs += rhs; }
 Vec3 operator-(Vec3 lhs, const Vec3 rhs) { return lhs -= rhs; }
 
