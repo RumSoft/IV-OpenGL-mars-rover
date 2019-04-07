@@ -1,9 +1,15 @@
 #pragma once
 #include "Shape.h"
+#include "Face.h"
 
 class Geom : public Entity
 {
 public:
+	Geom()
+	{
+		auto z = Vec3::Zero();
+		this->Shapes.push_back(new Face(z,z,z,z, LIGHTGRAY));
+	}
 	std::vector<Shape*> Shapes;
 	std::vector<Geom*> Children;
 
