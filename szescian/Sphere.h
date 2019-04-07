@@ -15,16 +15,17 @@ public:
 
 		for (int i = 0; i < steps; i++) {
 			for (int j = steps; j >= 0; j--) {
-				this->Points.push_back(r * Vec3(
+				auto v1 = Vec3(
 					sin(j * f2) * cos(i * f),
 					sin(j * f2) * sin(i * f),
-					cos(j * f2)
-				));
-				this->Points.push_back(r * Vec3(
+					cos(j * f2));
+				auto v2 = Vec3(
 					sin(j * f2) * cos((i + 1) * f),
 					sin(j * f2) * sin((i + 1) * f),
-					cos(j * f2)
-				));
+					cos(j * f2));
+
+				this->AddPoint(r * v1);
+				this->AddPoint(r * v2);
 			}
 		}
 	}

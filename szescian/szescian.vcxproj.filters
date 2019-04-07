@@ -123,5 +123,11 @@
     <ClInclude Include="Cylinder.h">
       <Filter>Objects\Shapes</Filter>
     </ClInclude>
+    <ClInclude Include="Face.h">
+      <Filter>Objects\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Disc.h">
+      <Filter>Objects\Shapes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

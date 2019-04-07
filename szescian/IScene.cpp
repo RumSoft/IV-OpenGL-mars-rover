@@ -15,6 +15,10 @@ auto TypeToGlMode(ShapeType type)
 		return GL_TRIANGLE_STRIP;
 	case TriangleFan:
 		return GL_TRIANGLE_FAN;
+	case Quad :
+		return GL_QUADS;
+	case QuadStrip:
+		return GL_QUAD_STRIP;
 	}
 	return GL_LINE_STRIP;
 }
@@ -26,14 +30,25 @@ void IScene::Render()
 		for (auto shape : geom->Shapes)
 		{
 			geom->PreRender();
-			shape->PreRender();
+			shape->PreRender();	
 			glBegin(TypeToGlMode(shape->Type));
 			glColor4fv(shape->Color.GL());
-			for (const auto point : shape->Points) {
+			for (int i = 0; i < shape->Points.size(); i++) {
+				auto point = shape->Points[i];
+
 				const auto o = shape->Origin + geom->Origin;
 				const auto p = Vec3::Scale(Vec3::Scale(point, shape->Scale), geom->Scale);
 				const auto p2 = geom->Rotation * shape->Rotation * (p + o);
 				glVertex3f(p2.X, p2.Y, p2.Z);
+
+				if (shape->Normals.size() > i) {
+					auto normal = shape->Normals[i];
+					const auto n = geom->Rotation * shape->Rotation * normal;
+					glNormal3f(n.X, n.Y, n.Z);
+				}
+			}
+
+			for (const auto point : shape->Points) {
 			}
 			glEnd();
 			shape->PostRender();

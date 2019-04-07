@@ -13,6 +13,7 @@ private:
 	InputHandler* input;
 public:
 	std::vector<Geom*> parts;
+	Chwytak* chwytak;
 	Lazik()
 	{
 		this->Origin += Vec3(0, 0, 16.5);
@@ -27,8 +28,9 @@ public:
 			Vec3(-25, 20, -10)
 		};
 
+		chwytak = new Chwytak(Vec3(0, 23, 9), 4, 6, 25);
 		parts.push_back(new Kadlubek(15, 25, 10));
-		parts.push_back(new Chwytak(Vec3(0, 23, 9), 4, 6, 25));
+		parts.push_back(chwytak);
 		parts.push_back(new Kamera(Vec3(8, -20, 10), 15, 3, 8, 5));
 
 		for (auto wheel : wheels) {
@@ -42,13 +44,15 @@ public:
 			for (auto shape : part->Shapes)
 				Shapes.push_back(shape);
 
+		this->Shapes.push_back(new Sphere(Vec3(50, 50, 50), 20, 10, GREEN));
+
 		input = InputHandler::GetInstance();
 	}
 
 	void Update() override
 	{
 		if (input->IsDown('X')) {
-			
+			chwytak->AddShapesOrigin(Vec3::Forward());
 		}
 	}
 };
