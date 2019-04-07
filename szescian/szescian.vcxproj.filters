@@ -129,5 +129,8 @@
     <ClInclude Include="Disc.h">
       <Filter>Objects\Shapes</Filter>
     </ClInclude>
+    <ClInclude Include="ObjFile.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

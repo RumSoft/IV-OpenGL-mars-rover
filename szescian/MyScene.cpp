@@ -6,6 +6,7 @@
 #include "Axes.h"
 #include "Lazik.h"
 #include "Background.h"
+#include "ObjFile.h"
 
 
 MyScene::MyScene()
@@ -15,6 +16,7 @@ MyScene::MyScene()
 	this->Geometries.push_back(new Grid(500, 50));
 	this->Geometries.push_back(new Axes());
 	this->Geometries.push_back(new Lazik());
+	this->Geometries.push_back(new ObjFile());
 }
 
 MyScene::~MyScene() = default;
