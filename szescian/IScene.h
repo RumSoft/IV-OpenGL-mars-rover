@@ -6,12 +6,17 @@ class IScene : public Entity {
 public:
 
 	virtual ~IScene() = default;
-	virtual void Update() = 0;
+	virtual void Update();
 
-	void Render();
-	void RenderGeometries();
-	void UpdateChildren();
+	void RenderScene();
+	void UpdateAllGeometries();
 
 	std::vector<Geom*> Geometries;
 	InputHandler* input;
+
+private:
+	void RenderAllObjects();
+	void RecursivelyRenderGeometries(Geom* geom, Entity* parent);
+	void RecursivelyUpdateGeometries(Geom * geom);
+
 };

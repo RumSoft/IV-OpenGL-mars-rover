@@ -18,6 +18,7 @@ public:
 		float specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float position[] = { 1.0f, 1.0f, 0.3f, 0.0f };
 
+
 		glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
 		glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
 		glLightfv(GL_LIGHT0, GL_POSITION, position);

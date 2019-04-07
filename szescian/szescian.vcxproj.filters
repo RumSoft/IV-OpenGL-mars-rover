@@ -37,9 +37,6 @@
     <ClCompile Include="..\Gl_template.cpp">
       <Filter>System</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>System</Filter>
-    </ClCompile>
     <ClCompile Include="IScene.cpp">
       <Filter>BaseObjects</Filter>
     </ClCompile>
@@ -122,6 +119,18 @@
     </ClInclude>
     <ClInclude Include="Cylinder.h">
       <Filter>Objects\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Face.h">
+      <Filter>Objects\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Disc.h">
+      <Filter>Objects\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjFile.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

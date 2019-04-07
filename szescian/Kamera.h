@@ -5,12 +5,13 @@
 class Kamera : public Geom
 {
 public:
-	std::vector<Geom*> parts;
 
-	Kamera(Vec3 kams, float h, float a, float b, float c)
+	Kamera(float h, float a, float b, float c)
 	{
+		auto kams = Vec3::Zero();
+
 		auto r1 = new Ramie(kams, kams + Vec3(0, 0, h), 3, 2, 0, RED);	//pierwsze ramie
-		parts.push_back(r1);
+		this->Children.push_back(r1);
 
 		auto s1 = new Shape(TriangleStrip, BLUE);
 		s1->Origin = kams + Vec3(0, 0, h);
@@ -43,9 +44,5 @@ public:
 		s2->Points.emplace_back(-a, -b, 0);
 		s2->Points.emplace_back(-a, -b, c / 3);
 		this->Shapes.push_back(s2);
-
-		for (auto part : parts)
-			Shapes.insert(Shapes.end(), part->Shapes.begin(), part->Shapes.end());
-
 	}
 };

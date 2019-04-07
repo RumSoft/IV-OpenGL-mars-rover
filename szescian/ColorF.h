@@ -21,11 +21,20 @@ public:
 		rgba[3] = a;
 	}
 
+	ColorF(int hex)
+	{
+		rgba[0] = ((hex >> 16) & 0xFF) / 255.0;  // Extract the RR byte
+		rgba[1] = ((hex >> 8) & 0xFF) / 255.0;   // Extract the GG byte
+		rgba[2] = ((hex) & 0xFF) / 255.0;        // Extract the BB byte
+		rgba[3] = 1;
+	}
+
 	ColorF Red(const float r)		{ rgba[0] = r; return *this; }
 	ColorF Green(const float g)		{ rgba[1] = g; return *this; }
 	ColorF Blue(const float b)		{ rgba[2] = b; return *this; }
 	ColorF Opacity(const float a)	{ rgba[3] = a; return *this; }
 	GLfloat* GL() { return rgba; }
+
 };
 
 #define RED   ColorF(1,0,0)

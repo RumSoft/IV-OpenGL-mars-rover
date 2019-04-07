@@ -25,6 +25,6 @@ public:
 			s1->Points.emplace_back(a, -a + i * f, h);
 		}
 
-		this->Shapes.push_back(s1);
+		this->Shapes.push_back(s1->WithPosition(Vec3(0,0,-1)));
 	}
 };

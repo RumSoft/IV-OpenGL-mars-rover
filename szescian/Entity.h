@@ -18,3 +18,5 @@ public:
 
 inline float Deg2Rad(const float deg) { return deg * M_PI / 180; }
 inline float Rad2Deg(const float rad) { return rad * 180 / M_PI; }
+inline float D2R(const float deg) { return Deg2Rad(deg); }
+inline float R2D(const float rad) { return Rad2Deg(rad); }

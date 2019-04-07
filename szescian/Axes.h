@@ -24,6 +24,9 @@ public:
 		this->Shapes.push_back(mainZ);
 	}
 
-	void PreRender() override { glLineWidth(5); }
+	void PreRender() override
+	{
+		glLineWidth(5);	
+	}
 	void PostRender() override { glLineWidth(1); }
 };
