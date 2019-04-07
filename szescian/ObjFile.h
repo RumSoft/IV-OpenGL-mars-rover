@@ -5,40 +5,6 @@
 #include "Vec2.h"
 using namespace std;
 
-struct objFace
-{
-	int v1;
-	int v2;
-	int v3;
-	int vt1;
-	int vt2;
-	int vt3;
-	int vn1;
-	int vn2;
-	int vn3;
-
-	objFace(int vv1,
-		int vv2,
-		int vv3,
-		int vvt1,
-		int vvt2,
-		int vvt3,
-		int vvn1,
-		int vvn2,
-		int vvn3)
-	{
-		v1 = vv2;
-		v2 = vv2;
-		v3 = vv3;
-		vt1 = vvt1;
-		vt2 = vvt2;
-		vt3 = vvt3;
-		vn1 = vvn1;
-		vn2 = vvn2;
-		vn3 = vvn3;
-	}
-};
-
 class ObjFile : public Geom
 {
 public:
@@ -51,8 +17,9 @@ public:
 	bool loadOBJ(const char* path)
 	{
 		vector<Vec3> vertices;
+		vector<GLushort> elements;
 		vector<Vec3> normals;
-		vector<objFace> faces;
+
 
 		ifstream in(path, ios::in);
 		if (!in)
@@ -61,10 +28,14 @@ public:
 			exit(1);
 		}
 		string line;
-
+		
 		auto s1 = new Shape(Triangle, GREEN);
 		while (getline(in, line))
 		{
+			if(line.substr(0,2) == "o ")
+			{
+				
+			}
 			if (line.substr(0, 2) == "v ")
 			{
 				istringstream s(line.substr(2));
@@ -86,20 +57,25 @@ public:
 			else if (line.substr(0, 2) == "f ")
 			{
 				istringstream s(line.substr(2));
-				int vv[3], vt[3], vn[3];
+				int v[3], vt[3], vn[3];
 
 				sscanf_s(s.str().c_str(), "%d/%d/%d %d/%d/%d %d/%d/%d",
-					&vv[0], &vt[0], &vn[0],
-					&vv[1], &vt[1], &vn[1],
-					&vv[2], &vt[2], &vn[2]);
-				vv[0]--; vv[1]--; vv[2]--;
-				vt[0]--; vt[1]--; vt[2]--;
-				vn[0]--; vn[1]--; vn[2]--;
+				         &v[0], &vt[0], &vn[0],
+				         &v[1], &vt[1], &vn[1],
+				         &v[2], &vt[2], &vn[2]);
+				v[0]--;
+				v[1]--;
+				v[2]--;
+				vt[0]--;
+				vt[1]--;
+				vt[2]--;
+				vn[0]--;
+				vn[1]--;
+				vn[2]--;
 
-				faces.emplace_back(
-					vv[0], vv[1], vv[2], 
-					vt[0], vt[1], vt[2], 
-					vn[0], vn[1], vn[2]);
+				s1->AddPoint(vertices[v[0]], normals[vn[0]]);
+				s1->AddPoint(vertices[v[1]], normals[vn[1]]);
+				s1->AddPoint(vertices[v[2]], normals[vn[2]]);
 			}
 			else if (line[0] == '#')
 			{
@@ -110,14 +86,19 @@ public:
 				/* ignoring this line */
 			}
 		}
+		this->Shapes.push_back(s1);
 
-		for (auto f : faces)
+		/*normals.resize(vertices.size(), Vec3(0.0, 0.0, 0.0));
+		for (int i = 0; i < elements.size(); i += 3)
 		{
-			s1->AddPoint(vertices[f.v1], normals[f.vn1]);
-			s1->AddPoint(vertices[f.v2], normals[f.vn2]);
-			s1->AddPoint(vertices[f.v3], normals[f.vn3]);
-		}
-		this->Shapes.push_back(s1->WithScale(10));
+			GLushort ia = elements[i];
+			GLushort ib = elements[i + 1];
+			GLushort ic = elements[i + 2];
+			Vec3 normal = Vec3::Normalized(Vec3::Cross(
+				Vec3(vertices[ib]) - Vec3(vertices[ia]),
+				Vec3(vertices[ic]) - Vec3(vertices[ia])));
+			normals[ia] = normals[ib] = normals[ic] = normal;
+		}*/
 	}
 
 };
