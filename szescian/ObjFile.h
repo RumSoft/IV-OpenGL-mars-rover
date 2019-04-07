@@ -2,7 +2,6 @@
 #include "Geom.h"
 #include <fstream>
 #include <sstream>
-#include "Vec2.h"
 #include <stdio.h>
 using namespace std;
 
@@ -47,7 +46,7 @@ public:
 	{
 		bool res = loadOBJ("marsground.obj");
 		this->Scale = Vec3::One() * 30;
-		this->Origin = Vec3(0, 0, -50);
+		this->Origin = Vec3(0, 0, -20);
 	}
 
 	bool loadOBJ(const char* path)
