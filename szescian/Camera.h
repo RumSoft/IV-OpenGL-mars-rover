@@ -31,7 +31,7 @@ public:
 		{
 			anim++;
 			auto f = (float)anim / size;
-			Rotation = Quat::Lerp(from, to, sin(f * 3.14 * 0.5f));
+			Rotation = Quat::Lerp(from, to, sinf(f * 3.14 * 0.5f));
 		}
 
 		if (input->IsDown(VK_LEFT))

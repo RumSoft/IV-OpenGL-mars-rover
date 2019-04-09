@@ -17,7 +17,7 @@ public:
 		float diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float specular[] = { 1.0f, 1.0f, 1.0f, 5.0f };
 		float position[] = { -.5f, .5f, -1, 0.0f };
-		float shinines[] = { 10,10,10,10 };
+		float shinines[] = { 1,1,1,125 };
 		
 
 		glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
@@ -39,6 +39,7 @@ public:
 		glEnable(GL_LIGHTING);
 
 		glShadeModel(GL_SMOOTH);
+		glShadeModel(GLU_FILL);
 		glEnable(GL_COLOR_MATERIAL);
 	}
 };

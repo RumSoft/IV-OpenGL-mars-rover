@@ -43,9 +43,14 @@ public:
 		}
 
 		this->Shapes.push_back((new Disc(GRAY))
-			->WithPosition(Vec3(0, 0, 0))
-			->WithScale(r)
+			->WithPosition(Vec3(h/3, 0, 0))
+			->WithScale(r2)
 			->WithRotation(Quat::FromAngleAxis(Deg2Rad(90), Vec3::Forward())));
+		this->Shapes.push_back((new Disc(GRAY))
+			->WithPosition(Vec3(-h / 3, 0, 0))
+			->WithScale(r2)
+			->WithRotation(Quat::FromAngleAxis(Deg2Rad(90), Vec3::Forward())));
+
 
 		this->Shapes.push_back(s1);
 	}

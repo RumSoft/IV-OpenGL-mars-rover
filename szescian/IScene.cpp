@@ -77,11 +77,7 @@ void IScene::RecursivelyRenderGeometries(Geom* geom, Entity* parent)
 		for(auto pt : shape->Points)
 		{
 			const auto p =
-				parent->Rotation * Vec3::Scale(
-					shape->Rotation * Vec3::Scale(
-						geom->Rotation * Vec3::Scale(pt, geom->Scale) + geom->Origin,
-						shape->Scale) + shape->Origin,
-					parent->Scale) + parent->Origin;
+				parent->Rotation * Vec3::Scale(geom->Rotation * Vec3::Scale( shape->Rotation * Vec3::Scale(pt, shape->Scale) + shape->Origin,geom->Scale) + geom->Origin,parent->Scale) + parent->Origin;
 			glVertex3f(p.X, p.Y, p.Z);
 
 			i++;
