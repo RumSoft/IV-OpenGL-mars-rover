@@ -27,13 +27,6 @@ public:
 		glLoadIdentity();
 		gluLookAt(XYZ(eyes), XYZ(obj), 0, 0, 1);
 
-		auto dir = Quat::ToEuler(Rotation);
-		string str;
-		str.append(to_string(dir.X)); str.append(", ");
-		str.append(to_string(dir.Y)); str.append(", ");
-		str.append(to_string(dir.Z)); str.append("\n");
-		OutputDebugStringA(str.c_str());
-
 		if(anim < size)
 		{
 			anim++;

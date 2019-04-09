@@ -69,7 +69,7 @@ public:
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
 
-		gluPerspective(60.0f, fAspect, 1.0, 1000);
+		gluPerspective(60.0f, fAspect, 1.0, 10000);
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();

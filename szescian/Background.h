@@ -15,13 +15,16 @@ public:
 
 		float ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 		float diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-		float specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-		float position[] = { 1.0f, 1.0f, 0.3f, 0.0f };
-
+		float specular[] = { 1.0f, 1.0f, 1.0f, 5.0f };
+		float position[] = { -.5f, .5f, -1, 0.0f };
+		float shinines[] = { 10,10,10,10 };
+		
 
 		glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
 		glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+		glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
 		glLightfv(GL_LIGHT0, GL_POSITION, position);
+		glLightfv(GL_LIGHT0, GL_SHININESS, shinines);
 
 		float model_ambient[] = { 0.4f, 0.4f, 0.4f, 1.0f };
 		int model_two_side = 1;                                //0=2sided, 1=1sided

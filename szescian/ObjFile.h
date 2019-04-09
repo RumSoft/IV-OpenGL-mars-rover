@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
+#include "ObjShapeMemory.h"
 using namespace std;
 
 struct objFace
@@ -39,18 +40,26 @@ struct objFace
 	}
 };
 
+
+
 class ObjFile : public Geom
 {
 public:
-	ObjFile()
+
+	ObjFile(const char* str, ColorF color = RED)
 	{
-		bool res = loadOBJ("marsground.obj");
-		this->Scale = Vec3(100, 100, 10);
-		this->Origin = Vec3(0, 0, -20);
+		auto memory = ObjShapeMemory::Instance();
+		if (!memory.Exists(str))
+			memory.AddShape(loadOBJ(str), str);
+		this->Shapes.push_back(memory.GetShape(str)->WithColor(color));
 	}
 
-	bool loadOBJ(const char* path)
+	Shape* loadOBJ(const char* path)
 	{
+		OutputDebugStringA("LOADING OBJ: ");
+		OutputDebugStringA(path);
+		OutputDebugStringA("\n");
+
 		vector<Vec3> vertices;
 		vector<Vec3> normals;
 		vector<objFace> faces;
@@ -63,7 +72,6 @@ public:
 		}
 		string line;
 
-		auto s1 = new Shape(Triangle, ColorF(0xff6600));
 		while (getline(in, line))
 		{
 			if (line.substr(0, 2) == "v ")
@@ -127,6 +135,7 @@ public:
 			}
 		}
 
+		auto s1 = new Shape(Triangle);
 		for (auto f : faces)
 		{
 			const int v = vertices.size();
@@ -143,11 +152,16 @@ public:
 				s1->AddPoint(vertices[f.v3], normals[f.vn3]);
 			}
 		}
-		this->Shapes.push_back(s1);
 
 		vertices.clear();
 		normals.clear();
 		faces.clear();
+
+		return s1;
 	}
 
+	void Update() override
+	{
+		this->Rotation *= Quat::FromAngleAxis(D2R(1), axisZ);
+	}
 };

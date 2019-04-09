@@ -132,5 +132,8 @@
     <ClInclude Include="Camera.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="ObjShapeMemory.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

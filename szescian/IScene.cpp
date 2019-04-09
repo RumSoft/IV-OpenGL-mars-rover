@@ -87,7 +87,7 @@ void IScene::RecursivelyRenderGeometries(Geom* geom, Entity* parent)
 			i++;
 			if(i < shape->Normals.size())
 			{
-				const auto n = shape->Normals[i];
+				const auto n = parent->Rotation * geom->Rotation * shape->Rotation * shape->Normals[i];
 				glNormal3f(n.X, n.Y, n.Z);
 			}
 
