@@ -37,9 +37,9 @@ MyScene::MyScene()
 				rand() % 100 / 100.f, 
 				rand() % 100 / 100.f)));;
 
-	//this->Geometries.push_back((new ObjFile("marsground.obj", kolory[rand() % 6]))
-	//	->WithScale(120)
-	//	->WithPosition(Vec3(0,0,-100)));
+	this->Geometries.push_back((new ObjFile("marsground.obj", kolory[rand() % 6]))
+		->WithScale(120)
+		->WithPosition(Vec3(0,0,-100)));
 }
 
 MyScene::~MyScene() = default;
