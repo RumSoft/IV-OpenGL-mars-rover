@@ -45,7 +45,7 @@ public:
 	ObjFile()
 	{
 		bool res = loadOBJ("marsground.obj");
-		this->Scale = Vec3::One() * 30;
+		this->Scale = Vec3(100, 100, 10);
 		this->Origin = Vec3(0, 0, -20);
 	}
 
