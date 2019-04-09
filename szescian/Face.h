@@ -23,7 +23,7 @@ public:
 		this->Points.push_back(x3);
 		this->Points.push_back(x4);
 		
-		auto n = Vec3::Normalized(Vec3::Cross(x2 - x1, x3 - x1));
+		auto n = -Vec3::Normalized(Vec3::Cross(x2 - x1, x3 - x1));
 		
 		this->Normals.push_back(n);
 		this->Normals.push_back(n);
