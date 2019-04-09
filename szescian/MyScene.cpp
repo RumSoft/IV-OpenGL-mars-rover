@@ -19,8 +19,15 @@ MyScene::MyScene()
 	this->Geometries.push_back(new Camera(lazik));
 
 	Vec3 kamienie[] = {
-		Vec3(50, -300, -20),
-		Vec3(100, 100, 0)
+		Vec3(50, -300, -60),
+		Vec3(100, 100, 0),
+		Vec3(600, 600, -45),
+		Vec3(-250, -550, -70),
+		Vec3(1000, -500, -80),
+		Vec3(1850, 300, -150),
+		Vec3(1400, -900, -50),
+		Vec3(550, -800, -50),
+		Vec3(-100, -950, -50)
 	};
 	int kolory[] = { 0x99857a, 0xc67b5c, 0xe27b58, 0xff9d6f, 0x663926, 0x8e6a5a};
 	srand(time(NULL));
