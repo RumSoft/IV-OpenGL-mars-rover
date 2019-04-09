@@ -159,9 +159,4 @@ public:
 
 		return s1;
 	}
-
-	void Update() override
-	{
-		this->Rotation *= Quat::FromAngleAxis(D2R(1), axisZ);
-	}
 };
