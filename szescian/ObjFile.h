@@ -67,8 +67,7 @@ public:
 		ifstream in(path, ios::in);
 		if (!in)
 		{
-			cerr << "Cannot open " << path << endl;
-			exit(1);
+			throw exception("obj file not found");
 		}
 		string line;
 

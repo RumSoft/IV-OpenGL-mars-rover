@@ -8,15 +8,19 @@ public:
 	{
 	}
 
+	int time = 135;
 	void Update() override
 	{
+		time += 1;
+		OutputDebugStringA(std::to_string(time).c_str());
+		OutputDebugStringA("\n");
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.5, 0.5, 0.5, 1);
 
 		float ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 		float diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float specular[] = { 1.0f, 1.0f, 1.0f, 5.0f };
-		float position[] = { -.5f, .5f, -1, 0.0f };
+		float position[] = { sin(Deg2Rad(time)), cos(Deg2Rad(time)), -1, 0.0f };
 		float shinines[] = { 1,1,1,125 };
 		
 

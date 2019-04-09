@@ -42,7 +42,16 @@ MyScene::MyScene()
 			->WithRotation(Quat::FromEuler(
 				rand() % 100 / 100.f, 
 				rand() % 100 / 100.f, 
-				rand() % 100 / 100.f)));;
+				rand() % 100 / 100.f)));
+
+	this->Geometries.push_back((new ObjFile("marsrock2.obj", kolory[rand() % 6]))
+		->WithScale(100)
+		->WithPosition(Vec3(500,500,0))
+	); 
+	this->Geometries.push_back((new ObjFile("marsrock2.obj", kolory[rand() % 6]))
+		->WithScale(170)
+		->WithPosition(Vec3(-20, -900, 0))
+	);
 
 	this->Geometries.push_back((new ObjFile("marsground2.obj", kolory[rand() % 6]))
 		->WithScale(120)
