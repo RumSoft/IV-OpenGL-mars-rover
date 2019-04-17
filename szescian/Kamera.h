@@ -45,4 +45,12 @@ public:
 		s2->Points.emplace_back(-a, -b, c / 3);
 		this->Shapes.push_back(s2);
 	}
+	int t = 0;
+	void Update() override
+	{
+		t++;
+		this->Shapes[1]->Rotation *= Quat::FromAngleAxis(D2R(sin(t)), UP);
+		this->Shapes[2]->Rotation *= Quat::FromAngleAxis(D2R(sin(t)), UP);
+	}
+	
 };

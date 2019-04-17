@@ -159,7 +159,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		scene->Update();
 		scene->UpdateAllGeometries();
 		scene->RenderScene();
-		scene->UpdatePhysics();
+		//scene->UpdatePhysics();
 		SwapBuffers(hDC);
 		ValidateRect(hWnd, nullptr);
 		InvalidateRect(hWnd, nullptr, NULL);

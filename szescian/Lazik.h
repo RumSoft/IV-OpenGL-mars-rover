@@ -52,7 +52,8 @@ public:
 		}
 
 		proxy = new Proxy(this);
-		proxy->Scale = Vec3(60, 50, 20);
+		proxy->Scale = Vec3(60, 50, 25);
+		proxy->Origin = Vec3(0,0,-5);
 		input = InputHandler::GetInstance();
 	}
 

@@ -163,6 +163,7 @@
     <ClInclude Include="Background.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chwytak.h" />
+    <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="ColorF.h" />
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Disc.h" />

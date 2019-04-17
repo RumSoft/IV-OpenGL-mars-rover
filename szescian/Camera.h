@@ -21,9 +21,10 @@ public:
 
 	void Update() override
 	{
-		auto offset = Rotation * Vec3(-50, -100, 70)*2;
+		auto offset = Rotation * Vec3(-50, -100, 70)*2; //100*sin(rotZ), 100*cos(rotZ), 100
 		auto obj = entity->Origin;
 		auto eyes = obj + offset;
+
 		glLoadIdentity();
 		gluLookAt(XYZ(eyes), XYZ(obj), 0, 0, 1);
 

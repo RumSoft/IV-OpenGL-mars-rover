@@ -138,5 +138,8 @@
     <ClInclude Include="Proxy.h">
       <Filter>BaseObjects</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionDetector.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

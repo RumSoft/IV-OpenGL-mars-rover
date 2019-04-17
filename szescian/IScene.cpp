@@ -3,6 +3,8 @@
 #include <string>
 #include "M33.h"
 #include "ObjFile.h"
+#include "Camera.h"
+#include "CollisionDetector.h"
 
 auto TypeToGlMode(ShapeType type)
 {
@@ -38,6 +40,7 @@ void IScene::RenderScene()
 	glPolygonMode(GL_FRONT_AND_BACK, GLU_FILL);
 
 	RenderAllObjects();
+	UpdatePhysics();
 
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
@@ -52,20 +55,65 @@ void IScene::UpdateAllGeometries()
 
 void IScene::UpdatePhysics()
 {
-	auto a = Lazikk;
-	auto apos = a->proxy->Origin + a->Origin;
-	auto asize = a->proxy->Scale;
-	
+	const auto a = Lazikk;
+	const auto apos = a->proxy->Origin + a->Origin;
+	const auto asize1 = a->proxy->Scale;
+	const auto asize2 = a->Scale;
+	const auto asize = Vec3::Scale(asize1, asize2);
+	const auto arot = a->Rotation;
+
 	for(auto geom : PhysicializedGeometries)
 	{
-		auto b = geom;
-		auto bpos = b->proxy->Origin + b->Origin;
-		auto bsize = b->proxy->Scale;
+		const auto b = geom;
+		const auto bpos = b->proxy->Origin + b->Origin;
+		const auto bsize1 = b->proxy->Scale;
+		const auto bsize2 = b->Scale;
+		const auto bsize = Vec3::Scale(bsize1, bsize2);
+		const auto brot = b->Rotation;
+		
+		auto distSqr = Vec3::SqrMagnitude(bpos - apos);
+		if (distSqr > 20000) continue;
+		//method1 : simple cubes
+		//if (abs((apos - bpos).X) < (asize + bsize).X)
+		//	if (abs((apos - bpos).Y) < (asize + bsize).Y)
+		//		if (abs((apos - bpos).Z) < (asize + bsize).Z)
+		//			return Lazikk->proxy->OnCollision(geom);
 
-		if (abs((apos - bpos).X) < (asize + bsize).X)
-			if (abs((apos - bpos).Y) < (asize + bsize).Y)
-				if (abs((apos - bpos).Z) < (asize + bsize).Z)
-					return Lazikk->proxy->OnCollision(geom);
+		//method 2: if any of points inside another
+		//https://gamedev.stackexchange.com/questions/44500/how-many-and-which-axes-to-use-for-3d-obb-collision-with-sat
+		Vec3 apts[] = {
+			Vec3(-asize.X, -asize.Y, asize.Z) / 2,
+			Vec3(asize.X, -asize.Y, asize.Z) / 2,
+			Vec3(-asize.X, asize.Y, asize.Z) / 2,
+			Vec3(asize.X, asize.Y, asize.Z) / 2,
+			Vec3(-asize.X, -asize.Y, -asize.Z) / 2,
+			Vec3(asize.X, -asize.Y, -asize.Z) / 2,
+			Vec3(-asize.X, asize.Y, -asize.Z) / 2,
+			Vec3(asize.X, asize.Y, -asize.Z) / 2
+		};
+
+		Vec3 bpts[] = {
+			Vec3(-bsize.X, -bsize.Y, bsize.Z) / 2,
+			Vec3(bsize.X, -bsize.Y, bsize.Z) / 2,
+			Vec3(-bsize.X, bsize.Y, bsize.Z) / 2,
+			Vec3(bsize.X, bsize.Y, bsize.Z) / 2,
+			Vec3(-bsize.X, -bsize.Y, -bsize.Z) / 2,
+			Vec3(bsize.X, -bsize.Y, -bsize.Z) / 2,
+			Vec3(-bsize.X, bsize.Y, -bsize.Z) / 2,
+			Vec3(bsize.X, bsize.Y, -bsize.Z) / 2
+		};
+
+		Vec3 a_pts[8];
+		Vec3 b_pts[8];
+
+		for (int i = 0; i < 8; i++)
+			a_pts[i] = arot * apts[i] + apos;
+				
+		for (int i = 0; i < 8; i++)
+			b_pts[i] = brot * bpts[i] + bpos;			
+
+		if(CollisionDetectorHelper::Intersects(a_pts,  b_pts, arot, brot))
+			return Lazikk->proxy->OnCollision(geom->proxy);
 	}
 }
 
