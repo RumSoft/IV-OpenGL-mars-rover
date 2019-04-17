@@ -135,5 +135,8 @@
     <ClInclude Include="ObjShapeMemory.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Proxy.h">
+      <Filter>BaseObjects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

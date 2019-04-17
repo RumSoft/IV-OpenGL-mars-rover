@@ -53,9 +53,17 @@ MyScene::MyScene()
 		->WithPosition(Vec3(-20, -900, 0))
 	);
 
-	this->Geometries.push_back((new ObjFile("marsground2.obj", kolory[rand() % 6]))
-		->WithScale(120)
-		->WithPosition(Vec3(0,0,-100)));
+	//this->Geometries.push_back((new ObjFile("marsground2.obj", kolory[rand() % 6]))
+	//	->WithScale(120)
+	//	->WithPosition(Vec3(0,0,-100)));
+
+	Lazikk = lazik;
+	for (auto geom : Geometries)
+	{
+		const auto physGeom = dynamic_cast<ObjFile*>(geom);
+		if (physGeom != nullptr && physGeom->proxy != nullptr)
+			PhysicializedGeometries.push_back(physGeom);
+	}
 }
 
 MyScene::~MyScene() = default;

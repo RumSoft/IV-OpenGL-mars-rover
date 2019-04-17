@@ -4,6 +4,7 @@
 #include <sstream>
 #include <stdio.h>
 #include "ObjShapeMemory.h"
+#include "Proxy.h"
 using namespace std;
 
 struct objFace
@@ -40,18 +41,49 @@ struct objFace
 	}
 };
 
-
+#define smaller(a, b) if (b < a) a = b;
+#define bigger(a, b) if (b > a) a = b;
 
 class ObjFile : public Geom
 {
 public:
+	Proxy* proxy = nullptr;
+	Shape* shape = nullptr;
 
-	ObjFile(const char* str, ColorF color = RED)
+	ObjFile(const char* str, ColorF color = RED, bool proxyPhysics = true)
 	{
 		auto memory = ObjShapeMemory::Instance();
 		if (!memory.Exists(str))
 			memory.AddShape(loadOBJ(str), str);
-		this->Shapes.push_back(memory.GetShape(str)->WithColor(color));
+		shape = memory.GetShape(str)->WithColor(color);
+		this->Shapes.push_back(shape);
+
+		if (proxyPhysics) {
+			proxy = (new Proxy(this));
+		}
+
+		if (proxy != nullptr) {
+			float maxX = 0, minX = 0, maxY = 0, minY = 0, maxZ = 0, minZ = 0;
+			for (auto p : shape->Points)
+			{
+				smaller(minX, p.X);
+				smaller(minY, p.Y);
+				smaller(minZ, p.Z);
+				bigger(maxX, p.X);
+				bigger(maxY, p.Y);
+				bigger(maxZ, p.Z);
+			}
+			proxy->Scale = Vec3::Scale(Vec3(
+				maxX - minX,
+				maxY - minY,
+				maxZ - minZ
+			), 0.7);
+		}
+	}
+
+	void PostRender() override
+	{
+		this->proxy->DrawProxy();
 	}
 
 	Shape* loadOBJ(const char* path)
@@ -101,7 +133,7 @@ public:
 					&vv[0], &vt[0], &vn[0],
 					&vv[1], &vt[1], &vn[1],
 					&vv[2], &vt[2], &vn[2]);
-				if(r == 9)
+				if (r == 9)
 				{
 					vv[0]--; vv[1]--; vv[2]--;
 					vt[0]--; vt[1]--; vt[2]--;
@@ -157,5 +189,10 @@ public:
 		faces.clear();
 
 		return s1;
+	}
+
+	void Update() override
+	{
+		proxy->Update();
 	}
 };

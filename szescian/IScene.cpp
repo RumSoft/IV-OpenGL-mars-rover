@@ -2,6 +2,7 @@
 #include <gl/gl.h>
 #include <string>
 #include "M33.h"
+#include "ObjFile.h"
 
 auto TypeToGlMode(ShapeType type)
 {
@@ -47,6 +48,25 @@ void IScene::UpdateAllGeometries()
 {
 	for (auto geom : this->Geometries)
 		RecursivelyUpdateGeometries(geom);
+}
+
+void IScene::UpdatePhysics()
+{
+	auto a = Lazikk;
+	auto apos = a->proxy->Origin + a->Origin;
+	auto asize = a->proxy->Scale;
+	
+	for(auto geom : PhysicializedGeometries)
+	{
+		auto b = geom;
+		auto bpos = b->proxy->Origin + b->Origin;
+		auto bsize = b->proxy->Scale;
+
+		if (abs((apos - bpos).X) < (asize + bsize).X)
+			if (abs((apos - bpos).Y) < (asize + bsize).Y)
+				if (abs((apos - bpos).Z) < (asize + bsize).Z)
+					return Lazikk->proxy->OnCollision(geom);
+	}
 }
 
 void IScene::RecursivelyUpdateGeometries(Geom* geom)

@@ -8,6 +8,7 @@
 #include "Cylinder.h"
 #include <iostream>
 #include <string>
+#include "Proxy.h"
 
 class Lazik : public Geom
 {
@@ -17,6 +18,7 @@ public:
 	Chwytak* chwytak;
 	Kadlubek* kadlubek;
 	Kamera* kamera;
+	Proxy* proxy = nullptr;
 
 	Lazik()
 	{
@@ -49,15 +51,16 @@ public:
 			this->Children.push_back(rr);
 		}
 
-		//this->Shapes.push_back(new Sphere(Vec3(50, 50, 50), 20, 10, GREEN));
+		proxy = new Proxy(this);
+		proxy->Scale = Vec3(60, 50, 20);
 		input = InputHandler::GetInstance();
 	}
 
 	void Update() override
 	{
-		const Vec3 speed = Vec3(0, 5, 0);
+		const Vec3 speed = Vec3(0, 1, 0);
 		if (input->IsDown('X'))
-			this->Origin += Rotation * speed;
+			this->proxy->Acceleration += Rotation * speed;
 
 		if (input->IsDown('Z'))
 			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(5), axisZ);
@@ -67,5 +70,12 @@ public:
 
 		if (input->IsDown('V'))
 			this->Origin -= Rotation * speed;
+
+		proxy->Update();
+	}
+
+	void PostRender() override
+	{
+		proxy->DrawProxy();
 	}
 };

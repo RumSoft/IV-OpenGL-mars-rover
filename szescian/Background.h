@@ -12,8 +12,6 @@ public:
 	void Update() override
 	{
 		time += 1;
-		OutputDebugStringA(std::to_string(time).c_str());
-		OutputDebugStringA("\n");
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.5, 0.5, 0.5, 1);
 

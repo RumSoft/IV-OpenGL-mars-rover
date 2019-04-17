@@ -12,6 +12,7 @@ public:
 	}
 	std::vector<Shape*> Shapes;
 	std::vector<Geom*> Children;
+	//virtual void PostInit() {}
 
 	void SetShapesOrigin(const Vec3 newOrigin) { for (auto shape : Shapes) shape->Origin = newOrigin; }
 	void AddShapesOrigin(const Vec3 newOrigin) { for (auto shape : Shapes) shape->Origin += newOrigin; }
@@ -21,21 +22,25 @@ public:
 
 	Geom* WithPosition(Vec3 pos) {
 		this->Origin = pos;
+		//PostInit();
 		return this;
 	}
 
 	Geom* WithScale(Vec3 scale) {
 		this->Scale = scale;
+		//PostInit();
 		return this;
 	}
 
 	Geom* WithScale(float scale) {
 		this->Scale = Vec3(scale, scale, scale);
+		//PostInit();
 		return this;
 	}
 
 	Geom* WithRotation(Quat rotation) {
 		this->Rotation = rotation;
+		//PostInit();
 		return this;
 	}
 };
