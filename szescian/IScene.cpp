@@ -73,21 +73,15 @@ void IScene::RecursivelyRenderGeometries(Geom * geom, Entity * parent)
 
 		geom->PreRender();
 		shape->PreRender();
-
+		
+		if (shape->texture > 0) {
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, shape->texture);
+		}
+		
 		glBegin(TypeToGlMode(shape->Type));
 		glColor4fv(shape->Color.GL());
-		glEnable(GL_TEXTURE_2D);
-		if (shape->texture > 0) {
-			glBindTexture(GL_TEXTURE_2D, shape->texture);
-			// set filter
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-			// set wrap mode
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		}
-
+		
 		for (const auto v : shape->Vertices)
 		{
 			const auto p = parent->Rotation * Vec3::Scale(
@@ -97,8 +91,9 @@ void IScene::RecursivelyRenderGeometries(Geom * geom, Entity * parent)
 				parent->Scale) + parent->Origin;
 
 			const auto n = parent->Rotation * geom->Rotation * shape->Rotation * v.Normal;
+
 			glNormal3f(XYZ(Vec3::Normalized(n)));
-			glTexCoord2d(v.TextureCoordinate.X, v.TextureCoordinate.Y);
+			glTexCoord2d(XY(v.TextureCoordinate));
 			glVertex3f(XYZ(p));
 		}
 

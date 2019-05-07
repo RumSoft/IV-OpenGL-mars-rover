@@ -22,7 +22,6 @@ public:
 		float specular[] = { 1.0f, 1.0f, 1.0f, 5.0f };
 		float position[] = { sin(Deg2Rad(time)), cos(Deg2Rad(time)), 1, 0.0f };
 		float shinines[] = { 1,1,1,125 };
-		
 
 		glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
 		glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
