@@ -32,13 +32,13 @@ MyScene::MyScene()
 	int kolory[] = { 0x99857a, 0xc67b5c, 0xe27b58, 0xff9d6f, 0x663926, 0x8e6a5a};
 	srand(time(NULL));
 
-	this->Geometries.push_back((new ObjFile("objects", "GroundTexture2"))
+	this->Geometries.push_back((new ObjFile("objects", "MarsGround", GRAY))
 			->WithScale(120)
 			->WithPosition(Vec3(0,0,-100))
 		->WithRotation(Quat::FromAngleAxis(D2R(90), Vec3(1,0,0))));
 
 	for(const auto k : kamienie)
-		this->Geometries.push_back((new ObjFile("", "marsrock2", kolory[rand() % 6]))
+		this->Geometries.push_back((new ObjFile("objects", "marsrock"))
 			->WithScale(Vec3(
 				rand() % 20 + 30, 
 				rand() % 20 + 30, 
@@ -49,11 +49,11 @@ MyScene::MyScene()
 				rand() % 100 / 100.f, 
 				rand() % 100 / 100.f)));
 
-	this->Geometries.push_back((new ObjFile("", "marsrock2", kolory[rand() % 6]))
+	this->Geometries.push_back((new ObjFile("objects", "marsrock"))
 		->WithScale(100)
 		->WithPosition(Vec3(500,500,0))
 	); 
-	this->Geometries.push_back((new ObjFile("", "marsrock2", kolory[rand() % 6]))
+	this->Geometries.push_back((new ObjFile("objects", "marsrock"))
 		->WithScale(170)
 		->WithPosition(Vec3(-20, -900, 0))
 	);

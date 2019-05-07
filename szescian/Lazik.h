@@ -67,4 +67,5 @@ public:
 		if (input->IsDown('V'))
 			this->Origin -= Rotation * speed;
 	}
+
 };

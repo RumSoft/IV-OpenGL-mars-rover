@@ -10,6 +10,8 @@ public:
 	double anim_t = 0.3;
 	Quat from;
 	Quat to;
+	double zoom = 1;
+	Vec3 Offset = Vec3(-50, -100, 70);
 	Camera(Geom* ent)
 	{
 		entity = ent;
@@ -19,7 +21,7 @@ public:
 
 	void Update(float frametime) override
 	{
-		auto offset = Rotation * Vec3(-50, -100, 70)*2;
+		auto offset = Rotation * Offset * zoom *2;
 		auto obj = entity->Origin;
 		auto eyes = obj + offset;
 		glLoadIdentity();
@@ -45,9 +47,11 @@ public:
 			RequestRotationTo(entity->Rotation * Quat::FromAngleAxis(D2R(-120), axisZ));
 
 		//to je krzyweee 
-		//if (input->IsDown(VK_UP))
+		if (input->IsDown(VK_UP))
+			zoom -= 0.1;
 		//	RequestAnim(Rotation * Quat::FromAngleAxis(Deg2Rad(-25), Vec3::Right()));
-		//if (input->IsDown(VK_DOWN))
+		if (input->IsDown(VK_DOWN))
+			zoom += 0.1;
 		//	RequestAnim(Rotation * Quat::FromAngleAxis(Deg2Rad(-25), Vec3::Right()));
 	}
 

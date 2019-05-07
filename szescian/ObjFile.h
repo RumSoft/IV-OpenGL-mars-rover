@@ -2,6 +2,7 @@
 #include "string";
 #include <utility>
 #include <vector>
+#include "Shape.h"
 #include "ObjShapeMemory.h"
 #include "obj_loader.h"
 #define STB_IMAGE_IMPLEMENTATION
@@ -11,30 +12,6 @@ using namespace std;
 
 class ObjFile : public Geom
 {
-	unsigned int LoadTexture(const char* file, GLenum textureSlot)
-	{
-		GLuint texHandle;
-		// Copy file to OpenGL
-		glGenTextures(textureSlot, &texHandle);
-		glBindTexture(GL_TEXTURE_2D, texHandle);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-		int width, height, nrChannels;
-		const auto data = stbi_load(file, &width, &height, &nrChannels, 0);
-		if (data)
-		{
-			//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-			gluBuild2DMipmaps(GL_TEXTURE_2D, nrChannels, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		}
-		else
-		{
-			return 0;
-		}
-		stbi_image_free(data);
-		return texHandle;
-	}
-
 	Shape* loadOBJ()
 	{
 		const auto obj = fullname() + ".obj";
@@ -74,11 +51,12 @@ public:
 
 	void Init() override
 	{
+		
 		const auto shape = this->Shapes[1];
 		if (shape == nullptr)
 			return;
 		if(!_texture.empty())
-			shape->texture = LoadTexture(_texture.c_str(), 1);
+			shape->texture = Shape::LoadTexture(_texture.c_str(), 1);
 
 		if (shape->texture > 0)
 			shape->Color = ColorF(XYZ((shape->MeshMaterial.Ks)));
