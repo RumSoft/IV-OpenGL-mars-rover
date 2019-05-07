@@ -7,6 +7,7 @@
 #include "obj_loader.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "image_loader.h"
+#include "TextureMemory.h"
 
 using namespace std;
 
@@ -23,7 +24,7 @@ class ObjFile : public Geom
 		shape->MeshMaterial = loader.LoadedMeshes[0].MeshMaterial;
 		for (const auto v : loader.LoadedMeshes[0].Vertices)
 			shape->AddPoint(v);
-		_texture =  (!_folder.empty() ? _folder + "/" : "" ) + loader.LoadedMeshes[0].MeshMaterial.map_Kd;
+		_texture = (!_folder.empty() ? _folder + "/" : "") + loader.LoadedMeshes[0].MeshMaterial.map_Kd;
 		return shape;
 	}
 
@@ -35,7 +36,7 @@ public:
 	string fullname() const { return (!_folder.empty() ? _folder + "/" : "") + _filename; }
 
 	ObjFile(string folder, string filename, ColorF color)
-		:  ObjFile(folder,filename)
+		: ObjFile(folder, filename)
 	{
 		_color = color;
 	}
@@ -51,12 +52,11 @@ public:
 
 	void Init() override
 	{
-		
 		const auto shape = this->Shapes[1];
 		if (shape == nullptr)
 			return;
-		if(!_texture.empty())
-			shape->texture = Shape::LoadTexture(_texture.c_str(), 1);
+		if (!_texture.empty())
+			shape->texture = TextureMemory::Instance().GetTexture(_texture);
 
 		if (shape->texture > 0)
 			shape->Color = ColorF(XYZ((shape->MeshMaterial.Ks)));

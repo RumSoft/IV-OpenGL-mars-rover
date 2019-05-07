@@ -144,5 +144,8 @@
     <ClInclude Include="obj_loader.h">
       <Filter>System</Filter>
     </ClInclude>
+    <ClInclude Include="TextureMemory.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -172,6 +172,7 @@
     <ClInclude Include="Grid.h" />
     <ClInclude Include="image_loader.h" />
     <ClInclude Include="obj_loader.h" />
+    <ClInclude Include="TextureMemory.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="IScene.h" />
