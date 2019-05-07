@@ -32,12 +32,12 @@ MyScene::MyScene()
 	int kolory[] = { 0x99857a, 0xc67b5c, 0xe27b58, 0xff9d6f, 0x663926, 0x8e6a5a};
 	srand(time(NULL));
 
-	//auto loader = objl::Loader();
-	//loader.LoadFile("objects/GroundTexture2.obj");
-	//
-	//return;
+	this->Geometries.push_back((new ObjFile("objects/GroundTexture2.obj", GRAY))
+		->WithScale(30)
+		->WithPosition(Vec3(0,0,-20))
+	->WithRotation(Quat::FromAngleAxis(D2R(15), Vec3(1,0,0))));
 
-
+/*
 	for(const auto k : kamienie)
 		this->Geometries.push_back((new ObjFile("marsrock2.obj", kolory[rand() % 6]))
 			->WithScale(Vec3(
@@ -58,7 +58,7 @@ MyScene::MyScene()
 		->WithScale(170)
 		->WithPosition(Vec3(-20, -900, 0))
 	);
-
+*/
 	//this->Geometries.push_back((new ObjFile("marsground2.obj", kolory[rand() % 6]))
 	//	->WithScale(120)
 	//	->WithPosition(Vec3(0,0,-100)));

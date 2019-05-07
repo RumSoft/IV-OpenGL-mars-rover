@@ -7,6 +7,11 @@ public:
 
 	virtual ~IScene() = default;
 	virtual void Update();
+	void Init() override
+	{
+		for (auto geom : Geometries)
+			geom->Init();
+	}
 
 	void RenderScene();
 	void UpdateAllGeometries();

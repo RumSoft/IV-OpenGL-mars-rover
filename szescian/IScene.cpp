@@ -49,7 +49,7 @@ void IScene::UpdateAllGeometries()
 		RecursivelyUpdateGeometries(geom);
 }
 
-void IScene::RecursivelyUpdateGeometries(Geom* geom)
+void IScene::RecursivelyUpdateGeometries(Geom * geom)
 {
 	geom->Update();
 	for (auto shape : geom->Shapes)
@@ -64,40 +64,53 @@ void IScene::RenderAllObjects()
 		RecursivelyRenderGeometries(geom, new Entity());
 }
 
-void IScene::RecursivelyRenderGeometries(Geom* geom, Entity* parent)
+void IScene::RecursivelyRenderGeometries(Geom * geom, Entity * parent)
 {
+
 	auto pos = new Entity();
 	for (auto shape : geom->Shapes)
 	{
+
 		geom->PreRender();
 		shape->PreRender();
+
 		glBegin(TypeToGlMode(shape->Type));
 		glColor4fv(shape->Color.GL());
+		glEnable(GL_TEXTURE_2D);
+		if (shape->texture > 0) {
+			glBindTexture(GL_TEXTURE_2D, shape->texture);
+			// set filter
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-		for(const auto v : shape->Vertices)
+			// set wrap mode
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		}
+
+		for (const auto v : shape->Vertices)
 		{
-			//if(shape->MeshMaterial)
-				//glEnable(GL_TEXTURE_2D);
-
 			const auto p = parent->Rotation * Vec3::Scale(
 				geom->Rotation * Vec3::Scale(
 					shape->Rotation * Vec3::Scale(v.Position, shape->Scale) + shape->Origin,
 					geom->Scale) + geom->Origin,
 				parent->Scale) + parent->Origin;
 
-			glNormal3f(XYZ(v.Normal));
+			const auto n = parent->Rotation * geom->Rotation * shape->Rotation * v.Normal;
+			glNormal3f(XYZ(Vec3::Normalized(n)));
 			glTexCoord2d(v.TextureCoordinate.X, v.TextureCoordinate.Y);
 			glVertex3f(XYZ(p));
 		}
-	
+
 		glEnd();
+		glDisable(GL_TEXTURE_2D);
 		shape->PostRender();
 		geom->PostRender();
 	}
 
 
 	pos->Rotation = geom->Rotation * parent->Rotation;
-	pos->Origin = parent->Rotation*geom->Origin + parent->Origin;
+	pos->Origin = parent->Rotation * geom->Origin + parent->Origin;
 	pos->Scale = Vec3::Scale(Vec3::Scale(Vec3::One(), parent->Scale), geom->Scale);
 
 	for (auto child : geom->Children)

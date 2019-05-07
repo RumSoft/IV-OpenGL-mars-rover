@@ -10,6 +10,15 @@ public:
 		auto z = Vec3::Zero();
 		this->Shapes.push_back(new Face(z,z,z,z, LIGHTGRAY));
 	}
+
+	void Init() override
+	{
+		for (auto geoms : Children)
+			geoms->Init();
+		for (auto shapes : Shapes)
+			shapes->Init();
+	}
+
 	std::vector<Shape*> Shapes;
 	std::vector<Geom*> Children;
 

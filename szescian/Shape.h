@@ -26,6 +26,7 @@ public:
 	Material MeshMaterial;
 	ShapeType Type = LineStrip;
 	ColorF Color = BLACK;
+	unsigned int texture=0;
 
 	void AddPoint(Vec3 p) {
 		AddPoint(Vertex(p, UP, Vec2(0.5, 0.5)));
