@@ -14,6 +14,8 @@ public:
 	MaxSpeed = 5;
 	Vec3 Velocity = Vec3::Zero();
 	Vec3 Acceleration = Vec3::Zero();
+	Vec3 _acc = Vec3::Zero();
+
 	Proxy(Geom* pparent)
 	{
 		parent = pparent;
@@ -22,21 +24,27 @@ public:
 
 	void Update() override
 	{
-		
-		Acceleration = Vec3::Zero();
-		//if (!isColliding) {
+		if (!isColliding && !LastCollided)
+			isColliding = false;
 
-			Velocity += Acceleration * MaxSpeed * 0.4;
+		Acceleration *= 0.7;
+		_acc *= 0.7;
+		_acc += Acceleration*pow(atan(Vec3::SqrMagnitude(Acceleration)),2)*5;
+		
+		if (!isColliding) {
+			Velocity += _acc * MaxSpeed * 0.4;
 			Velocity = Vec3::Scale(Velocity, 1 - 10 / Mass);
 			parent->Origin += Velocity;
-		//}
+			
+		}
 
-
+		isColliding = false;
 		isColliding2 = LastCollided;
 		LastCollided = isColliding;
 		LastPos = parent->Origin;
 		LastRot = parent->Rotation;
 	}
+
 	bool isColliding = false;
 	bool isColliding2 = false;
 	int sleep = 0;
@@ -86,10 +94,14 @@ public:
 		
 		// this - lazik
 		// obj - kamień
-		
+
+		auto dir = obj->LastPos - this->LastPos;
+		dir.Z = 0;
+		dir = Vec3::Normalized(dir);
 		isColliding = true;
-		obj->Velocity = this->Velocity;
-		this->Velocity *= 0;
-		this->Acceleration *= 0;
+		obj->Acceleration += dir/obj->Mass;
+		this->Velocity *= 0.5;
+		this->Acceleration *= 0.5;
+		obj->parent->Origin += dir;
 	}
 };

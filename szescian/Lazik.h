@@ -59,7 +59,7 @@ public:
 
 	void Update() override
 	{
-		const Vec3 speed = Vec3(0, 1, 0);
+		const Vec3 speed = Vec3(0, 1, 0)/5;
 		if (input->IsDown('X'))
 			this->proxy->Acceleration += Rotation * speed;
 
