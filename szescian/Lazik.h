@@ -23,14 +23,14 @@ public:
 		this->Origin += Vec3(0, 5, 16.5);
 		this->Rotation *= Quat::FromAngleAxis(Deg2Rad(0), Vec3::Up());
 
-		float r = 7, h = 10;
+		float r = 13.5, h = 8;
 		Vec3 wheels[] = {
-			Vec3(25, -20, -10),
-			Vec3(25, 0, -10),
-			Vec3(25, 20, -10),
-			Vec3(-25, -20, -10),
-			Vec3(-25, 0, -10),
-			Vec3(-25, 20, -10)
+			Vec3(25, -30, -15),
+			Vec3(25, 0, -15),
+			Vec3(25, 30, -15),
+			Vec3(-25, -30, -15),
+			Vec3(-25, 0, -15),
+			Vec3(-25, 30, -15)
 		};
 
 		kadlubek = new Kadlubek(15, 25, 10);
@@ -44,7 +44,7 @@ public:
 		for (const auto wheel : wheels)
 		{
 			auto w = (new Kolo(r, h))->WithPosition(wheel);
-			auto rr = new Ramie(Vec3::Scale(wheel, Vec3(.4, .8, -0.1)), wheel - Vec3(wheel.X > 0 ? h / 2 : -h / 2, 0, 0), 3, 2, 3, RED);
+			auto rr = new Ramie(Vec3::Scale(wheel, Vec3(.4, .7, -0.1)), wheel - Vec3(wheel.X > 0 ? h / 2 : -h / 2, 0, 0), 3, 2, 3, RED);
 			this->Children.push_back(w);
 			this->Children.push_back(rr);
 		}

@@ -10,6 +10,7 @@ public:
 	{
 		for (auto geom : Geometries)
 			geom->Init();
+
 	}
 
 	void RenderScene();

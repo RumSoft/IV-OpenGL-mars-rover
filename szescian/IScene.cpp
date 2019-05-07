@@ -34,7 +34,9 @@ void IScene::RenderScene()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glPushMatrix();
-	glPolygonMode(GL_FRONT_AND_BACK, GLU_FILL);
+	glPolygonMode(GL_FRONT_FACE, GLU_FILL);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	RenderAllObjects();
 
