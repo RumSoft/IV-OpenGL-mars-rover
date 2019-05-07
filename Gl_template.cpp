@@ -27,6 +27,7 @@
 #include "szescian/InputHandler.h"
 #include "szescian/MyScene.h"
 #include <iostream>
+#include <chrono>
 
 #define glRGB(x, y, z)	glColor3ub((GLubyte)x, (GLubyte)y, (GLubyte)z)
 #define BITMAP_ID 0x4D42
@@ -91,6 +92,8 @@ int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR lpCmdLine, 
 	}
 	return msg.wParam;
 }
+clock_t c1 = clock(), c2 = clock();
+double lastframetime;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -139,7 +142,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			bitmapInfoHeader.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, bitmapData);
 		if (bitmapData)
 			free(bitmapData);
-
+		
+		scene->Init();
+		
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		break;
 
@@ -156,12 +161,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_PAINT:
-		scene->Update();
-		scene->UpdateAllGeometries();
+		c1 = clock();
+		scene->Update(lastframetime);
+		scene->UpdateAllGeometries(lastframetime);
 		scene->RenderScene();
 		SwapBuffers(hDC);
 		ValidateRect(hWnd, nullptr);
 		InvalidateRect(hWnd, nullptr, NULL);
+		
+		c2 = clock();
+		lastframetime = double(c2 - c1) / CLOCKS_PER_SEC;
 		break;
 
 

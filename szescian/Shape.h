@@ -2,6 +2,7 @@
 #include <vector>
 #include "Entity.h"
 #include "ColorF.h"
+#include "Vertex.h"
 
 
 enum ShapeType
@@ -21,34 +22,28 @@ public:
 	Shape() = default;
 	Shape(ShapeType type) : Type(type) {}
 	Shape(ShapeType type, ColorF color) : Type(type), Color(color) {}
-	std::vector<Vec3> Points;
-	std::vector<Vec3> Normals;
+	std::vector<Vertex> Vertices;
+	Material MeshMaterial;
 	ShapeType Type = LineStrip;
 	ColorF Color = BLACK;
+	unsigned int texture=0;
 
 	void AddPoint(Vec3 p) {
-		Points.push_back(p);
-
-		int i = Points.size();
-		if (i < 3)
-			return;
-
-		auto p1 = Points[i-3];
-		auto p2 = Points[i-2];
-		auto p3 = Points[i-1];
-		auto n = Vec3::Normalized(Vec3::Cross(p2 - p1, p3 - p1));
-		if (Points.size() == 3)
-		{
-			Normals.push_back(n);
-			Normals.push_back(n);
-		}
-		Normals.push_back(n);
+		AddPoint(Vertex(p, UP, Vec2(0.5, 0.5)));
 	}
 
-
 	void AddPoint(Vec3 p, Vec3 n) {
-		Points.push_back(p);
-		Normals.push_back(n);
+		AddPoint(Vertex(p, n, Vec2(0.5, 0.5)));
+	}
+
+	void AddPoint(Vertex v)
+	{
+		Vertices.push_back(v);
+	}
+
+	void AddPoint(Vec3 p, Vec3 n, Vec2 t)
+	{
+		AddPoint(Vertex(p, n, t));
 	}
 
 	Shape* WithPosition(Vec3 pos) {

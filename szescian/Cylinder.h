@@ -10,20 +10,20 @@ public:
 		this->Origin = pos;
 		this->Color = color;
 
-		float f = 2 * M_PI / steps;
+		const float f = 2 * M_PI / steps;
 		for (int i = 0; i <= steps; i++) {
-			this->Points.push_back(rot * Vec3(0, 0, center ? -h / 2 : 0));
-			this->Points.push_back(rot * Vec3(r *sin(i * f), r *cos(i*f), center ? -h / 2 : 0));
+			this->AddPoint(rot * Vec3(0, 0, center ? -h / 2 : 0));
+			this->AddPoint(rot * Vec3(r *sin(i * f), r *cos(i*f), center ? -h / 2 : 0));
 		}
 
-		for (int i = 0; i <= steps; i++) {
-			this->Points.push_back(rot * Vec3(r *sin(i * f), r *cos(i*f), center ? -h / 2 : 0));
-			this->Points.push_back(rot * Vec3(r *sin(i * f), r *cos(i*f), center ? h / 2 : h));
+		for (auto i = 0; i <= steps; i++) {
+			this->AddPoint(rot * Vec3(r *sin(i * f), r *cos(i*f), center ? -h / 2 : 0));
+			this->AddPoint(rot * Vec3(r *sin(i * f), r *cos(i*f), center ? h / 2 : h));
 		}
 
-		for (int i = 0; i <= steps; i++) {
-			this->Points.push_back(rot * Vec3(r *sin(i * f), r *cos(i*f), center ? h / 2 : h));
-			this->Points.push_back(rot * Vec3(0, 0, h / 2));
+		for (auto i = 0; i <= steps; i++) {
+			this->AddPoint(rot * Vec3(r *sin(i * f), r *cos(i*f), center ? h / 2 : h));
+			this->AddPoint(rot * Vec3(0, 0, h / 2));
 		}
 	}
 };

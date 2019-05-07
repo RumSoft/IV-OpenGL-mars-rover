@@ -135,5 +135,14 @@
     <ClInclude Include="ObjShapeMemory.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>BaseObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="image_loader.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="obj_loader.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

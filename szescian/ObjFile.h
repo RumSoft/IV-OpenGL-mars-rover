@@ -1,161 +1,88 @@
 #pragma once
-#include "Geom.h"
-#include <fstream>
-#include <sstream>
-#include <stdio.h>
+#include "string";
+#include <utility>
+#include <vector>
 #include "ObjShapeMemory.h"
+#include "obj_loader.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "image_loader.h"
+
 using namespace std;
-
-struct objFace
-{
-	int v1;
-	int v2;
-	int v3;
-	int vt1;
-	int vt2;
-	int vt3;
-	int vn1;
-	int vn2;
-	int vn3;
-
-	objFace(int vv1,
-		int vv2,
-		int vv3,
-		int vvt1,
-		int vvt2,
-		int vvt3,
-		int vvn1,
-		int vvn2,
-		int vvn3)
-	{
-		v1 = vv1;
-		v2 = vv2;
-		v3 = vv3;
-		vt1 = vvt1;
-		vt2 = vvt2;
-		vt3 = vvt3;
-		vn1 = vvn1;
-		vn2 = vvn2;
-		vn3 = vvn3;
-	}
-};
-
-
 
 class ObjFile : public Geom
 {
-public:
-
-	ObjFile(const char* str, ColorF color = RED)
+	unsigned int LoadTexture(const char* file, GLenum textureSlot)
 	{
-		auto memory = ObjShapeMemory::Instance();
-		if (!memory.Exists(str))
-			memory.AddShape(loadOBJ(str), str);
-		this->Shapes.push_back(memory.GetShape(str)->WithColor(color));
+		GLuint texHandle;
+		// Copy file to OpenGL
+		glGenTextures(textureSlot, &texHandle);
+		glBindTexture(GL_TEXTURE_2D, texHandle);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+		int width, height, nrChannels;
+		const auto data = stbi_load(file, &width, &height, &nrChannels, 0);
+		if (data)
+		{
+			//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			gluBuild2DMipmaps(GL_TEXTURE_2D, nrChannels, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		}
+		else
+		{
+			return 0;
+		}
+		stbi_image_free(data);
+		return texHandle;
 	}
 
-	Shape* loadOBJ(const char* path)
+	Shape* loadOBJ()
 	{
-		OutputDebugStringA("LOADING OBJ: ");
-		OutputDebugStringA(path);
-		OutputDebugStringA("\n");
+		const auto obj = fullname() + ".obj";
+		auto loader = objl::Loader();
+		if (!loader.LoadFile(obj))
+			return nullptr;
 
-		vector<Vec3> vertices;
-		vector<Vec3> normals;
-		vector<objFace> faces;
+		auto shape = new Shape(Triangle);
+		shape->MeshMaterial = loader.LoadedMeshes[0].MeshMaterial;
+		for (const auto v : loader.LoadedMeshes[0].Vertices)
+			shape->AddPoint(v);
+		_texture =  (!_folder.empty() ? _folder + "/" : "" ) + loader.LoadedMeshes[0].MeshMaterial.map_Kd;
+		return shape;
+	}
 
-		ifstream in(path, ios::in);
-		if (!in)
-		{
-			throw exception("obj file not found");
-		}
-		string line;
+public:
+	string _folder;
+	string _filename;
+	string _texture;
+	ColorF _color;
+	string fullname() const { return (!_folder.empty() ? _folder + "/" : "") + _filename; }
 
-		while (getline(in, line))
-		{
-			if (line.substr(0, 2) == "v ")
-			{
-				istringstream s(line.substr(2));
-				Vec3 v;
-				s >> v.X;
-				s >> v.Z;
-				s >> v.Y;
-				vertices.push_back(v);
-			}
-			if (line.substr(0, 3) == "vn ")
-			{
-				istringstream s(line.substr(3));
-				Vec3 vn;
-				s >> vn.X;
-				s >> vn.Z;
-				s >> vn.Y;
-				normals.push_back(vn);
-			}
-			else if (line.substr(0, 2) == "f ")
-			{
-				istringstream s(line.substr(2));
-				int vv[3], vt[3], vn[3];
+	ObjFile(string folder, string filename, ColorF color)
+		:  ObjFile(folder,filename)
+	{
+		_color = color;
+	}
 
+	ObjFile(string folder, string filename)
+		: _folder(move(folder)), _filename(move(filename))
+	{
+		auto memory = ObjShapeMemory::Instance();
+		if (!memory.Exists(fullname()))
+			memory.AddShape(loadOBJ(), fullname());
+		this->Shapes.push_back(memory.GetShape(fullname()));
+	}
 
-				int r = sscanf_s(s.str().c_str(), "%d/%d/%d %d/%d/%d %d/%d/%d",
-					&vv[0], &vt[0], &vn[0],
-					&vv[1], &vt[1], &vn[1],
-					&vv[2], &vt[2], &vn[2]);
-				if(r == 9)
-				{
-					vv[0]--; vv[1]--; vv[2]--;
-					vt[0]--; vt[1]--; vt[2]--;
-					vn[0]--; vn[1]--; vn[2]--;
-				}
-				else {
-					r = sscanf_s(s.str().c_str(), "%d//%d %d//%d %d//%d",
-						&vv[0], &vn[0],
-						&vv[1], &vn[1],
-						&vv[2], &vn[2]);
+	void Init() override
+	{
+		const auto shape = this->Shapes[1];
+		if (shape == nullptr)
+			return;
+		if(!_texture.empty())
+			shape->texture = LoadTexture(_texture.c_str(), 1);
 
-					vv[0]--; vv[1]--; vv[2]--;
-					vn[0]--; vn[1]--; vn[2]--;
-					vt[0] = vt[1] = vt[2] = 0;
-				}
-
-
-				faces.emplace_back(
-					vv[0], vv[1], vv[2],
-					vt[0], vt[1], vt[2],
-					vn[0], vn[1], vn[2]);
-			}
-			else if (line[0] == '#')
-			{
-				/* ignoring this line */
-			}
-			else
-			{
-				/* ignoring this line */
-			}
-		}
-
-		auto s1 = new Shape(Triangle);
-		for (auto f : faces)
-		{
-			const int v = vertices.size();
-			const int n = normals.size();
-			if (f.v1 < v
-				&& f.v2 < v
-				&& f.v3 < v
-				&& f.vn1 < n
-				&& f.vn2 < n
-				&& f.vn3 < n)
-			{
-				s1->AddPoint(vertices[f.v1], normals[f.vn1]);
-				s1->AddPoint(vertices[f.v2], normals[f.vn2]);
-				s1->AddPoint(vertices[f.v3], normals[f.vn3]);
-			}
-		}
-
-		vertices.clear();
-		normals.clear();
-		faces.clear();
-
-		return s1;
+		if (shape->texture > 0)
+			shape->Color = ColorF(XYZ((shape->MeshMaterial.Ks)));
+		else
+			shape->Color = _color;
 	}
 };

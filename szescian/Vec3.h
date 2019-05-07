@@ -11,6 +11,8 @@
 #define BACKWARD Vec3::Back()
 
 #define axisZ UP
+#define XYZ(o) o.X, o.Y, o.Z
+#define XY(o) o.X, o.Y
 
 struct Vec3
 {

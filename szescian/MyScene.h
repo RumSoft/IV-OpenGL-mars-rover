@@ -7,6 +7,6 @@ public:
 	MyScene();
 	~MyScene();
 	
-	void Update() override;
+	void Update(float frametime) override;
 };
 

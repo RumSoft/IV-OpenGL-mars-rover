@@ -10,10 +10,11 @@ public:
 	Quat Rotation = Quat::Identity();
 	Vec3 Scale = Vec3::One();
 
+	virtual void Init() {}
 	virtual void PreRender() {}
 	virtual void PostRender() {}
 
-	virtual void Update() {}
+	virtual void Update(float frametime) {}
 };
 
 inline float Deg2Rad(const float deg) { return deg * M_PI / 180; }

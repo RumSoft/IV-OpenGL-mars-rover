@@ -49,21 +49,20 @@ public:
 			this->Children.push_back(rr);
 		}
 
-		//this->Shapes.push_back(new Sphere(Vec3(50, 50, 50), 20, 10, GREEN));
 		input = InputHandler::GetInstance();
 	}
 
-	void Update() override
+	void Update(float frametime) override
 	{
-		const Vec3 speed = Vec3(0, 5, 0);
+		const Vec3 speed = FORWARD * 150 * frametime;
 		if (input->IsDown('X'))
 			this->Origin += Rotation * speed;
 
 		if (input->IsDown('Z'))
-			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(5), axisZ);
+			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(95 * frametime), axisZ);
 
 		if (input->IsDown('C'))
-			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(-5), axisZ);
+			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(-95 * frametime), axisZ);
 
 		if (input->IsDown('V'))
 			this->Origin -= Rotation * speed;

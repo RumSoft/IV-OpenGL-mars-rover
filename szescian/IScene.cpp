@@ -25,7 +25,7 @@ auto TypeToGlMode(ShapeType type)
 	return GL_LINE_STRIP;
 }
 
-void IScene::Update()
+void IScene::Update(float frametime)
 {
 }
 
@@ -43,19 +43,19 @@ void IScene::RenderScene()
 	glFlush();
 }
 
-void IScene::UpdateAllGeometries()
+void IScene::UpdateAllGeometries(float frametime)
 {
 	for (auto geom : this->Geometries)
-		RecursivelyUpdateGeometries(geom);
+		RecursivelyUpdateGeometries(geom, frametime);
 }
 
-void IScene::RecursivelyUpdateGeometries(Geom* geom)
+void IScene::RecursivelyUpdateGeometries(Geom * geom, float frametime)
 {
-	geom->Update();
+	geom->Update(frametime);
 	for (auto shape : geom->Shapes)
-		shape->Update();
+		shape->Update(frametime);
 	for (auto child : geom->Children)
-		RecursivelyUpdateGeometries(child);
+		RecursivelyUpdateGeometries(child, frametime);
 }
 
 void IScene::RenderAllObjects()
@@ -64,39 +64,48 @@ void IScene::RenderAllObjects()
 		RecursivelyRenderGeometries(geom, new Entity());
 }
 
-void IScene::RecursivelyRenderGeometries(Geom* geom, Entity* parent)
+void IScene::RecursivelyRenderGeometries(Geom * geom, Entity * parent)
 {
+
 	auto pos = new Entity();
 	for (auto shape : geom->Shapes)
 	{
+
 		geom->PreRender();
 		shape->PreRender();
+		
+		if (shape->texture > 0) {
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, shape->texture);
+		}
+		
 		glBegin(TypeToGlMode(shape->Type));
 		glColor4fv(shape->Color.GL());
-		int i = 0;
-		for(auto pt : shape->Points)
+		
+		for (const auto v : shape->Vertices)
 		{
-			const auto p =
-				parent->Rotation * Vec3::Scale(geom->Rotation * Vec3::Scale( shape->Rotation * Vec3::Scale(pt, shape->Scale) + shape->Origin,geom->Scale) + geom->Origin,parent->Scale) + parent->Origin;
-			glVertex3f(p.X, p.Y, p.Z);
+			const auto p = parent->Rotation * Vec3::Scale(
+				geom->Rotation * Vec3::Scale(
+					shape->Rotation * Vec3::Scale(v.Position, shape->Scale) + shape->Origin,
+					geom->Scale) + geom->Origin,
+				parent->Scale) + parent->Origin;
 
-			i++;
-			if(i < shape->Normals.size())
-			{
-				const auto n = parent->Rotation * geom->Rotation * shape->Rotation * shape->Normals[i];
-				glNormal3f(n.X, n.Y, n.Z);
-			}
+			const auto n = parent->Rotation * geom->Rotation * shape->Rotation * v.Normal;
 
+			glNormal3f(XYZ(Vec3::Normalized(n)));
+			glTexCoord2d(XY(v.TextureCoordinate));
+			glVertex3f(XYZ(p));
 		}
-	
+
 		glEnd();
+		glDisable(GL_TEXTURE_2D);
 		shape->PostRender();
 		geom->PostRender();
 	}
 
 
 	pos->Rotation = geom->Rotation * parent->Rotation;
-	pos->Origin = parent->Rotation*geom->Origin + parent->Origin;
+	pos->Origin = parent->Rotation * geom->Origin + parent->Origin;
 	pos->Scale = Vec3::Scale(Vec3::Scale(Vec3::One(), parent->Scale), geom->Scale);
 
 	for (auto child : geom->Children)
