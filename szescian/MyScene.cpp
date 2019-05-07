@@ -12,8 +12,8 @@ MyScene::MyScene()
 {
 	input = InputHandler::GetInstance();
 	this->Geometries.push_back(new Background());
-	this->Geometries.push_back(new Grid(500, 50));
-	this->Geometries.push_back(new Axes());
+	//this->Geometries.push_back(new Grid(500, 50));
+	//this->Geometries.push_back(new Axes());
 	const auto lazik = new Lazik();
 	this->Geometries.push_back(lazik);
 	this->Geometries.push_back(new Camera(lazik));
@@ -33,9 +33,9 @@ MyScene::MyScene()
 	srand(time(NULL));
 
 	this->Geometries.push_back((new ObjFile("objects", "GroundTexture2"))
-		->WithScale(35)
-		->WithPosition(Vec3(0,0,-20))
-	->WithRotation(Quat::FromAngleAxis(D2R(90), Vec3(1,0,0))));
+			->WithScale(120)
+			->WithPosition(Vec3(0,0,-100))
+		->WithRotation(Quat::FromAngleAxis(D2R(90), Vec3(1,0,0))));
 
 	for(const auto k : kamienie)
 		this->Geometries.push_back((new ObjFile("", "marsrock2", kolory[rand() % 6]))
@@ -59,13 +59,11 @@ MyScene::MyScene()
 	);
 
 	//this->Geometries.push_back((new ObjFile("","marsground2", kolory[rand() % 6]))
-	//	->WithScale(120)
-	//	->WithPosition(Vec3(0,0,-100)));
 }
 
 MyScene::~MyScene() = default;
 
-void MyScene::Update()
+void MyScene::Update(float frametime)
 {
 
 }

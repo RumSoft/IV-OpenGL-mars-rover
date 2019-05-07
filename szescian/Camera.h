@@ -1,15 +1,13 @@
 #pragma once
 #include "Geom.h"
 
-#define XYZ(o) o.X, o.Y, o.Z
-
 class Camera : public Geom
 {
 public:
 	Geom* entity;
 	InputHandler* input;
-	int anim = 100;
-	int size = 15;
+	double t = 100;
+	double anim_t = 0.3;
 	Quat from;
 	Quat to;
 	Camera(Geom* ent)
@@ -19,7 +17,7 @@ public:
 		Rotation = Quat::Identity();
 	}
 
-	void Update() override
+	void Update(float frametime) override
 	{
 		auto offset = Rotation * Vec3(-50, -100, 70)*2;
 		auto obj = entity->Origin;
@@ -27,10 +25,10 @@ public:
 		glLoadIdentity();
 		gluLookAt(XYZ(eyes), XYZ(obj), 0, 0, 1);
 
-		if(anim < size)
+		if(t < anim_t)
 		{
-			anim++;
-			auto f = (float)anim / size;
+			t += frametime;
+			auto f = (float)t / anim_t;
 			Rotation = Quat::Lerp(from, to, sinf(f * 3.14 * 0.5f));
 		}
 
@@ -61,7 +59,7 @@ private:
 
 	void RequestRotationTo(Quat _to)
 	{
-		anim = 0;
+		t = 0;
 		from = Rotation;
 		to = _to;
 	}

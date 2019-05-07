@@ -14,7 +14,7 @@ public:
 	virtual void PreRender() {}
 	virtual void PostRender() {}
 
-	virtual void Update() {}
+	virtual void Update(float frametime) {}
 };
 
 inline float Deg2Rad(const float deg) { return deg * M_PI / 180; }

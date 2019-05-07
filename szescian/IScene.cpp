@@ -25,7 +25,7 @@ auto TypeToGlMode(ShapeType type)
 	return GL_LINE_STRIP;
 }
 
-void IScene::Update()
+void IScene::Update(float frametime)
 {
 }
 
@@ -43,19 +43,19 @@ void IScene::RenderScene()
 	glFlush();
 }
 
-void IScene::UpdateAllGeometries()
+void IScene::UpdateAllGeometries(float frametime)
 {
 	for (auto geom : this->Geometries)
-		RecursivelyUpdateGeometries(geom);
+		RecursivelyUpdateGeometries(geom, frametime);
 }
 
-void IScene::RecursivelyUpdateGeometries(Geom * geom)
+void IScene::RecursivelyUpdateGeometries(Geom * geom, float frametime)
 {
-	geom->Update();
+	geom->Update(frametime);
 	for (auto shape : geom->Shapes)
-		shape->Update();
+		shape->Update(frametime);
 	for (auto child : geom->Children)
-		RecursivelyUpdateGeometries(child);
+		RecursivelyUpdateGeometries(child, frametime);
 }
 
 void IScene::RenderAllObjects()

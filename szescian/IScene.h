@@ -6,7 +6,6 @@ class IScene : public Entity {
 public:
 
 	virtual ~IScene() = default;
-	virtual void Update();
 	void Init() override
 	{
 		for (auto geom : Geometries)
@@ -14,7 +13,8 @@ public:
 	}
 
 	void RenderScene();
-	void UpdateAllGeometries();
+	void UpdateAllGeometries(float frametime);
+	void Update(float frametime);
 
 	std::vector<Geom*> Geometries;
 	InputHandler* input;
@@ -22,6 +22,6 @@ public:
 private:
 	void RenderAllObjects();
 	void RecursivelyRenderGeometries(Geom* geom, Entity* parent);
-	void RecursivelyUpdateGeometries(Geom * geom);
+	void RecursivelyUpdateGeometries(Geom * geom, float frametime);
 
 };
