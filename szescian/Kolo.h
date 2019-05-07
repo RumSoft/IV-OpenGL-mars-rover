@@ -17,29 +17,26 @@ public:
 		auto s1 = new Shape(TriangleStrip, ColorF(0.2, 0.2, 0.2));
 		for (int i = 0; i <= steps; i++)
 		{
-			s1->Points.emplace_back(-h / 2, r * cos(i * f), r * sin(i * f));
-			s1->Points.emplace_back(-h / 2, r * cos((i + 1) * f), r * sin((i + 1) * f));
+			s1->AddPoint(Vec3(-h / 2, r * cos(i * f), r * sin(i * f)), 
+				Vec3::Normalized(Vec3(0, cos(i * f), sin(i * f))));
+			s1->AddPoint(Vec3(-h / 2, r * cos((i + 1) * f), r * sin((i + 1) * f)),
+				Vec3::Normalized(Vec3(0, cos((i + 1) * f), sin((i + 1) * f))));
 
-			s1->Points.emplace_back(h / 2, r * cos(i * f), r * sin(i * f));
-			s1->Points.emplace_back(h / 2, r * cos((i + 1) * f), r * sin((i + 1) * f));
+			s1->AddPoint(Vec3(h / 2, r * cos(i * f), r * sin(i * f)),
+				Vec3::Normalized(Vec3(0, cos(i * f), sin(i * f))));
 
-			s1->Points.emplace_back(h / 2, r2 * cos(i * f), r2 * sin(i * f));
-			s1->Points.emplace_back(h / 2, r2 * cos((i + 1) * f), r2 * sin((i + 1) * f));
+			s1->AddPoint(Vec3(h / 2, r * cos((i + 1) * f), r * sin((i + 1) * f)), 
+				Vec3::Normalized(Vec3(0, cos((i + 1) * f), sin((i + 1) * f))));
 
-			s1->Points.emplace_back(-h / 2, r2 * cos(i * f), r2 * sin(i * f));
-			s1->Points.emplace_back(-h / 2, r2 * cos((i + 1) * f), r2 * sin((i + 1) * f));
+			s1->AddPoint(Vec3(h / 2, r2 * cos(i * f), r2 * sin(i * f)),
+				Vec3::Normalized(Vec3(0, cos(i * f), sin(i * f))));
+			s1->AddPoint(Vec3(h / 2, r2 * cos((i + 1) * f), r2 * sin((i + 1) * f)), 
+				Vec3::Normalized(Vec3(0, cos((i + 1) * f), sin((i + 1) * f))));
 
-			s1->Normals.push_back(Vec3::Normalized(Vec3(0, cos(i * f), sin(i * f))));
-			s1->Normals.push_back(Vec3::Normalized(Vec3(0, cos((i + 1) * f), sin((i + 1) * f))));
-
-			s1->Normals.push_back(Vec3::Normalized(Vec3(0, cos(i * f), sin(i * f))));
-			s1->Normals.push_back(Vec3::Normalized(Vec3(0, cos((i + 1) * f), sin((i + 1) * f))));
-
-			s1->Normals.push_back(Vec3::Normalized(Vec3(0, cos(i * f), sin(i * f))));
-			s1->Normals.push_back(Vec3::Normalized(Vec3(0, cos((i + 1) * f), sin((i + 1) * f))));
-
-			s1->Normals.push_back(Vec3::Normalized(Vec3(0, cos(i * f), sin(i * f))));
-			s1->Normals.push_back(Vec3::Normalized(Vec3(0, cos((i + 1) * f), sin((i + 1) * f))));
+			s1->AddPoint(Vec3(-h / 2, r2 * cos(i * f), r2 * sin(i * f)), 
+				Vec3::Normalized(Vec3(0, cos(i * f), sin(i * f))));
+			s1->AddPoint(Vec3(-h / 2, r2 * cos((i + 1) * f), r2 * sin((i + 1) * f)),
+				Vec3::Normalized(Vec3(0, cos((i + 1) * f), sin((i + 1) * f))));
 		}
 
 		this->Shapes.push_back((new Disc(GRAY))
@@ -50,8 +47,6 @@ public:
 			->WithPosition(Vec3(-h / 3, 0, 0))
 			->WithScale(r2)
 			->WithRotation(Quat::FromAngleAxis(Deg2Rad(90), Vec3::Forward())));
-
-
 		this->Shapes.push_back(s1);
 	}
 };

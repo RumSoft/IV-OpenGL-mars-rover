@@ -170,6 +170,9 @@
     <ClInclude Include="Face.h" />
     <ClInclude Include="Geom.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="image_loader.h" />
+    <ClInclude Include="obj_loader.h" />
+    <ClInclude Include="Vertex.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="IScene.h" />
     <ClInclude Include="Kadlubek.h" />

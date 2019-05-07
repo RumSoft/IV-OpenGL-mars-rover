@@ -67,5 +67,21 @@ public:
 
 		if (input->IsDown('V'))
 			this->Origin -= Rotation * speed;
+	
+	
 	}
+
+	void PreRender() override
+	{
+		int a = 100;
+		glTranslatef(-50, -50, 50);
+		glBegin(GL_TRIANGLE_STRIP);
+		glVertex3f(0, 0, 0);
+		glVertex3f(a, 0, 0);
+		glVertex3f(0, a, 0);
+		glVertex3f(a, a, 0);
+		glEnd();
+	}
+
+
 };

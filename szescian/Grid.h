@@ -9,22 +9,22 @@ public:
 
 	Grid(const float size = 100, const int steps = 10) : Size(size), Steps(steps)
 	{
-		float h = 0;
+		const float h = 0;
 		auto s1 = new Shape(Line, ColorF(0, 0, 0, 0.3));
-		float a = Size / 2;
-		float f = Size / steps;
-		for (int i = 0; i <= Steps; i++)
+		const auto a = Size / 2;
+		const auto f = Size / steps;
+		for (auto i = 0; i <= Steps; i++)
 		{
-			s1->Points.emplace_back(-a + i * f, -a, h);
-			s1->Points.emplace_back(-a + i * f, a, h);
+			s1->AddPoint(Vec3(-a + i * f, -a, h));
+			s1->AddPoint(Vec3(-a + i * f, a, h));
 		}
 
-		for (int i = 0; i <= Steps; i++)
+		for (auto i = 0; i <= Steps; i++)
 		{
-			s1->Points.emplace_back(-a, -a + i * f, h);
-			s1->Points.emplace_back(a, -a + i * f, h);
+			s1->AddPoint(Vec3(-a, -a + i * f, h));
+			s1->AddPoint(Vec3(a, -a + i * f, h));
 		}
 
-		this->Shapes.push_back(s1->WithPosition(Vec3(0,0,-1)));
+		this->Shapes.push_back(s1->WithPosition(Vec3(0, 0, -1)));
 	}
 };

@@ -73,20 +73,21 @@ void IScene::RecursivelyRenderGeometries(Geom* geom, Entity* parent)
 		shape->PreRender();
 		glBegin(TypeToGlMode(shape->Type));
 		glColor4fv(shape->Color.GL());
-		int i = 0;
-		for(auto pt : shape->Points)
+
+		for(const auto v : shape->Vertices)
 		{
-			const auto p =
-				parent->Rotation * Vec3::Scale(geom->Rotation * Vec3::Scale( shape->Rotation * Vec3::Scale(pt, shape->Scale) + shape->Origin,geom->Scale) + geom->Origin,parent->Scale) + parent->Origin;
-			glVertex3f(p.X, p.Y, p.Z);
+			//if(shape->MeshMaterial)
+				//glEnable(GL_TEXTURE_2D);
 
-			i++;
-			if(i < shape->Normals.size())
-			{
-				const auto n = parent->Rotation * geom->Rotation * shape->Rotation * shape->Normals[i];
-				glNormal3f(n.X, n.Y, n.Z);
-			}
+			const auto p = parent->Rotation * Vec3::Scale(
+				geom->Rotation * Vec3::Scale(
+					shape->Rotation * Vec3::Scale(v.Position, shape->Scale) + shape->Origin,
+					geom->Scale) + geom->Origin,
+				parent->Scale) + parent->Origin;
 
+			glNormal3f(XYZ(v.Normal));
+			glTexCoord2d(v.TextureCoordinate.X, v.TextureCoordinate.Y);
+			glVertex3f(XYZ(p));
 		}
 	
 		glEnd();
