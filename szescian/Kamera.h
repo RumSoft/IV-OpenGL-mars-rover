@@ -18,51 +18,53 @@ public:
 		auto s1 = new Shape(TriangleStrip, GRAY);
 		s1->Origin = kams + Vec3(0, 0, h);
 		s1->AddPoint(Vec3(-a, b, c),
-			Vec2(0, 1));
+			Vec2(0.9, 0.75));
 		s1->AddPoint(Vec3(a, b, c),
-			Vec2(1, 0));
+			Vec2(0.9, 0.95));
 		s1->AddPoint(Vec3(-a, -a, c),
-			Vec2(1, 1));
+			Vec2(0.1, 0.75));
 		s1->AddPoint(Vec3(a, -a, c),
-			Vec2(0, 0));
+			Vec2(0.1, 0.95));
 		s1->AddPoint(Vec3(-a, -b, c / 3),
-			Vec2(0, 0));
+			Vec2(0.5, 0.75));
 		s1->AddPoint(Vec3(a, -b, c / 3),
-			Vec2(0, 0));
+			Vec2(0.5, 0.95));
 		s1->AddPoint(Vec3(-a, -b, 0),
-			Vec2(0, 0));
+			Vec2(0.1, 0.75));
 		s1->AddPoint(Vec3(a, -b, 0),
-			Vec2(0, 0));
+			Vec2(0.1, 0.95));
 		s1->AddPoint(Vec3(-a, b, 0),
-			Vec2(0, 0));
+			Vec2(0.9, 0.75));
 		s1->AddPoint(Vec3(a, b, 0),
-			Vec2(0, 0));
+			Vec2(0.9, 0.75));
 		this->Shapes.push_back(s1);
 
 
 		// LEWO OBIEKTYW PRAWO
 		auto s2 = new Shape(TriangleStrip, GRAY);
 		s2->Origin = kams + Vec3(0, 0, h);
-		s2->AddPoint(Vec3(a, -b, 0),
+		s2->AddPoint(Vec3(-a, -b, 0),
 			Vec2(0,0));
 		s2->AddPoint(Vec3(-a, -b, c / 3),
-			Vec2(1, 0));
+			Vec2(0, 1));
 		s2->AddPoint(Vec3(a, -b, 0),
 			Vec2(1, 1));
 		s2->AddPoint(Vec3(a, -b, c / 3),
-			Vec2(0, 0));
+			Vec2(1, 0));
 		s2->AddPoint(Vec3(a, -a, 0),
 			Vec2(0, 0));
 		s2->AddPoint(Vec3(a, -a, c),
 			Vec2(0, 0));
+
 		s2->AddPoint(Vec3(a, b, 0),
-			Vec2(0, 0));
+			Vec2(0.6, 0.45));
 		s2->AddPoint(Vec3(a, b, c),
-			Vec2(0, 0));
+			Vec2(0.6, 0.15));
 		s2->AddPoint(Vec3(-a, b, 0),
-			Vec2(0, 0));
+			Vec2(0.9, 0.45));
 		s2->AddPoint(Vec3(-a, b, c),
-			Vec2(0, 0));
+			Vec2(0.9, 0.15));
+
 		s2->AddPoint(Vec3(-a, -a, 0),
 			Vec2(0, 0));
 		s2->AddPoint(Vec3(-a, -a, c),
