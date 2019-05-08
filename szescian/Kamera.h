@@ -66,7 +66,7 @@ public:
 			Vec2(0.9, 0.15));
 
 		s2->AddPoint(Vec3(-a, -a, 0),
-			Vec2(0, 0));
+			Vec2(0.9, 0.15));
 		s2->AddPoint(Vec3(-a, -a, c),
 			Vec2(0, 0));
 		s2->AddPoint(Vec3(-a, -b, 0),

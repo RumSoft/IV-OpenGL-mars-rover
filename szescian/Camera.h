@@ -24,8 +24,9 @@ public:
 		auto offset = Rotation * Offset * zoom *2;
 		auto obj = entity->Origin;
 		auto eyes = obj + offset;
+		
 		glLoadIdentity();
-		gluLookAt(XYZ(eyes), XYZ(obj), 0, 0, 1);
+		gluLookAt(XYZ(eyes), XYZ(obj), XYZ(UP));
 
 		if(t < anim_t)
 		{
@@ -46,13 +47,10 @@ public:
 		if (input->IsDown('V'))
 			RequestRotationTo(entity->Rotation * Quat::FromAngleAxis(D2R(-120), axisZ));
 
-		//to je krzyweee 
 		if (input->IsDown(VK_UP))
-			zoom -= 0.1;
-		//	RequestAnim(Rotation * Quat::FromAngleAxis(Deg2Rad(-25), Vec3::Right()));
+			zoom -= 1 * frametime;
 		if (input->IsDown(VK_DOWN))
-			zoom += 0.1;
-		//	RequestAnim(Rotation * Quat::FromAngleAxis(Deg2Rad(-25), Vec3::Right()));
+			zoom += 1 * frametime;
 	}
 
 private:
