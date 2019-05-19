@@ -36,8 +36,8 @@ MyScene::MyScene()
 		Vec3(-100, -950, -50)
 	};
 
-	TwAddButton(bar, "Camera", NULL, NULL, "");
-	TwAddVarRO(bar, "Direction", TW_TYPE_FLOAT, &lazik->Origin, "blabla");
+	TwAddButton(bar, "Lazik", NULL, NULL, "");
+	TwAddVarRO(bar, "Kat skretu", TW_TYPE_FLOAT, &lazik->angle, "Kat skretu kol");
 
 	int kolory[] = { 0x99857a, 0xc67b5c, 0xe27b58, 0xff9d6f, 0x663926, 0x8e6a5a};
 	srand(time(NULL));
