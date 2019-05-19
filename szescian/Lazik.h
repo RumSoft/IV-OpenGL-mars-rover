@@ -17,6 +17,9 @@ public:
 	Chwytak* chwytak;
 	Kadlubek* kadlubek;
 	Kamera* kamera;
+	Kolo* koloL;
+	Kolo* koloR;
+	float angle=0;
 
 	Lazik()
 	{
@@ -27,19 +30,27 @@ public:
 		Vec3 wheels[] = {
 			Vec3(25, -30, -15),
 			Vec3(25, 0, -15),
-			Vec3(25, 30, -15),
+			//Vec3(25, 30, -15),
 			Vec3(-25, -30, -15),
 			Vec3(-25, 0, -15),
-			Vec3(-25, 30, -15)
+			//Vec3(-25, 30, -15)
 		};
 
 		kadlubek = new Kadlubek(15, 25, 10);
 		chwytak = (Chwytak*)(new Chwytak(4, 6, 25))->WithPosition(Vec3(0, 23, 9));
 		kamera = (Kamera*)(new Kamera(15, 3, 8, 5))->WithPosition(Vec3(8, -20, 10));
+		koloL = (Kolo*)(new Kolo(r, h))->WithPosition(Vec3(-25, 30, -15));
+		koloR = (Kolo*)(new Kolo(r, h))->WithPosition(Vec3(25, 30, -15));
+		auto rrL = new Ramie(Vec3::Scale(Vec3(-25, 30, -15), Vec3(.4, .7, -0.1)), Vec3(-25, 30, -15) - Vec3(Vec3(-25, 30, -15).X > 0 ? h / 2 : -h / 2, 0, 0), 3, 2, 3, RED);
+		auto rrR = new Ramie(Vec3::Scale(Vec3(25, 30, -15), Vec3(.4, .7, -0.1)), Vec3(25, 30, -15) - Vec3(Vec3(25, 30, -15).X > 0 ? h / 2 : -h / 2, 0, 0), 3, 2, 3, RED);
 
 		this->Children.push_back(kadlubek);
 		this->Children.push_back(chwytak);
 		this->Children.push_back(kamera);
+		this->Children.push_back(koloL);
+		this->Children.push_back(koloR);
+		this->Children.push_back(rrL);
+		this->Children.push_back(rrR);
 
 		for (const auto wheel : wheels)
 		{
