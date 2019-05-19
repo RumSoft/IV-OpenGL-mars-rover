@@ -65,6 +65,20 @@ public:
 
 	void Update(float frametime) override
 	{
+		const Vec3 speed = FORWARD * 150 * frametime;
+		
+		if (input->IsDown('X'))
+		{
+			this->Origin += Rotation * speed;
+			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(-angle * frametime), axisZ);
+		}
+
+		if (input->IsDown('V'))
+		{
+			this->Origin -= Rotation * speed;
+			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(angle * frametime), axisZ);
+		}
+
 		if (input->IsDown('C'))
 		{
 			if (angle <= 50)
@@ -83,6 +97,26 @@ public:
 				koloR->Rotation *= Quat::FromAngleAxis(Deg2Rad(-25 * frametime), -axisZ);
 			}
 			
+		}
+
+		if (input->IsDown('Z'))
+		{
+			if (angle >= -50)
+			{
+				this->angle -= 2;
+				koloL->Rotation *= Quat::FromAngleAxis(Deg2Rad(50 * frametime), axisZ);
+				koloR->Rotation *= Quat::FromAngleAxis(Deg2Rad(50 * frametime), axisZ);
+			}
+		}
+		else
+		{
+			if (angle < 0)
+			{
+				angle++;
+				koloL->Rotation *= Quat::FromAngleAxis(Deg2Rad(-25 * frametime), axisZ);
+				koloR->Rotation *= Quat::FromAngleAxis(Deg2Rad(-25 * frametime), axisZ);
+			}
+
 		}
 			
 		/*const Vec3 speed = FORWARD * 150 * frametime;
