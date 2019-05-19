@@ -20,6 +20,9 @@ public:
 	Kolo* koloL;
 	Kolo* koloR;
 	float angle=0;
+	float maxAngle = 50;
+	float speed = 0;
+
 
 	Lazik()
 	{
@@ -81,11 +84,11 @@ public:
 
 		if (input->IsDown('C'))
 		{
-			if (angle <= 50)
+			if (angle <= maxAngle)
 			{
 				this->angle += 2;
-				koloL->Rotation *= Quat::FromAngleAxis(Deg2Rad(50 * frametime), -axisZ);
-				koloR->Rotation *= Quat::FromAngleAxis(Deg2Rad(50 * frametime), -axisZ);
+				koloL->Rotation *= Quat::FromAngleAxis(Deg2Rad(maxAngle * frametime), -axisZ);
+				koloR->Rotation *= Quat::FromAngleAxis(Deg2Rad(maxAngle * frametime), -axisZ);
 			}
 		}
 		else
@@ -93,19 +96,19 @@ public:
 			if (angle > 0)
 			{
 				angle--;
-				koloL->Rotation *= Quat::FromAngleAxis(Deg2Rad(-25 * frametime), -axisZ);
-				koloR->Rotation *= Quat::FromAngleAxis(Deg2Rad(-25 * frametime), -axisZ);
+				koloL->Rotation *= Quat::FromAngleAxis(Deg2Rad(-maxAngle/2 * frametime), -axisZ);
+				koloR->Rotation *= Quat::FromAngleAxis(Deg2Rad(-maxAngle/2 * frametime), -axisZ);
 			}
 			
 		}
 
 		if (input->IsDown('Z'))
 		{
-			if (angle >= -50)
+			if (angle >= -maxAngle)
 			{
 				this->angle -= 2;
-				koloL->Rotation *= Quat::FromAngleAxis(Deg2Rad(50 * frametime), axisZ);
-				koloR->Rotation *= Quat::FromAngleAxis(Deg2Rad(50 * frametime), axisZ);
+				koloL->Rotation *= Quat::FromAngleAxis(Deg2Rad(maxAngle * frametime), axisZ);
+				koloR->Rotation *= Quat::FromAngleAxis(Deg2Rad(maxAngle * frametime), axisZ);
 			}
 		}
 		else
@@ -113,8 +116,8 @@ public:
 			if (angle < 0)
 			{
 				angle++;
-				koloL->Rotation *= Quat::FromAngleAxis(Deg2Rad(-25 * frametime), axisZ);
-				koloR->Rotation *= Quat::FromAngleAxis(Deg2Rad(-25 * frametime), axisZ);
+				koloL->Rotation *= Quat::FromAngleAxis(Deg2Rad(-maxAngle/2 * frametime), axisZ);
+				koloR->Rotation *= Quat::FromAngleAxis(Deg2Rad(-maxAngle/2 * frametime), axisZ);
 			}
 
 		}
