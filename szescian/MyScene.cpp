@@ -38,6 +38,7 @@ MyScene::MyScene()
 
 	TwAddButton(bar, "Lazik", NULL, NULL, "");
 	TwAddVarRO(bar, "Kat skretu", TW_TYPE_FLOAT, &lazik->angle, "Kat skretu kol");
+	TwAddVarRO(bar, "Predkosc", TW_TYPE_FLOAT, &lazik->speedAcc, "Aktualna predkosc lazika");
 
 	int kolory[] = { 0x99857a, 0xc67b5c, 0xe27b58, 0xff9d6f, 0x663926, 0x8e6a5a};
 	srand(time(NULL));

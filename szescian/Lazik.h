@@ -21,7 +21,8 @@ public:
 	Kolo* koloR;
 	float angle=0;
 	float maxAngle = 50;
-	float speed = 0;
+	float speedAcc = 0;
+	float maxSpeed = 150;
 
 
 	Lazik()
@@ -68,17 +69,21 @@ public:
 
 	void Update(float frametime) override
 	{
-		const Vec3 speed = FORWARD * 150 * frametime;
+		Vec3 speed = FORWARD * speedAcc * frametime;
+		
+		this->Origin += Rotation * speed;
 		
 		if (input->IsDown('X'))
 		{
-			this->Origin += Rotation * speed;
+			if (speedAcc < maxSpeed)
+				speedAcc += 6;
 			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(-angle * frametime), axisZ);
 		}
 
 		if (input->IsDown('V'))
 		{
-			this->Origin -= Rotation * speed;
+			if (speedAcc > -maxSpeed)
+				speedAcc -= 6;
 			this->Rotation *= Quat::FromAngleAxis(Deg2Rad(angle * frametime), axisZ);
 		}
 
@@ -121,6 +126,11 @@ public:
 			}
 
 		}
+		if (!(input->IsDown('X')) && speedAcc > 0)
+			speedAcc -= 2;
+		if (!(input->IsDown('V')) && speedAcc < 0)
+			speedAcc += 2;
+		
 			
 		/*const Vec3 speed = FORWARD * 150 * frametime;
 		if (input->IsDown('X'))
