@@ -7,9 +7,15 @@
 #include "ObjFile.h"
 #include "Camera.h"
 #include <ctime>
+#include <AntTweakBar.h>
+
 
 MyScene::MyScene()
 {
+	TwInit(TW_OPENGL, NULL);
+	TwBar* bar = TwNewBar("OGLDEV");
+	TwWindowSize(1280, 720);
+	
 	input = InputHandler::GetInstance();
 	this->Geometries.push_back(new Background());
 	//this->Geometries.push_back(new Grid(500, 50));
@@ -29,6 +35,10 @@ MyScene::MyScene()
 		Vec3(550, -800, -50),
 		Vec3(-100, -950, -50)
 	};
+
+	TwAddButton(bar, "Camera", NULL, NULL, "");
+	TwAddVarRO(bar, "Direction", TW_TYPE_FLOAT, &lazik->Origin, "blabla");
+
 	int kolory[] = { 0x99857a, 0xc67b5c, 0xe27b58, 0xff9d6f, 0x663926, 0x8e6a5a};
 	srand(time(NULL));
 
@@ -57,7 +67,6 @@ MyScene::MyScene()
 		->WithScale(170)
 		->WithPosition(Vec3(-20, -900, 0))
 	);
-
 	//this->Geometries.push_back((new ObjFile("","marsground2", kolory[rand() % 6]))
 }
 

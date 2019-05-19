@@ -2,6 +2,7 @@
 #include <gl/gl.h>
 #include <string>
 #include "M33.h"
+#include <AntTweakBar.h>
 
 auto TypeToGlMode(ShapeType type)
 {
@@ -39,6 +40,7 @@ void IScene::RenderScene()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	RenderAllObjects();
+	TwDraw();
 
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
@@ -112,4 +114,5 @@ void IScene::RecursivelyRenderGeometries(Geom * geom, Entity * parent)
 
 	for (auto child : geom->Children)
 		RecursivelyRenderGeometries(child, pos);
+
 }
