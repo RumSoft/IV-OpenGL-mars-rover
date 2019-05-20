@@ -1,19 +1,19 @@
 #include "MyScene.h"
 #include <Windows.h>
 #include "Grid.h"
-#include "Axes.h"
 #include "Lazik.h"
 #include "Background.h"
 #include "ObjFile.h"
 #include "Camera.h"
 #include <ctime>
-#include <AntTweakBar.h>
+
+
 
 
 MyScene::MyScene()
 {
 	TwInit(TW_OPENGL, NULL);
-	TwBar* bar = TwNewBar("OGLDEV");
+	bar = TwNewBar("OGLDEV");
 	TwWindowSize(1280, 720);
 	
 	input = InputHandler::GetInstance();
@@ -39,6 +39,9 @@ MyScene::MyScene()
 	TwAddButton(bar, "Lazik", NULL, NULL, "");
 	TwAddVarRO(bar, "Kat skretu", TW_TYPE_FLOAT, &lazik->angle, "Kat skretu kol");
 	TwAddVarRO(bar, "Predkosc", TW_TYPE_FLOAT, &lazik->speedAcc, "Aktualna predkosc lazika");
+	TwAddVarRO(bar, "V1", TW_TYPE_FLOAT, &lazik->VelocityL, "v1");
+	TwAddVarRO(bar, "V2", TW_TYPE_FLOAT, &lazik->VelocityR, "v2");
+	TwAddVarRO(bar, "R", TW_TYPE_FLOAT, &lazik->TurnRadius, "R");
 
 	int kolory[] = { 0x99857a, 0xc67b5c, 0xe27b58, 0xff9d6f, 0x663926, 0x8e6a5a};
 	srand(time(NULL));
@@ -75,5 +78,5 @@ MyScene::~MyScene() = default;
 
 void MyScene::Update(float frametime)
 {
-
+	TwRefreshBar(bar);
 }

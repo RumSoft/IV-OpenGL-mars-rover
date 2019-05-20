@@ -15,7 +15,7 @@ public:
 	Quat to;
 	
 	double zoom = 1;
-	Vec3 Offset = Vec3(-50, -100, 70);
+	Vec3 Offset = Vec3(10, 10, 100);
 	
 	Camera(Geom* ent)
 	{

@@ -2,7 +2,7 @@
 #include <gl/gl.h>
 #include <string>
 #include "M33.h"
-#include <AntTweakBar.h>
+#include "../AntTweakBar.h"
 
 auto TypeToGlMode(ShapeType type)
 {
