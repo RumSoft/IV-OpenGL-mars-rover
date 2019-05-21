@@ -18,7 +18,7 @@ MyScene::MyScene()
 	
 	input = InputHandler::GetInstance();
 	this->Geometries.push_back(new Background());
-	//this->Geometries.push_back(new Grid(500, 50));
+	this->Geometries.push_back(new Grid(500, 50));
 	//this->Geometries.push_back(new Axes());
 	const auto lazik = new Lazik();
 	this->Geometries.push_back(lazik);
@@ -43,13 +43,22 @@ MyScene::MyScene()
 	TwAddVarRO(bar, "V2", TW_TYPE_FLOAT, &lazik->VelocityR, "v2");
 	TwAddVarRO(bar, "R", TW_TYPE_FLOAT, &lazik->TurnRadius, "R");
 
+	TwAddSeparator(bar, "rot", "rot");
+	TwAddVarRO(bar, "rotX", TW_TYPE_FLOAT, &lazik->Rotation.X, "Rotx");
+	TwAddVarRO(bar, "rotY", TW_TYPE_FLOAT, &lazik->Rotation.Y, "Roty");
+	TwAddVarRO(bar, "rotZ", TW_TYPE_FLOAT, &lazik->Rotation.Z, "Rotz");
+	TwAddVarRO(bar, "rotW", TW_TYPE_FLOAT, &lazik->Rotation.W, "Rotw");
+
+	TwAddSeparator(bar, "speed", "speed");
+	TwAddVarRO(bar, "speedY", TW_TYPE_FLOAT, &lazik->velocity_vector.X, "speedX");
+	TwAddVarRO(bar, "speedX", TW_TYPE_FLOAT, &lazik->velocity_vector.Y, "speedY");
 	int kolory[] = { 0x99857a, 0xc67b5c, 0xe27b58, 0xff9d6f, 0x663926, 0x8e6a5a};
 	srand(time(NULL));
 
-	this->Geometries.push_back((new ObjFile("objects", "MarsGround", GRAY))
-			->WithScale(120)
-			->WithPosition(Vec3(0,0,-100))
-		->WithRotation(Quat::FromAngleAxis(D2R(90), Vec3(1,0,0))));
+	//this->Geometries.push_back((new ObjFile("objects", "MarsGround", GRAY))
+	//		->WithScale(120)
+	//		->WithPosition(Vec3(0,0,-100))
+	//	->WithRotation(Quat::FromAngleAxis(D2R(90), Vec3(1,0,0))));
 
 	for(const auto k : kamienie)
 		this->Geometries.push_back((new ObjFile("objects", "marsrock"))

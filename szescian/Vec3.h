@@ -14,6 +14,7 @@
 
 #define axisZ UP
 #define XYZ(o) o.X, o.Y, o.Z
+#define XYN(o) o.X, o.Y, 0
 #define XY(o) o.X, o.Y
 
 struct Vec3

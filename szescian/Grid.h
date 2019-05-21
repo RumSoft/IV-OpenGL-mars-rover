@@ -25,6 +25,16 @@ public:
 			s1->AddPoint(Vec3(a, -a + i * f, h));
 		}
 
-		this->Shapes.push_back(s1->WithPosition(Vec3(0, 0, -1)));
+		this->Shapes.push_back(s1->WithPosition(Vec3(0, 0, 0)));
+	}
+
+	void PreRender() override
+	{
+		glLineWidth(2);
+	}
+
+	void PostRender() override
+	{
+		glLineWidth(1);
 	}
 };

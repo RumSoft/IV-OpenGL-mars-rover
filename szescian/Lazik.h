@@ -26,13 +26,12 @@ public:
 	Kolo* wheel3L;
 	Kolo* wheel3R;
 
-	float Velocity, VelocityL = 10, VelocityR = 5, TurnRadius, LWheelAngle, RWheelAngle;
-
+	float VelocityDiff, Velocity, VelocityL = 5, VelocityR = 10, TurnRadius, LWheelAngle, RWheelAngle;
+	Vec3 velocity_vector = Vec3::Zero();
 	float angle=0;
 	float maxAngle = 90;
 	float speedAcc = 0;
-	float maxSpeed = 150;
-
+	float max_speed = 150;
 
 	Lazik()
 	{
@@ -85,36 +84,43 @@ public:
 		//	VelocityR += 2;
 		//}
 
-		//if (input->IsDown('X'))
-		//{
-		//	VelocityL += 6;
-		//	VelocityR += 6;
-		//}
+		if (input->IsDown('X'))
+		{
+			VelocityL += 6;
+			VelocityR += 6;
+		}
 
-		//if (input->IsDown('V'))
-		//{
-		//	VelocityL -= 6;
-		//	VelocityR -= 6;
-		//}
+		if (input->IsDown('V'))
+		{
+			VelocityL -= 6;
+			VelocityR -= 6;
+		}
 
 		if (input->IsDown('1'))
 			VelocityL += 10;
-		if (input->IsDown('2'))
+		if (input->IsDown('3'))
 			VelocityL -= 10;
-		if (input->IsDown('1'))
+		if (input->IsDown('2'))
 			VelocityR += 10;
 		if (input->IsDown('4'))
 			VelocityR -= 10;
 		if (input->IsDown('K'))
 			VelocityR = VelocityL = 0;
 
+		Velocity = (VelocityL + VelocityR) / 2;
+
+
 		auto H = 30.f;
 		auto W = 50.f;
-		if (vv1 == vv2)  TurnRadius  = 0;
+		if (vv1 == vv2)  TurnRadius = 0;
 		else TurnRadius = W * (vv1 + vv2) / (2 * (vv1 - vv2));
-		Velocity = abs(vv1 - vv2) / W;
 
-		auto speed = FORWARD * ((VelocityL + VelocityR) / 2) * frametime;
+		TurnRadius *= VelocityDiff;
+
+		VelocityDiff = abs(vv1 - vv2) / W;
+
+
+
 
 		if (vv1 == vv2)
 			LWheelAngle = RWheelAngle = 0;
@@ -122,8 +128,8 @@ public:
 			LWheelAngle = atan(H / (TurnRadius - W / 2));
 			RWheelAngle = atan(H / (TurnRadius + W / 2));
 
-			auto turnRadius =  frametime*atan(H / TurnRadius);
-			Rotation *= Quat::FromAngleAxis(turnRadius, axisZ);
+			auto angl = (abs(TurnRadius) / 20 ) * atan(H / TurnRadius) * frametime;
+			Rotation *= Quat::FromAngleAxis(angl, axisZ) ;
 		}
 
 		wheel1L->Rotation = Quat::FromAngleAxis(LWheelAngle, axisZ);
@@ -131,7 +137,8 @@ public:
 		wheel3L->Rotation = Quat::FromAngleAxis(-LWheelAngle, axisZ);
 		wheel3R->Rotation = Quat::FromAngleAxis(-RWheelAngle, axisZ);
 
-		this->Origin += Rotation * speed;
+		this->Origin += Rotation * FORWARD * Velocity * frametime;
+
 	}
 
 #ifdef debug
@@ -141,19 +148,19 @@ public:
 		glBegin(GL_LINE_LOOP);
 		glColor3fv(RED.GL());
 		glVertex3f(XYZ(this->Origin));
-		glVertex3f(XYZ((this->Origin + Rotation* LEFT * TurnRadius)));
+		glVertex3f(XYN((this->Origin + Rotation* LEFT * TurnRadius)));
 		glEnd();
 		
 		glBegin(GL_LINE_LOOP);
 		glColor3fv(GREEN.GL());
 		glVertex3f(XYZ((this->Origin+ Rotation * this->wheel1L->Origin)));
-		glVertex3f(XYZ((this->Origin + Rotation * LEFT * TurnRadius)));
+		glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius)));
 		glEnd();
 
 		glBegin(GL_LINE_LOOP);
 		glColor3fv(BLUE.GL());
 		glVertex3f(XYZ((this->Origin + Rotation * this->wheel1R->Origin)));
-		glVertex3f(XYZ((this->Origin + Rotation * LEFT * TurnRadius)));
+		glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius)));
 		glEnd();
 
 		int steps = 50;
@@ -161,16 +168,23 @@ public:
 		glBegin(GL_LINE_LOOP);
 		glColor3fv(WHITE.GL());
 		for (int i = 0; i < steps; i++)
-			glVertex3f(XYZ((this->Origin + Rotation * LEFT * TurnRadius +  Vec3(sin(i * f), cos(i * f), 0) * (TurnRadius - 25))));
+			glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius +  Vec3(sin(i * f), cos(i * f), 0) * (TurnRadius - 20))));
 		glEnd();
 		glBegin(GL_LINE_LOOP);
 		glColor3fv(WHITE.GL());
 		for (int i = 0; i < steps; i++)
-			glVertex3f(XYZ((this->Origin + Rotation * LEFT * TurnRadius +  Vec3(sin(i * f), cos(i * f), 0) * (TurnRadius + 25))));
+			glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius +  Vec3(sin(i * f), cos(i * f), 0) * (TurnRadius + 30))));
 		glEnd();
-
+		glBegin(GL_LINE_LOOP);
+		glColor3fv(GREEN.GL());
+		for (int i = 0; i < steps; i++)
+			glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius + Vec3(sin(i * f), cos(i * f), 0) * TurnRadius)));
+		glEnd();
 		glLineWidth(1);
 	}
 
 };
 #endif
+
+
+
