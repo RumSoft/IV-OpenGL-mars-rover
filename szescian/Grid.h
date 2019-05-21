@@ -9,7 +9,7 @@ public:
 
 	Grid(const float size = 100, const int steps = 10) : Size(size), Steps(steps)
 	{
-		const float h = 0;
+		const float h = -12;
 		auto s1 = new Shape(Line, ColorF(0, 0, 0, 0.3));
 		const auto a = Size / 2;
 		const auto f = Size / steps;

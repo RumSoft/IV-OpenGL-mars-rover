@@ -31,11 +31,11 @@ public:
 	float VelocityDiff, Velocity, VelocityL = 0, VelocityR = 0, TurnRadius, LWheelAngle, RWheelAngle;
 	float LDist = 0, RDist = 0;
 	float angle = 0;
-	float maxAngle = 90;
+	float maxAngle = D2R(180);
 	float speedAcc = 0;
 	float max_speed = 150;
 	float WheelRadius = 13.5;
-	float MinTurnRadius = 10;
+	float MinTurnRadius = 50;
 
 	Lazik()
 	{
@@ -71,8 +71,8 @@ public:
 
 
 	void Update(float frametime) override
-	{	
-		auto 
+	{
+		auto
 			vv1 = VelocityL,
 			vv2 = VelocityR;
 
@@ -86,7 +86,7 @@ public:
 
 		this->Origin += Rotation * FORWARD * Velocity * frametime;
 	}
-	
+
 	void CalculateRotations(float vv1, float vv2, float frametime)
 	{
 		if (vv1 == vv2)
@@ -99,23 +99,46 @@ public:
 			Rotation *= Quat::FromAngleAxis(angl, axisZ);
 		}
 	}
-	
+
 	void CalculateTurnRadius(float vv1, float vv2)
 	{
 		if (vv1 == vv2)  TurnRadius = 0;
-		else TurnRadius = W * (vv1 + vv2) / (2 * (vv1 - vv2));
+		else {
+			TurnRadius = W * (vv1 + vv2) / (2 * (vv1 - vv2));
 
 			VelocityDiff = abs(vv1 - vv2) / W;
-		TurnRadius *= VelocityDiff;
+
+			TurnRadius *= VelocityDiff;
+			if (abs(TurnRadius ) < 0.1)
+				TurnRadius = 0;
+
+			/*if (TurnRadius > 0 && TurnRadius < MinTurnRadius)
+				TurnRadius = MinTurnRadius;
+
+			if (TurnRadius < 0 && abs(TurnRadius) < MinTurnRadius)
+				TurnRadius = -MinTurnRadius;
+*/
+		}
 	}
-	
+
 	void UpdateSteering(float& vv1, float& vv2, float frametime)
 	{
 
 		if (input->IsDown('D'))
-			vv1 *= 0.5;
+			vv1 *= 0.8;
 		else if (input->IsDown('A'))
-			vv2 *= 0.5;
+			vv2 *= 0.8;
+
+		if (VelocityR > max_speed)
+			VelocityR = max_speed;
+		if (VelocityL > max_speed)
+			VelocityL = max_speed;
+
+		if (VelocityR < -max_speed)
+			VelocityR = -max_speed;
+		if (VelocityL < -max_speed)
+			VelocityL = -max_speed;
+
 
 		if (!input->IsDown('W') && Velocity > 0)
 		{
@@ -136,8 +159,13 @@ public:
 
 		if (input->IsDown('S'))
 		{
-			VelocityL -= 50 * frametime;
-			VelocityR -= 50 * frametime;
+			VelocityL -= 100 * frametime;
+			VelocityR -= 100 * frametime;
+		}
+
+		if (input->IsDown('1')) {
+			VelocityL += 100 * frametime;
+			VelocityR += 100 * frametime;
 		}
 
 		if (input->IsDown('K'))
@@ -145,9 +173,18 @@ public:
 
 		Velocity = (vv1 + vv2) / 2;
 	}
-	 
+
 	void updateAngleRotation()
 	{
+		if (LWheelAngle > maxAngle)
+			LWheelAngle = maxAngle;
+		if (RWheelAngle > maxAngle)
+			RWheelAngle = maxAngle;
+		if (LWheelAngle < -maxAngle)
+			LWheelAngle = -maxAngle;
+		if (RWheelAngle < -maxAngle)
+			RWheelAngle = -maxAngle;
+
 		wheel1L->Rotation = Quat::FromAngleAxis(LWheelAngle, axisZ) * wheel1L->Rotation;
 		wheel1R->Rotation = Quat::FromAngleAxis(RWheelAngle, axisZ) * wheel1R->Rotation;
 

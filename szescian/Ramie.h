@@ -31,6 +31,10 @@ public:
 
 	void Build()
 	{
+		this->Origin = From;
+		this->To = To - From;
+		this->From *= 0;
+
 		auto color2 = Color;
 		color2 = color2.Red(color2.rgba[0] / 2);
 		color2 = color2.Green(color2.rgba[1] / 2);
