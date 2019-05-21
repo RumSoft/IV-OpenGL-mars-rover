@@ -44,7 +44,7 @@ public:
 
 
 		kadlubek = new Kadlubek(15, 25, 10);
-		chwytak = (Chwytak*)(new Chwytak(4, 6, 25))->WithPosition(Vec3(0, 23, 9));
+		chwytak = (Chwytak*)(new Chwytak(4, 6, 5))->WithPosition(Vec3(0, 23, 9));
 		kamera = (Kamera*)(new Kamera(15, 3, 8, 5))->WithPosition(Vec3(8, -20, 10));
 
 		float h = 8;
@@ -194,8 +194,8 @@ public:
 
 	void updateWheelRotation(float vv1, float vv2, float frametime)
 	{
-		LDist += vv1 * frametime;
-		RDist += vv2 * frametime;
+		LDist += vv2 * frametime;
+		RDist += vv1 * frametime;
 
 		if (LDist > WheelRadius * (2 * M_PI))
 			LDist -= WheelRadius * (2 * M_PI);
