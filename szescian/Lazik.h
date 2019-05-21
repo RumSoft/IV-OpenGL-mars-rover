@@ -26,12 +26,16 @@ public:
 	Kolo* wheel3L;
 	Kolo* wheel3R;
 
-	float VelocityDiff, Velocity, VelocityL = 5, VelocityR = 10, TurnRadius, LWheelAngle, RWheelAngle;
-	Vec3 velocity_vector = Vec3::Zero();
-	float angle=0;
+	float H = 30.f, W = 50.f;
+
+	float VelocityDiff, Velocity, VelocityL = 0, VelocityR = 0, TurnRadius, LWheelAngle, RWheelAngle;
+	float LDist = 0, RDist = 0;
+	float angle = 0;
 	float maxAngle = 90;
 	float speedAcc = 0;
 	float max_speed = 150;
+	float WheelRadius = 13.5;
+	float MinTurnRadius = 10;
 
 	Lazik()
 	{
@@ -42,14 +46,14 @@ public:
 		kadlubek = new Kadlubek(15, 25, 10);
 		chwytak = (Chwytak*)(new Chwytak(4, 6, 25))->WithPosition(Vec3(0, 23, 9));
 		kamera = (Kamera*)(new Kamera(15, 3, 8, 5))->WithPosition(Vec3(8, -20, 10));
-		
-		float r = 13.5, h = 8;
-		wheel1L = (Kolo*)(new Kolo(r, h))->WithPosition(Vec3(-25, 30, -15));
-		wheel1R = (Kolo*)(new Kolo(r, h))->WithPosition(Vec3(25, 30, -15));
-		wheel2L = (Kolo*)(new Kolo(r, h))->WithPosition(Vec3(-25, 0, -15));
-		wheel2R = (Kolo*)(new Kolo(r, h))->WithPosition(Vec3(25, 0, -15));
-		wheel3L = (Kolo*)(new Kolo(r, h))->WithPosition(Vec3(-25, -30, -15));
-		wheel3R = (Kolo*)(new Kolo(r, h))->WithPosition(Vec3(25, -30, -15));
+
+		float h = 8;
+		wheel1L = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(-25, 30, -15));
+		wheel1R = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(25, 30, -15));
+		wheel2L = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(-25, 0, -15));
+		wheel2R = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(25, 0, -15));
+		wheel3L = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(-25, -30, -15));
+		wheel3R = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(25, -30, -15));
 
 		this->Children.push_back(kadlubek);
 		this->Children.push_back(chwytak);
@@ -65,82 +69,112 @@ public:
 		input = InputHandler::GetInstance();
 	}
 
+
 	void Update(float frametime) override
+	{	
+		auto 
+			vv1 = VelocityL,
+			vv2 = VelocityR;
+
+		UpdateSteering(vv1, vv2, frametime);
+		CalculateTurnRadius(vv1, vv2);
+
+		CalculateRotations(vv1, vv2, frametime);
+
+		updateWheelRotation(vv1, vv2, frametime);
+		updateAngleRotation();
+
+		this->Origin += Rotation * FORWARD * Velocity * frametime;
+	}
+	
+	void CalculateRotations(float vv1, float vv2, float frametime)
 	{
-		auto vv1 = VelocityL, vv2 = VelocityR;
-
-		if (input->IsDown('C'))
-			vv1 *= 0.5;
-		else if (input->IsDown('Z'))
-			vv2 *= 0.5;
-
-		//if (!input->IsDown('X') && VelocityL > 0)
-		//{
-		//	VelocityL -= 2; 
-		//	VelocityR -= 2;
-		//}
-		//if (!input->IsDown('V') && VelocityL < 0) {
-		//	VelocityL += 2;
-		//	VelocityR += 2;
-		//}
-
-		if (input->IsDown('X'))
-		{
-			VelocityL += 6;
-			VelocityR += 6;
-		}
-
-		if (input->IsDown('V'))
-		{
-			VelocityL -= 6;
-			VelocityR -= 6;
-		}
-
-		if (input->IsDown('1'))
-			VelocityL += 10;
-		if (input->IsDown('3'))
-			VelocityL -= 10;
-		if (input->IsDown('2'))
-			VelocityR += 10;
-		if (input->IsDown('4'))
-			VelocityR -= 10;
-		if (input->IsDown('K'))
-			VelocityR = VelocityL = 0;
-
-		Velocity = (VelocityL + VelocityR) / 2;
-
-
-		auto H = 30.f;
-		auto W = 50.f;
-		if (vv1 == vv2)  TurnRadius = 0;
-		else TurnRadius = W * (vv1 + vv2) / (2 * (vv1 - vv2));
-
-		TurnRadius *= VelocityDiff;
-
-		VelocityDiff = abs(vv1 - vv2) / W;
-
-
-
-
 		if (vv1 == vv2)
 			LWheelAngle = RWheelAngle = 0;
 		else {
 			LWheelAngle = atan(H / (TurnRadius - W / 2));
 			RWheelAngle = atan(H / (TurnRadius + W / 2));
 
-			auto angl = (abs(TurnRadius) / 20 ) * atan(H / TurnRadius) * frametime;
-			Rotation *= Quat::FromAngleAxis(angl, axisZ) ;
+			auto angl = (Velocity > 0 ? 1 : -1) * abs(TurnRadius) / 29 * atan(H / TurnRadius) * frametime;
+			Rotation *= Quat::FromAngleAxis(angl, axisZ);
+		}
+	}
+	
+	void CalculateTurnRadius(float vv1, float vv2)
+	{
+		if (vv1 == vv2)  TurnRadius = 0;
+		else TurnRadius = W * (vv1 + vv2) / (2 * (vv1 - vv2));
+
+			VelocityDiff = abs(vv1 - vv2) / W;
+		TurnRadius *= VelocityDiff;
+	}
+	
+	void UpdateSteering(float& vv1, float& vv2, float frametime)
+	{
+
+		if (input->IsDown('D'))
+			vv1 *= 0.5;
+		else if (input->IsDown('A'))
+			vv2 *= 0.5;
+
+		if (!input->IsDown('W') && Velocity > 0)
+		{
+			VelocityL -= 50 * frametime;
+			VelocityR -= 50 * frametime;
 		}
 
-		wheel1L->Rotation = Quat::FromAngleAxis(LWheelAngle, axisZ);
-		wheel1R->Rotation = Quat::FromAngleAxis(RWheelAngle, axisZ);
-		wheel3L->Rotation = Quat::FromAngleAxis(-LWheelAngle, axisZ);
-		wheel3R->Rotation = Quat::FromAngleAxis(-RWheelAngle, axisZ);
+		if (!input->IsDown('S') && Velocity < 0) {
+			VelocityL += 50 * frametime;
+			VelocityR += 50 * frametime;
+		}
 
-		this->Origin += Rotation * FORWARD * Velocity * frametime;
+		if (input->IsDown('W'))
+		{
+			VelocityL += 50 * frametime;
+			VelocityR += 50 * frametime;
+		}
 
+		if (input->IsDown('S'))
+		{
+			VelocityL -= 50 * frametime;
+			VelocityR -= 50 * frametime;
+		}
+
+		if (input->IsDown('K'))
+			VelocityR = VelocityL = 0;
+
+		Velocity = (vv1 + vv2) / 2;
+	}
+	 
+	void updateAngleRotation()
+	{
+		wheel1L->Rotation = Quat::FromAngleAxis(LWheelAngle, axisZ) * wheel1L->Rotation;
+		wheel1R->Rotation = Quat::FromAngleAxis(RWheelAngle, axisZ) * wheel1R->Rotation;
+
+		wheel3L->Rotation = Quat::FromAngleAxis(-LWheelAngle, axisZ) * wheel3L->Rotation;
+		wheel3R->Rotation = Quat::FromAngleAxis(-RWheelAngle, axisZ) * wheel3R->Rotation;
 	}
 
+	void updateWheelRotation(float vv1, float vv2, float frametime)
+	{
+		LDist += vv1 * frametime;
+		RDist += vv2 * frametime;
+
+		if (LDist > WheelRadius * (2 * M_PI))
+			LDist -= WheelRadius * (2 * M_PI);
+		if (RDist > WheelRadius * (2 * M_PI))
+			RDist -= WheelRadius * (2 * M_PI);
+
+		wheel1L->Rotation = Quat::FromAngleAxis(LDist / WheelRadius, LEFT);
+		wheel1R->Rotation = Quat::FromAngleAxis(RDist / WheelRadius, LEFT);
+
+		wheel2L->Rotation = Quat::FromAngleAxis(LDist / WheelRadius, LEFT);
+		wheel2R->Rotation = Quat::FromAngleAxis(RDist / WheelRadius, LEFT);
+
+		wheel3L->Rotation = Quat::FromAngleAxis(LDist / WheelRadius, LEFT);
+		wheel3R->Rotation = Quat::FromAngleAxis(RDist / WheelRadius, LEFT);
+
+	}
 #ifdef debug
 	void PostRender() override
 	{
@@ -148,12 +182,12 @@ public:
 		glBegin(GL_LINE_LOOP);
 		glColor3fv(RED.GL());
 		glVertex3f(XYZ(this->Origin));
-		glVertex3f(XYN((this->Origin + Rotation* LEFT * TurnRadius)));
+		glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius)));
 		glEnd();
-		
+
 		glBegin(GL_LINE_LOOP);
 		glColor3fv(GREEN.GL());
-		glVertex3f(XYZ((this->Origin+ Rotation * this->wheel1L->Origin)));
+		glVertex3f(XYZ((this->Origin + Rotation * this->wheel1L->Origin)));
 		glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius)));
 		glEnd();
 
@@ -168,12 +202,12 @@ public:
 		glBegin(GL_LINE_LOOP);
 		glColor3fv(WHITE.GL());
 		for (int i = 0; i < steps; i++)
-			glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius +  Vec3(sin(i * f), cos(i * f), 0) * (TurnRadius - 20))));
+			glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius + Vec3(sin(i * f), cos(i * f), 0) * (TurnRadius - 25))));
 		glEnd();
 		glBegin(GL_LINE_LOOP);
 		glColor3fv(WHITE.GL());
 		for (int i = 0; i < steps; i++)
-			glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius +  Vec3(sin(i * f), cos(i * f), 0) * (TurnRadius + 30))));
+			glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius + Vec3(sin(i * f), cos(i * f), 0) * (TurnRadius + 25))));
 		glEnd();
 		glBegin(GL_LINE_LOOP);
 		glColor3fv(GREEN.GL());
@@ -182,9 +216,9 @@ public:
 		glEnd();
 		glLineWidth(1);
 	}
+#endif
 
 };
-#endif
 
 
 

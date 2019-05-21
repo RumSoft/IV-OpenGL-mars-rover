@@ -49,9 +49,12 @@ MyScene::MyScene()
 	TwAddVarRO(bar, "rotZ", TW_TYPE_FLOAT, &lazik->Rotation.Z, "Rotz");
 	TwAddVarRO(bar, "rotW", TW_TYPE_FLOAT, &lazik->Rotation.W, "Rotw");
 
-	TwAddSeparator(bar, "speed", "speed");
-	TwAddVarRO(bar, "speedY", TW_TYPE_FLOAT, &lazik->velocity_vector.X, "speedX");
-	TwAddVarRO(bar, "speedX", TW_TYPE_FLOAT, &lazik->velocity_vector.Y, "speedY");
+	TwAddSeparator(bar, "ang", "speed");
+	TwAddVarRO(bar, "ang1", TW_TYPE_FLOAT, &lazik->LWheelAngle, "ang1");
+	TwAddVarRO(bar, "ang2", TW_TYPE_FLOAT, &lazik->RWheelAngle, "ang2");
+
+
+
 	int kolory[] = { 0x99857a, 0xc67b5c, 0xe27b58, 0xff9d6f, 0x663926, 0x8e6a5a};
 	srand(time(NULL));
 
