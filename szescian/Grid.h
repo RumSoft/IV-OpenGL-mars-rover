@@ -9,7 +9,7 @@ public:
 
 	Grid(const float size = 100, const int steps = 10) : Size(size), Steps(steps)
 	{
-		const float h = 0;
+		const float h = -12;
 		auto s1 = new Shape(Line, ColorF(0, 0, 0, 0.3));
 		const auto a = Size / 2;
 		const auto f = Size / steps;
@@ -25,6 +25,16 @@ public:
 			s1->AddPoint(Vec3(a, -a + i * f, h));
 		}
 
-		this->Shapes.push_back(s1->WithPosition(Vec3(0, 0, -1)));
+		this->Shapes.push_back(s1->WithPosition(Vec3(0, 0, 0)));
+	}
+
+	void PreRender() override
+	{
+		glLineWidth(2);
+	}
+
+	void PostRender() override
+	{
+		glLineWidth(1);
 	}
 };

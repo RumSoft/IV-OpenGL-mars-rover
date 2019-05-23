@@ -9,9 +9,12 @@
 #define DOWN Vec3::Down()
 #define FORWARD Vec3::Forward()
 #define BACKWARD Vec3::Back()
+#define RIGHT Vec3::Right()
+#define LEFT Vec3::Left()
 
 #define axisZ UP
 #define XYZ(o) o.X, o.Y, o.Z
+#define XYN(o) o.X, o.Y, 0
 #define XY(o) o.X, o.Y
 
 struct Vec3

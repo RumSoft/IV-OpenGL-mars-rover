@@ -75,6 +75,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\programowanie\github\IV-lab_grafika\szescian\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\programowanie\github\IV-lab_grafika\szescian\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -158,7 +160,9 @@
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\AntTweakBar.h" />
     <ClInclude Include="..\RESOURCE.H" />
+    <ClInclude Include="ATB.h" />
     <ClInclude Include="Axes.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Camera.h" />

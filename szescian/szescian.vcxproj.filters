@@ -147,5 +147,11 @@
     <ClInclude Include="TextureMemory.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="..\AntTweakBar.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ATB.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -341,7 +341,7 @@ Quat Quat::LerpUnclamped(Quat a, Quat b, float t)
 
 Quat Quat::LookRotation(Vec3 forward)
 {
-	return LookRotation(forward, Vec3(0, 1, 0));
+	return LookRotation(forward, UP);
 }
 
 Quat Quat::LookRotation(Vec3 forward, Vec3 upwards)

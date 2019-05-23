@@ -44,4 +44,15 @@ public:
 		this->Children.push_back(c3);
 		this->Children.push_back(c4);	
 	}
+
+	void Update(float frametime) override
+	{
+		this->Children[4]->Rotation *= Quat::FromAngleAxis(0.01, FORWARD);
+		this->Children[2]->Rotation *= Quat::FromAngleAxis(0.01, FORWARD);
+		
+		this->Children[3]->Origin = ((Ramie*)this->Children[2])->Rotation * ((Ramie*)this->Children[2])->To + ((Ramie*)this->Children[2])->Origin;
+		this->Children[5]->Origin = ((Ramie*)this->Children[4])->Rotation * ((Ramie*)this->Children[4])->To + ((Ramie*)this->Children[4])->Origin;
+		this->Children[3]->Rotation *= Quat::FromAngleAxis(0.01, FORWARD);
+		this->Children[5]->Rotation *= Quat::FromAngleAxis(0.01, FORWARD);
+	}
 };

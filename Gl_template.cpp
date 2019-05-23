@@ -77,7 +77,7 @@ int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR lpCmdLine, 
 		return FALSE;
 
 	HWND hWnd = CreateWindow(lpszAppName, lpszAppName, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, 50,
-		50, 800, 600, NULL, NULL, hInstance, NULL);
+		50, 1280, 720, NULL, NULL, hInstance, NULL);
 
 	if (hWnd == nullptr)
 		return FALSE;
