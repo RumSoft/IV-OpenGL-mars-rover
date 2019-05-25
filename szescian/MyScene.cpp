@@ -39,9 +39,9 @@ MyScene::MyScene()
 	TwAddButton(bar, "Lazik", NULL, NULL, "");
 	TwAddVarRO(bar, "Kat skretu", TW_TYPE_FLOAT, &lazik->angle, "Kat skretu kol");
 	TwAddVarRO(bar, "Predkosc", TW_TYPE_FLOAT, &lazik->speedAcc, "Aktualna predkosc lazika");
-	TwAddVarRO(bar, "V1", TW_TYPE_FLOAT, &lazik->VelocityL, "v1");
-	TwAddVarRO(bar, "V2", TW_TYPE_FLOAT, &lazik->VelocityR, "v2");
-	TwAddVarRO(bar, "R", TW_TYPE_FLOAT, &lazik->TurnRadius, "R");
+	TwAddVarRO(bar, "V1", TW_TYPE_FLOAT, &lazik->Vl, "v1");
+	TwAddVarRO(bar, "V2", TW_TYPE_FLOAT, &lazik->Vr, "v2");
+	TwAddVarRO(bar, "R", TW_TYPE_FLOAT, &lazik->R, "R");
 
 	TwAddSeparator(bar, "rot", "rot");
 	TwAddVarRO(bar, "rotX", TW_TYPE_FLOAT, &lazik->Rotation.X, "Rotx");
@@ -50,8 +50,7 @@ MyScene::MyScene()
 	TwAddVarRO(bar, "rotW", TW_TYPE_FLOAT, &lazik->Rotation.W, "Rotw");
 
 	TwAddSeparator(bar, "ang", "speed");
-	TwAddVarRO(bar, "ang1", TW_TYPE_FLOAT, &lazik->LWheelAngle, "ang1");
-	TwAddVarRO(bar, "ang2", TW_TYPE_FLOAT, &lazik->RWheelAngle, "ang2");
+	TwAddVarRO(bar, "angl", TW_TYPE_FLOAT, &lazik->angle, "angl");
 
 
 
