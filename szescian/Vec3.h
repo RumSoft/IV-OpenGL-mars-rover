@@ -8,7 +8,7 @@
 #define UP Vec3::Up()
 #define DOWN Vec3::Down()
 #define FORWARD Vec3::Forward()
-#define BACKWARD Vec3::Back()
+#define BACKWARD -Vec3::Forward()
 #define RIGHT Vec3::Right()
 #define LEFT Vec3::Left()
 

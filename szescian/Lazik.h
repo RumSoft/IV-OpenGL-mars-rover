@@ -20,19 +20,19 @@ public:
 	Kolo* wheel2L;
 	Kolo* wheel2R;
 
-	float H = 30.f, W = 30.f;
+	Entity* light;
 
+	float H = 30.f, W = 30.f;
 	float V = 0, Vl = 0, Vr = 0, R;
 	float LDist = 0, RDist = 0;
 	float angle = 0;
-	float maxAngle = D2R(180);
-	float speedAcc = 0;
 	float max_speed = 150;
 	float WheelRadius = 13.5;
-	float MinTurnRadius = 50;
+	float sensL, sensM, sensR, sensAngl;
 
-	Lazik()
+	Lazik(Entity* l)
 	{
+		light = l;
 		this->Origin += Vec3(0, 5, 16.5);
 		this->Rotation *= Quat::FromAngleAxis(Deg2Rad(0), Vec3::Up());
 		kadlubek = new Kadlubek(W / 2, H/2, 10);
@@ -50,6 +50,8 @@ public:
 
 	void Update(float frametime) override
 	{
+		UpdateSensors();
+
 		UpdateSteering(frametime);
 		LimitSpeed();
 		CalculateTurnRadius(frametime);
@@ -58,6 +60,14 @@ public:
 		this->Origin += Rotation * FORWARD * (speed * V * frametime);
 	}
 
+	void UpdateSensors()
+	{
+		auto diff = (light->Origin - this->Origin);
+		auto lightAngl = -atan2(diff.X,diff.Y);
+		Vec3 rot = Quat::ToEuler(Rotation);
+		sensAngl = fmod(lightAngl -  rot.Z, M_PI);
+
+	}
 
 	void UpdateWheelRotation(float frametime)
 	{
@@ -79,7 +89,7 @@ public:
 		R = (W / 2) * (Vl + Vr) / (Vr - Vl);
 
 		angle = (Vr - Vl) / H;
-		this->Rotation *= Quat::FromAngleAxis(angle*1.5, UP);
+		this->Rotation *= Quat::FromAngleAxis(angle*1.65, UP);
 		V = (Vr + Vl) / 2;
 
 	}
@@ -99,27 +109,6 @@ public:
 
 	void UpdateSteering(float frametime)
 	{
-	
-		if (input->IsDown('A'))
-		{
-			Vl = 5;
-			Vr = -5;
-		}
-		if (input->IsDown('B'))
-		{
-			Vl = 2;
-			Vr = -2;
-		}if (input->IsDown('C'))
-		{
-			Vl = 1;
-			Vr = -1;
-		}
-		if (input->IsDown('D'))
-		{
-			Vl = 1;
-			Vr = -2;
-		}
-
 		if (input->IsDown('1'))
 			Vl += 5 * frametime;
 		if (input->IsDown('2'))
