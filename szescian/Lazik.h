@@ -35,7 +35,7 @@ public:
 		light = l;
 		this->Origin += Vec3(0, 5, 16.5);
 		this->Rotation *= Quat::FromAngleAxis(Deg2Rad(0), Vec3::Up());
-		kadlubek = new Kadlubek(W / 2, H/2, 10);
+		kadlubek = new Kadlubek(W / 2, H / 2, 10);
 
 		float h = 2;
 		wheel2L = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(-W / 2, 0, -15));
@@ -60,13 +60,36 @@ public:
 		this->Origin += Rotation * FORWARD * (speed * V * frametime);
 	}
 
+	bool IsBetween(float val, float a, float b)
+	{
+		if (a > b)
+			return IsBetween(val, b, a);
+		return val <= b && val >= a;
+	}
+
+	float calcSensorValueFunc(float value, float viewCenterAngle)
+	{
+		const auto width = D2R(60);
+
+		const auto window = IsBetween(value, viewCenterAngle - width, viewCenterAngle + width);
+		const auto func = (cos((viewCenterAngle-value) * 3.14 / width) + 1) / 2;
+
+		return window * func;
+	}
+
 	void UpdateSensors()
 	{
 		auto diff = (light->Origin - this->Origin);
-		auto lightAngl = -atan2(diff.X,diff.Y);
+		auto lightAngl = -atan2(diff.X, diff.Y);
 		Vec3 rot = Quat::ToEuler(Rotation);
-		sensAngl = fmod(lightAngl -  rot.Z, M_PI);
+		sensAngl = fmod(lightAngl - rot.Z, M_PI);
 
+		// left: -60 - -20 deg
+		// middle: -20 - 20 deg
+		// right: 20 - 60 deg
+		sensL = calcSensorValueFunc(sensAngl, D2R(-40));
+		sensM = calcSensorValueFunc(sensAngl, D2R(0));
+		sensR = calcSensorValueFunc(sensAngl, D2R(40));
 	}
 
 	void UpdateWheelRotation(float frametime)
@@ -85,11 +108,11 @@ public:
 
 	void CalculateTurnRadius(float frametime)
 	{
-		
+
 		R = (W / 2) * (Vl + Vr) / (Vr - Vl);
 
 		angle = (Vr - Vl) / H;
-		this->Rotation *= Quat::FromAngleAxis(angle*1.65, UP);
+		this->Rotation *= Quat::FromAngleAxis(angle * 1.65, UP);
 		V = (Vr + Vl) / 2;
 
 	}
