@@ -26,6 +26,9 @@
     <Filter Include="Objects\Shapes">
       <UniqueIdentifier>{0c27bd52-bf71-4c22-b002-3b30b1d3b138}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\fuzzy">
+      <UniqueIdentifier>{af2af480-7ac0-43f9-a67a-3a8fbfa141d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\RESOURCE.APS">
@@ -45,6 +48,9 @@
     </ClCompile>
     <ClCompile Include="MyScene.cpp">
       <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="FuzzyLogic.cpp">
+      <Filter>Objects\fuzzy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +161,9 @@
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="FuzzyLogic.h">
+      <Filter>Objects\fuzzy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

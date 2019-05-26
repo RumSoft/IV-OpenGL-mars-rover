@@ -6,9 +6,12 @@ class MyScene : public IScene
 {
 public:
 	TwBar* bar;
+	TwBar* bar2;
 	MyScene();
 	~MyScene();
+
 	
+
 	void Update(float frametime) override;
 };
 

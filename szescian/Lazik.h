@@ -2,12 +2,9 @@
 #include "Geom.h"
 #include "Kadlubek.h"
 #include "Kolo.h"
-#include "Ramie.h"
-#include "Chwytak.h"
-#include "Kamera.h"
 #include "Cylinder.h"
 #include <iostream>
-#include <string>
+#include "FuzzyLogic.h"
 
 #define debug
 
@@ -24,11 +21,13 @@ public:
 
 	float H = 30.f, W = 30.f;
 	float V = 0, Vl = 0, Vr = 0, R;
-	float LDist = 0, RDist = 0;
 	float angle = 0;
 	float max_speed = 150;
 	float WheelRadius = 13.5;
 	float sensL, sensM, sensR, sensAngl;
+
+	FuzzyLogic* fuzzy;
+	FuzzyOutput fuzzyOutput;
 
 	Lazik(Entity* l)
 	{
@@ -45,10 +44,12 @@ public:
 		this->Children.push_back(wheel2L);
 		this->Children.push_back(wheel2R);
 		input = InputHandler::GetInstance();
+
+		fuzzy = new FuzzyLogic();
 	}
 
 	float slowUpdateTime = 0;
-	const float slowUpdateThreshold = 0.01f;
+	const float slowUpdateThreshold = 0.1f;
 	void SlowUpdate(float frametime)
 	{
 		slowUpdateTime += frametime;
@@ -58,9 +59,35 @@ public:
 			return;
 
 		UpdateSensors();
-
+		fuzzyOutput = fuzzy->Process(GetFuzzyInputFromSensors());
+		Vl = 3*fuzzyOutput.Vl*frametime;
+		Vr = 3*fuzzyOutput.Vr*frametime;
+		/*
+		Vl /= 2;
+		Vr /= 2;*/
 	}
 
+	float MapSwiatloInput(float val)
+	{
+		// desired output:
+		//100% light = 0
+		//0% light = 512
+
+		//current value
+		//100% = 1
+		//0% = 0
+
+		return (1 - val) * 512;
+	}
+
+	FuzzyInput GetFuzzyInputFromSensors()
+	{
+		FuzzyInput input{};
+		input.L = MapSwiatloInput(sensL);
+		input.F = MapSwiatloInput(sensM);
+		input.R = MapSwiatloInput(sensR);
+		return input;
+	}
 
 	void Update(float frametime) override
 	{
@@ -109,16 +136,9 @@ public:
 
 	void UpdateWheelRotation(float frametime)
 	{
-		LDist += Vl;
-		RDist += Vr;
-
-		if (LDist > WheelRadius * (2 * M_PI))
-			LDist -= WheelRadius * (2 * M_PI);
-		if (RDist > WheelRadius * (2 * M_PI))
-			RDist -= WheelRadius * (2 * M_PI);
-
-		wheel2L->Rotation = Quat::FromAngleAxis(LDist / WheelRadius, LEFT);
-		wheel2R->Rotation = Quat::FromAngleAxis(RDist / WheelRadius, LEFT);
+		auto wheel_circumference = (WheelRadius * 2 * M_PI) ;
+		wheel2L->Rotation *= Quat::FromAngleAxis(Vl / wheel_circumference, LEFT);
+		wheel2R->Rotation *= Quat::FromAngleAxis(Vr / wheel_circumference, LEFT);
 	}
 
 	void CalculateTurnRadius(float frametime)
@@ -173,7 +193,7 @@ public:
 		glEnd();
 
 
-		int steps = 50;
+		int steps = 100;
 		float f = 2 * M_PI / steps;
 		glBegin(GL_LINE_LOOP);
 		glColor3fv(WHITE.GL());

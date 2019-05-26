@@ -12,7 +12,8 @@
 MyScene::MyScene()
 {
 	TwInit(TW_OPENGL, NULL);
-	bar = TwNewBar("OGLDEV");
+	bar = TwNewBar("OGLDEV"); 
+	bar2 = TwNewBar("fuzzy");
 	TwWindowSize(1280, 720);
 	
 	input = InputHandler::GetInstance();
@@ -24,18 +25,6 @@ MyScene::MyScene()
 	this->Geometries.push_back(lazik);
 	this->Geometries.push_back(light);
 	this->Geometries.push_back(new Camera(lazik));
-
-	Vec3 kamienie[] = {
-		Vec3(50, -300, -60),
-		Vec3(100, 100, 0),
-		Vec3(600, 600, -45),
-		Vec3(-250, -550, -70),
-		Vec3(1000, -500, -80),
-		Vec3(1850, 300, -150),
-		Vec3(1400, -900, -50),
-		Vec3(550, -800, -50),
-		Vec3(-100, -950, -50)
-	};
 
 	TwAddButton(bar, "Lazik", NULL, NULL, "");
 	TwAddVarRO(bar, "V", TW_TYPE_FLOAT, &lazik->V, "V");
@@ -51,31 +40,20 @@ MyScene::MyScene()
 	TwAddVarRO(bar, "senM", TW_TYPE_FLOAT, &lazik->sensM, "senM");
 	TwAddVarRO(bar, "senR", TW_TYPE_FLOAT, &lazik->sensR, "senR");
 	TwAddVarRO(bar, "sensAngl", TW_TYPE_FLOAT, &lazik->sensAngl, "sensAngl");
+	
+	TwAddSeparator(bar2, "fuz", "fuz");
+	TwAddVarRO(bar2, "state", TW_TYPE_STDSTRING, &lazik->fuzzy->state, "state");
+	TwAddVarRO(bar2, "vl", TW_TYPE_FLOAT, &lazik->fuzzyOutput.Vl, "vl");
+	TwAddVarRO(bar2, "vr", TW_TYPE_FLOAT, &lazik->fuzzyOutput.Vr, "vr");
+	int bar2pos[] = { 10,300 };
+	int bar2size[] = { 300,100 };
 
-	int kolory[] = { 0x99857a, 0xc67b5c, 0xe27b58, 0xff9d6f, 0x663926, 0x8e6a5a};
+	TwSetParam(bar2, NULL, "position", TW_PARAM_INT32, 2, bar2pos);
+	TwSetParam(bar2, NULL, "size", TW_PARAM_INT32, 2, bar2size);
+	TwSetParam(bar2, NULL, "valueswidth", TW_PARAM_CSTRING, 1, "fit");
+
 	srand(time(NULL));
 
-	for(const auto k : kamienie)
-		this->Geometries.push_back((new ObjFile("objects", "marsrock"))
-			->WithScale(Vec3(
-				rand() % 20 + 30, 
-				rand() % 20 + 30, 
-				rand() % 20 + 30))
-			->WithPosition(k)
-			->WithRotation(Quat::FromEuler(
-				rand() % 100 / 100.f, 
-				rand() % 100 / 100.f, 
-				rand() % 100 / 100.f)));
-
-	this->Geometries.push_back((new ObjFile("objects", "marsrock"))
-		->WithScale(100)
-		->WithPosition(Vec3(500,500,0))
-	); 
-	this->Geometries.push_back((new ObjFile("objects", "marsrock"))
-		->WithScale(170)
-		->WithPosition(Vec3(-20, -900, 0))
-	);
-	//this->Geometries.push_back((new ObjFile("","marsground2", kolory[rand() % 6]))
 }
 
 MyScene::~MyScene() = default;
@@ -83,4 +61,5 @@ MyScene::~MyScene() = default;
 void MyScene::Update(float frametime)
 {
 	TwRefreshBar(bar);
+	TwRefreshBar(bar2);
 }
