@@ -41,12 +41,19 @@ MyScene::MyScene()
 	TwAddVarRO(bar, "senR", TW_TYPE_FLOAT, &lazik->sensR, "senR");
 	TwAddVarRO(bar, "sensAngl", TW_TYPE_FLOAT, &lazik->sensAngl, "sensAngl");
 	
+	TwAddSeparator(bar2, "rott", "rott");
+	TwAddVarRO(bar2, "rot1", TW_TYPE_FLOAT, &lazik->targetRot, "rot1");
+	TwAddVarRO(bar2, "rot2", TW_TYPE_FLOAT, &lazik->thisRot, "rot2");
+	TwAddVarRO(bar2, "rotd", TW_TYPE_FLOAT, &lazik->sensAngl, "rotd");
+
 	TwAddSeparator(bar2, "fuz", "fuz");
 	TwAddVarRO(bar2, "state", TW_TYPE_STDSTRING, &lazik->lightFollowerFuzzy->state, "state");
 	TwAddVarRO(bar2, "vl", TW_TYPE_FLOAT, &lazik->lightFollowerOutput.Vl, "vl");
 	TwAddVarRO(bar2, "vr", TW_TYPE_FLOAT, &lazik->lightFollowerOutput.Vr, "vr");
+
+
 	int bar2pos[] = { 10,300 };
-	int bar2size[] = { 300,100 };
+	int bar2size[] = { 300,200 };
 
 	TwSetParam(bar2, NULL, "position", TW_PARAM_INT32, 2, bar2pos);
 	TwSetParam(bar2, NULL, "size", TW_PARAM_INT32, 2, bar2size);

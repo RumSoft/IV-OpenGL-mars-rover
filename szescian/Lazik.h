@@ -25,6 +25,7 @@ public:
 	float max_speed = 150;
 	float WheelRadius = 13.5;
 	float sensL, sensM, sensR, sensAngl;
+	float targetRot, thisRot;
 
 	LightFollowerLogic* lightFollowerFuzzy;
 	LightFollowerLogic::Output lightFollowerOutput;
@@ -61,10 +62,16 @@ public:
 
 		ProcessLightFollowerLogic(frametime);
 
+		if (input->IsDown('Y'))
+			this->Rotation *= Quat::FromAngleAxis(D2R(5), UP);
+		if (input->IsDown('T'))
+			this->Rotation *= Quat::FromAngleAxis(D2R(-5), UP);
+
 	}
 
 	void Update(float frametime) override
 	{
+
 		AIUpdate(frametime);
 
 		UpdateSteering(frametime);
@@ -80,6 +87,15 @@ public:
 		if (a > b)
 			return IsBetween(val, b, a);
 		return val <= b && val >= a;
+	}
+	double wrapMax(double x, double max)
+	{
+		/* integer math: `(max + x % max) % max` */
+		return fmod(max + fmod(x, max), max);
+	}
+	double wrapMinMax(double x, double min, double max)
+	{
+		return min + wrapMax(x - min, max - min);
 	}
 
 #pragma region LightFollower
@@ -123,14 +139,17 @@ private:
 
 		return window * func;
 	}
-
+	
 	void UpdateSensors()
 	{
 		auto diff = (target->Origin - this->Origin);
-		auto lightAngl = -atan2(diff.X, diff.Y);
-		Vec3 rot = Quat::ToEuler(Rotation);
-		sensAngl = -fmod(lightAngl - rot.Z, M_PI);
 
+		targetRot = -atan2(diff.X, diff.Y);
+		thisRot = Quat::ToEuler(Rotation).Z;
+		auto anglediff = thisRot - targetRot;
+
+		sensAngl = wrapMinMax(anglediff, -M_PI, +M_PI);
+	
 		// left: -60 - -20 deg
 		// middle: -20 - 20 deg
 		// right: 20 - 60 deg
@@ -190,14 +209,31 @@ public:
 #ifdef debug
 	void PostRender() override
 	{
-		glLineWidth(5);
+		const int width = 5;
+
+		glLineWidth(sensL * sensL * width);
 		glBegin(GL_LINE_LOOP);
-		glColor3fv(RED.GL());
+		glColor3fv(BLUE.GL());
 		glVertex3f(XYZ(this->Origin));
-		glVertex3f(XYN((this->Origin + Rotation * LEFT * R)));
+		glVertex3f(XYN((this->Origin + Rotation * Quat::FromAngleAxis(D2R(40), UP) * FORWARD * 1000)));
+		glEnd();
+		
+		glLineWidth(sensM *sensM* width);
+		glBegin(GL_LINE_LOOP);
+		glColor3fv(BLUE.GL());
+		glVertex3f(XYZ(this->Origin));
+		glVertex3f(XYN((this->Origin + Rotation * FORWARD * 1000)));
+		glEnd();
+
+		glLineWidth(sensR*sensR * width);
+		glBegin(GL_LINE_LOOP);
+		glColor3fv(BLUE.GL());
+		glVertex3f(XYZ(this->Origin));
+		glVertex3f(XYN((this->Origin + Rotation * Quat::FromAngleAxis(D2R(-40), UP) *FORWARD * 1000 )));
 		glEnd();
 
 
+		glLineWidth(3);
 		int steps = 100;
 		float f = 2 * M_PI / steps;
 		glBegin(GL_LINE_LOOP);
