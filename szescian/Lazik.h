@@ -47,10 +47,25 @@ public:
 		input = InputHandler::GetInstance();
 	}
 
+	float slowUpdateTime = 0;
+	const float slowUpdateThreshold = 0.01f;
+	void SlowUpdate(float frametime)
+	{
+		slowUpdateTime += frametime;
+		if (slowUpdateTime >= slowUpdateThreshold)
+			slowUpdateTime -= slowUpdateThreshold;
+		else
+			return;
+
+		UpdateSensors();
+
+	}
+
 
 	void Update(float frametime) override
 	{
-		UpdateSensors();
+		SlowUpdate(frametime);
+
 
 		UpdateSteering(frametime);
 		LimitSpeed();
@@ -82,7 +97,7 @@ public:
 		auto diff = (light->Origin - this->Origin);
 		auto lightAngl = -atan2(diff.X, diff.Y);
 		Vec3 rot = Quat::ToEuler(Rotation);
-		sensAngl = fmod(lightAngl - rot.Z, M_PI);
+		sensAngl = -fmod(lightAngl - rot.Z, M_PI);
 
 		// left: -60 - -20 deg
 		// middle: -20 - 20 deg
