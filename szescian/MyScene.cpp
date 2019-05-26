@@ -42,9 +42,9 @@ MyScene::MyScene()
 	TwAddVarRO(bar, "sensAngl", TW_TYPE_FLOAT, &lazik->sensAngl, "sensAngl");
 	
 	TwAddSeparator(bar2, "fuz", "fuz");
-	TwAddVarRO(bar2, "state", TW_TYPE_STDSTRING, &lazik->fuzzy->state, "state");
-	TwAddVarRO(bar2, "vl", TW_TYPE_FLOAT, &lazik->fuzzyOutput.Vl, "vl");
-	TwAddVarRO(bar2, "vr", TW_TYPE_FLOAT, &lazik->fuzzyOutput.Vr, "vr");
+	TwAddVarRO(bar2, "state", TW_TYPE_STDSTRING, &lazik->lightFollowerFuzzy->state, "state");
+	TwAddVarRO(bar2, "vl", TW_TYPE_FLOAT, &lazik->lightFollowerOutput.Vl, "vl");
+	TwAddVarRO(bar2, "vr", TW_TYPE_FLOAT, &lazik->lightFollowerOutput.Vr, "vr");
 	int bar2pos[] = { 10,300 };
 	int bar2size[] = { 300,100 };
 

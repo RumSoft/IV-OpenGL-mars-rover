@@ -20,7 +20,7 @@ LightFollowerLogic::LightFollowerLogic()
 	myfile.close();
 }
 
-LightFollowerLogic::FuzzyOutput LightFollowerLogic::ProcessSwiatlo(FuzzyInput input)
+LightFollowerLogic::Output LightFollowerLogic::ProcessLightFollower(Input input)
 {
 	auto left = engine->getInputVariable("left");
 	auto front = engine->getInputVariable("front");
@@ -35,7 +35,7 @@ LightFollowerLogic::FuzzyOutput LightFollowerLogic::ProcessSwiatlo(FuzzyInput in
 
 	engine->process();
 
-	FuzzyOutput output{};
+	Output output{};
 	output.Vl = Vleft->getValue();
 	output.Vr = Vright->getValue();
 	return output;

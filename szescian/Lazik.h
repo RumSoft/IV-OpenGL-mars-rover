@@ -4,7 +4,7 @@
 #include "Kolo.h"
 #include "Cylinder.h"
 #include <iostream>
-#include "FuzzyLogic.h"
+#include "LightFollowerLogic.h"
 
 #define debug
 
@@ -17,7 +17,7 @@ public:
 	Kolo* wheel2L;
 	Kolo* wheel2R;
 
-	Entity* light;
+	Entity* target;
 
 	float H = 30.f, W = 30.f;
 	float V = 0, Vl = 0, Vr = 0, R;
@@ -26,12 +26,12 @@ public:
 	float WheelRadius = 13.5;
 	float sensL, sensM, sensR, sensAngl;
 
-	FuzzyLogic* fuzzy;
-	FuzzyOutput fuzzyOutput;
+	LightFollowerLogic* lightFollowerFuzzy;
+	LightFollowerLogic::Output lightFollowerOutput;
 
 	Lazik(Entity* l)
 	{
-		light = l;
+		target = l;
 		this->Origin += Vec3(0, 5, 16.5);
 		this->Rotation *= Quat::FromAngleAxis(Deg2Rad(0), Vec3::Up());
 		kadlubek = new Kadlubek(W / 2, H / 2, 10);
@@ -45,12 +45,13 @@ public:
 		this->Children.push_back(wheel2R);
 		input = InputHandler::GetInstance();
 
-		fuzzy = new FuzzyLogic();
+		lightFollowerFuzzy = new LightFollowerLogic();
 	}
 
 	float slowUpdateTime = 0;
-	const float slowUpdateThreshold = 0.1f;
-	void SlowUpdate(float frametime)
+	const float slowUpdateThreshold = 0.01f;
+
+	void AIUpdate(float frametime)
 	{
 		slowUpdateTime += frametime;
 		if (slowUpdateTime >= slowUpdateThreshold)
@@ -58,41 +59,13 @@ public:
 		else
 			return;
 
-		UpdateSensors();
-		fuzzyOutput = fuzzy->Process(GetFuzzyInputFromSensors());
-		Vl = 3*fuzzyOutput.Vl*frametime;
-		Vr = 3*fuzzyOutput.Vr*frametime;
-		/*
-		Vl /= 2;
-		Vr /= 2;*/
-	}
+		ProcessLightFollowerLogic(frametime);
 
-	float MapSwiatloInput(float val)
-	{
-		// desired output:
-		//100% light = 0
-		//0% light = 512
-
-		//current value
-		//100% = 1
-		//0% = 0
-
-		return (1 - val) * 512;
-	}
-
-	FuzzyInput GetFuzzyInputFromSensors()
-	{
-		FuzzyInput input{};
-		input.L = MapSwiatloInput(sensL);
-		input.F = MapSwiatloInput(sensM);
-		input.R = MapSwiatloInput(sensR);
-		return input;
 	}
 
 	void Update(float frametime) override
 	{
-		SlowUpdate(frametime);
-
+		AIUpdate(frametime);
 
 		UpdateSteering(frametime);
 		LimitSpeed();
@@ -109,19 +82,51 @@ public:
 		return val <= b && val >= a;
 	}
 
-	float calcSensorValueFunc(float value, float viewCenterAngle)
+#pragma region LightFollower
+private:
+	void ProcessLightFollowerLogic(float frametime)
+	{
+		UpdateSensors();
+		lightFollowerOutput = lightFollowerFuzzy->ProcessLightFollower(GetLightSensorsData());
+		Vl = 3 * lightFollowerOutput.Vl * frametime;
+		Vr = 3 * lightFollowerOutput.Vr * frametime;
+	}
+
+	float MapLightSensorValue(float val)
+	{
+		// desired output:
+		//100% light = 0
+		//0% light = 512
+
+		//current value
+		//100% = 1
+		//0% = 0
+
+		return (1 - val) * 512;
+	}
+
+	LightFollowerLogic::Input GetLightSensorsData()
+	{
+		LightFollowerLogic::Input input{};
+		input.L = MapLightSensorValue(sensL);
+		input.F = MapLightSensorValue(sensM);
+		input.R = MapLightSensorValue(sensR);
+		return input;
+	}
+
+	float SimulateLightSensor(float value, float viewCenterAngle)
 	{
 		const auto width = D2R(60);
 
 		const auto window = IsBetween(value, viewCenterAngle - width, viewCenterAngle + width);
-		const auto func = (cos((viewCenterAngle-value) * 3.14 / width) + 1) / 2;
+		const auto func = (cos((viewCenterAngle - value) * 3.14 / width) + 1) / 2;
 
 		return window * func;
 	}
 
 	void UpdateSensors()
 	{
-		auto diff = (light->Origin - this->Origin);
+		auto diff = (target->Origin - this->Origin);
 		auto lightAngl = -atan2(diff.X, diff.Y);
 		Vec3 rot = Quat::ToEuler(Rotation);
 		sensAngl = -fmod(lightAngl - rot.Z, M_PI);
@@ -129,27 +134,27 @@ public:
 		// left: -60 - -20 deg
 		// middle: -20 - 20 deg
 		// right: 20 - 60 deg
-		sensL = calcSensorValueFunc(sensAngl, D2R(-40));
-		sensM = calcSensorValueFunc(sensAngl, D2R(0));
-		sensR = calcSensorValueFunc(sensAngl, D2R(40));
+		sensL = SimulateLightSensor(sensAngl, D2R(-40));
+		sensM = SimulateLightSensor(sensAngl, D2R(0));
+		sensR = SimulateLightSensor(sensAngl, D2R(40));
 	}
+public:
+#pragma endregion 
 
 	void UpdateWheelRotation(float frametime)
 	{
-		auto wheel_circumference = (WheelRadius * 2 * M_PI) ;
+		auto wheel_circumference = (WheelRadius * 2 * M_PI);
 		wheel2L->Rotation *= Quat::FromAngleAxis(Vl / wheel_circumference, LEFT);
 		wheel2R->Rotation *= Quat::FromAngleAxis(Vr / wheel_circumference, LEFT);
 	}
 
 	void CalculateTurnRadius(float frametime)
 	{
-
 		R = (W / 2) * (Vl + Vr) / (Vr - Vl);
 
 		angle = (Vr - Vl) / H;
 		this->Rotation *= Quat::FromAngleAxis(angle * 1.65, UP);
 		V = (Vr + Vl) / 2;
-
 	}
 
 	void LimitSpeed()
@@ -213,8 +218,4 @@ public:
 		glLineWidth(1);
 	}
 #endif
-
 };
-
-
-

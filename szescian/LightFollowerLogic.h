@@ -9,11 +9,11 @@ using namespace std;
 class LightFollowerLogic
 {
 public:
-	struct FuzzyOutput
+	struct Output
 	{
 		float Vl, Vr;
 	};
-	struct FuzzyInput
+	struct Input
 	{
 		float L, F, R;
 	};
@@ -23,7 +23,7 @@ public:
 	LightFollowerLogic();
 	~LightFollowerLogic();
 
-	FuzzyOutput ProcessSwiatlo(FuzzyInput input);
+	Output ProcessLightFollower(Input input);
 
 	
 };

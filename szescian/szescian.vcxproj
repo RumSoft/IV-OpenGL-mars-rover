@@ -157,7 +157,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Gl_template.cpp" />
-    <ClCompile Include="FuzzyLogic.cpp" />
+    <ClCompile Include="LightFollowerLogic.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="IScene.cpp" />
     <ClCompile Include="MyScene.cpp" />
@@ -179,7 +179,7 @@
     <ClInclude Include="Disc.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Face.h" />
-    <ClInclude Include="FuzzyLogic.h" />
+    <ClInclude Include="LightFollowerLogic.h" />
     <ClInclude Include="Geom.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="image_loader.h" />

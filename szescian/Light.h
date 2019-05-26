@@ -10,21 +10,31 @@ public:
 	InputHandler* input;
 	Light()
 	{
-		body = (new Sphere(Vec3::Zero(), 5, 15, ColorF(0xff6600)));
+		this->Origin = Vec3(100, 100);
+		body = (new Sphere(Vec3::Zero(), 10, 15, ColorF(0xff6600)));
 		this->Shapes.push_back(body);
 		input = InputHandler::GetInstance();
 	}
 
 	void Update(float frametime)
 	{
+		auto move = Vec3::Zero();
+		
 		if (input->IsDown('W'))
-			this->Origin += FORWARD * 150 * frametime;
+			move += FORWARD;
 		if (input->IsDown('S'))
-			this->Origin += BACKWARD * 150 * frametime;
+			move += BACKWARD;
 		if (input->IsDown('A'))
-			this->Origin += LEFT * 150 * frametime;
+			move += LEFT;
 		if (input->IsDown('D'))
-			this->Origin += RIGHT * 150 * frametime;
+			move += RIGHT;
+
+		move *= frametime * 150;
+
+		if (input->IsDown(VK_SHIFT))
+			move *= 3;
+
+		this->Origin += move;
 	}
 
 };
