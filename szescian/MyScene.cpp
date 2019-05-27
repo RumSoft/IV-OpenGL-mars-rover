@@ -1,7 +1,6 @@
 #include "MyScene.h"
 #include <Windows.h>
 #include "Grid.h"
-#include "Lazik.h"
 #include "Background.h"
 #include "ObjFile.h"
 #include "Camera.h"
@@ -51,16 +50,24 @@ MyScene::MyScene()
 	TwAddVarRO(bar2, "vl", TW_TYPE_FLOAT, &lazik->lightFollowerOutput.Vl, "vl");
 	TwAddVarRO(bar2, "vr", TW_TYPE_FLOAT, &lazik->lightFollowerOutput.Vr, "vr");
 
+	TwAddVarRO(bar2, "x", TW_TYPE_INT32, &lazik->x, "x");
+	TwAddVarRO(bar2, "y", TW_TYPE_INT32, &lazik->y, "y");
+
 
 	int bar2pos[] = { 10,300 };
 	int bar2size[] = { 300,200 };
 
 	TwSetParam(bar2, NULL, "position", TW_PARAM_INT32, 2, bar2pos);
 	TwSetParam(bar2, NULL, "size", TW_PARAM_INT32, 2, bar2size);
-	TwSetParam(bar2, NULL, "valueswidth", TW_PARAM_CSTRING, 1, "fit");
+	//TwSetParam(bar2, NULL, "valueswidth", TW_PARAM_CSTRING, 1, "fit");
 
 	srand(time(NULL));
 
+
+	for (int i = 0; i < MAP_SIZE; i++)
+		for (int j = 0; j < MAP_SIZE; j++)
+			if (myMap[i][j])
+				drawMapCube(i, j);
 }
 
 MyScene::~MyScene() = default;

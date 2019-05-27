@@ -8,6 +8,20 @@
 
 #define debug
 
+#define MAP_SIZE 10
+const float myMap[MAP_SIZE][MAP_SIZE] = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+									  { 1, 0, 1, 0, 0, 0, 0, 0, 0, 1},
+									  { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+									  { 1, 0, 0, 0, 1, 1, 0, 0, 1, 1},
+									  { 1, 0, 0, 0, 1, 1, 0, 0, 0, 1},
+									  { 1, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+									  { 1, 0, 1, 0, 0, 0, 0, 0, 0, 1},
+									  { 1, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+									  { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+									  { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1} };
+#define mapUnit 100
+#define mapOffset (Vec3(1, 1, 0) / 2 * MAP_SIZE)
+
 class Lazik : public Geom
 {
 private:
@@ -18,7 +32,7 @@ public:
 	Kolo* wheel2R;
 
 	Entity* target;
-
+	Vec3 rayStep;
 	float H = 30.f, W = 30.f;
 	float V = 0, Vl = 0, Vr = 0, R;
 	float angle = 0;
@@ -26,7 +40,8 @@ public:
 	float WheelRadius = 13.5;
 	float sensL, sensM, sensR, sensAngl;
 	float targetRot, thisRot;
-
+	Vec3 lastRayPos;
+	int x, y;
 	LightFollowerLogic* lightFollowerFuzzy;
 	LightFollowerLogic::Output lightFollowerOutput;
 
@@ -47,11 +62,12 @@ public:
 		input = InputHandler::GetInstance();
 
 		lightFollowerFuzzy = new LightFollowerLogic();
+
 	}
 
 	float slowUpdateTime = 0;
 	const float slowUpdateThreshold = 0.01f;
-
+#define rayStepSize 5
 	void AIUpdate(float frametime)
 	{
 		slowUpdateTime += frametime;
@@ -60,7 +76,31 @@ public:
 		else
 			return;
 
-		ProcessLightFollowerLogic(frametime);
+		//ProcessLightFollowerLogic(frametime);
+		ProcessGoalAchieverLogic(frametime);
+
+		Vec3 rayPoint = this->Origin;
+		rayStep = Rotation * FORWARD * rayStepSize;
+
+		for (int i = 0; i < 500; i++)
+		{
+			rayPoint += rayStep;
+
+			lastRayPos = rayPoint / mapUnit + mapOffset;
+
+			x = (int)lastRayPos.X;
+			y = (int)lastRayPos.Y;
+			if (!IsBetween(x, 0, MAP_SIZE - 1))
+				continue;
+			if (!IsBetween(y, 0, MAP_SIZE - 1))
+				continue;
+
+			if (myMap[x][y] > 0) {
+				sensM = i;
+				break;
+			}
+			
+		}
 
 		if (input->IsDown('Y'))
 			this->Rotation *= Quat::FromAngleAxis(D2R(5), UP);
@@ -98,11 +138,31 @@ public:
 		return min + wrapMax(x - min, max - min);
 	}
 
+	void ProcessGoalAchieverLogic(float frametime)
+	{
+		UpdateCollisionSensors();
+	}
+
+	void UpdateCollisionSensors()
+	{
+		PeformSensorRaycastOnMap();
+	}
+	bool IsBoxHit(Vec3 pos)
+	{
+		//map offset
+		//-Vec3(1,1,0) / 2 * mapUnit * MAP_SIZE
+		
+	}
+	void PeformSensorRaycastOnMap()
+	{
+		
+	}
+
 #pragma region LightFollower
 private:
 	void ProcessLightFollowerLogic(float frametime)
 	{
-		UpdateSensors();
+		UpdateLightSensors();
 		lightFollowerOutput = lightFollowerFuzzy->ProcessLightFollower(GetLightSensorsData());
 		Vl = 3 * lightFollowerOutput.Vl * frametime;
 		Vr = 3 * lightFollowerOutput.Vr * frametime;
@@ -139,8 +199,8 @@ private:
 
 		return window * func;
 	}
-	
-	void UpdateSensors()
+
+	void UpdateLightSensors()
 	{
 		auto diff = (target->Origin - this->Origin);
 
@@ -149,7 +209,7 @@ private:
 		auto anglediff = thisRot - targetRot;
 
 		sensAngl = wrapMinMax(anglediff, -M_PI, +M_PI);
-	
+
 		// left: -60 - -20 deg
 		// middle: -20 - 20 deg
 		// right: 20 - 60 deg
@@ -206,30 +266,47 @@ public:
 	}
 
 
+
 #ifdef debug
 	void PostRender() override
 	{
+
 		const int width = 5;
 
-		glLineWidth(sensL * sensL * width);
+		glLineWidth(sensL * sensL * width + 1);
 		glBegin(GL_LINE_LOOP);
 		glColor3fv(BLUE.GL());
 		glVertex3f(XYZ(this->Origin));
 		glVertex3f(XYN((this->Origin + Rotation * Quat::FromAngleAxis(D2R(40), UP) * FORWARD * 1000)));
 		glEnd();
-		
-		glLineWidth(sensM *sensM* width);
-		glBegin(GL_LINE_LOOP);
+
+		glLineWidth(sensM * sensM * width + 1);
+		glBegin(GL_LINE_LOOP);	
 		glColor3fv(BLUE.GL());
 		glVertex3f(XYZ(this->Origin));
-		glVertex3f(XYN((this->Origin + Rotation * FORWARD * 1000)));
+		glVertex3f(XYN((this->Origin + Rotation * FORWARD * sensM * rayStepSize)));
 		glEnd();
 
-		glLineWidth(sensR*sensR * width);
+		glLineWidth(sensR * sensR * width + 1);
 		glBegin(GL_LINE_LOOP);
 		glColor3fv(BLUE.GL());
 		glVertex3f(XYZ(this->Origin));
-		glVertex3f(XYN((this->Origin + Rotation * Quat::FromAngleAxis(D2R(-40), UP) *FORWARD * 1000 )));
+		glVertex3f(XYN((this->Origin + Rotation * Quat::FromAngleAxis(D2R(-40), UP) * FORWARD * 1000)));
+		glEnd();
+
+
+		glLineWidth(1);
+		for (int i = 0; i < sensM+5; i++) {
+			glBegin(GL_LINE_LOOP);
+			glVertex3f(XYZ((this->Origin + rayStep * i- Vec3(0,0,  30))));
+			glVertex3f(XYZ((this->Origin + rayStep * i + Vec3(0, 0, 30))));
+			glEnd();
+		}
+
+		glLineWidth(5);
+		glBegin(GL_LINE_LOOP);
+		glVertex3f(XYZ((this->Origin + rayStep * sensM*rayStepSize - Vec3(0, 0, 30))));
+		glVertex3f(XYZ((this->Origin + rayStep * sensM*rayStepSize + Vec3(0, 0, 30))));
 		glEnd();
 
 
