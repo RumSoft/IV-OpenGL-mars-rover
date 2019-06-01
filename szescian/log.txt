@@ -1,0 +1,55 @@
+
+ready
+Engine: swiatlo-rules
+InputVariable: left
+  enabled: true
+  range: 0.000 512.000
+  lock-range: false
+  term: big Trapezoid -461.000 -51.200 51.200 360.000
+  term: small Triangle 0.000 512.000 1024.000
+InputVariable: front
+  enabled: true
+  range: 0.000 512.000
+  lock-range: false
+  term: big Trapezoid -461.000 -51.200 51.200 360.000
+  term: small Triangle 0.000 512.000 1024.000
+InputVariable: right
+  enabled: true
+  range: 0.000 512.000
+  lock-range: false
+  term: big Trapezoid -461.000 -51.200 51.200 359.619
+  term: small Triangle -1.354 510.600 1023.000
+OutputVariable: Vleft
+  enabled: true
+  range: 0.000 1.000
+  lock-range: false
+  aggregation: UnboundedSum
+  defuzzifier: WeightedAverage Automatic
+  default: nan
+  lock-previous: false
+  term: front Constant 10.000
+  term: back Constant -10.000
+OutputVariable: Vright
+  enabled: true
+  range: 0.000 1.000
+  lock-range: false
+  aggregation: UnboundedSum
+  defuzzifier: WeightedAverage Automatic
+  default: nan
+  lock-previous: false
+  term: front Constant 10.000
+  term: back Constant -10.000
+RuleBlock: 
+  enabled: true
+  conjunction: AlgebraicProduct
+  disjunction: AlgebraicSum
+  implication: AlgebraicProduct
+  activation: General
+  rule: if left is small and front is small and right is small then Vleft is front and Vright is back
+  rule: if left is small and front is small and right is big then Vleft is front and Vright is back
+  rule: if left is small and front is big and right is big then Vleft is front and Vright is back
+  rule: if left is big and front is small and right is small then Vleft is back and Vright is front
+  rule: if left is big and front is big and right is small then Vleft is back and Vright is front
+  rule: if left is small and front is big and right is small then Vleft is front and Vright is front
+  rule: if left is big and front is small and right is big then Vleft is back and Vright is front
+  rule: if left is big and front is big and right is big then Vleft is front and Vright is front

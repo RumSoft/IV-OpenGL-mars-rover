@@ -15,7 +15,7 @@ public:
 	Quat to;
 	
 	float zoom = 1;
-	Vec3 Offset = Vec3(-20, -50, 50);
+	Vec3 Offset = Vec3(-0, -20, 100);
 	
 	Camera(Geom* ent)
 	{
@@ -39,12 +39,6 @@ public:
 			auto f = (float)t / anim_t;
 			Rotation = Quat::Lerp(from, to, sinf(f * 3.14 * 0.5f));
 		}
-
-		if(((Lazik*)entity)->Velocity > 10)
-			RequestRotationTo(entity->Rotation);
-
-		//if (((Lazik*)entity)->Velocity < 0)
-		//	RequestRotationTo(entity->Rotation * Quat::FromAngleAxis(D2R(-120), axisZ));
 
 		if (input->IsDown(VK_LEFT))
 			RequestRotationBy(Quat::FromAngleAxis(D2R(30), axisZ));
