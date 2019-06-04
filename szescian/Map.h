@@ -162,9 +162,9 @@ public:
 
 	void PostRender() override
 	{
-		for (auto i = 0; i < MAP_LENGTH - 1; i++)
-			for (auto j = 0; j < MAP_LENGTH - 1; j++)
-				DrawSquare(i, j);
+		//for (auto i = 0; i < MAP_LENGTH - 1; i++)
+		//	for (auto j = 0; j < MAP_LENGTH - 1; j++)
+		//		DrawSquare(i, j);
 
 		int a = (MAP_SIZE)* MAP_SCALE;
 		glLineWidth(5);
