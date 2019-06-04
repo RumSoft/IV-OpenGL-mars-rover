@@ -156,5 +156,8 @@
     <ClInclude Include="Map.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Fuel.h">
+      <Filter>Objects\Lazik</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

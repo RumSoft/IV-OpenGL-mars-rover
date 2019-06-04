@@ -53,9 +53,12 @@ MyScene::MyScene()
 	TwAddVarRO(bar, "posZ", TW_TYPE_FLOAT, &lazik->Origin.Z, "posZ");
 
 
-	TwAddSeparator(bar, "ang", "speed");
-	TwAddVarRO(bar, "ang1", TW_TYPE_FLOAT, &lazik->LWheelAngle, "ang1");
-	TwAddVarRO(bar, "ang2", TW_TYPE_FLOAT, &lazik->RWheelAngle, "ang2");
+	//TwAddSeparator(bar, "ang", "speed");
+	//TwAddVarRO(bar, "ang1", TW_TYPE_FLOAT, &lazik->LWheelAngle, "ang1");
+	//TwAddVarRO(bar, "ang2", TW_TYPE_FLOAT, &lazik->RWheelAngle, "ang2");
+	
+	TwAddSeparator(bar, "paliwko", "value");
+	TwAddVarRO(bar, "_currentValue", TW_TYPE_FLOAT, &lazik->Fuel->_currentValue, "_currentValue");
 
 
 

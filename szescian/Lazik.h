@@ -6,6 +6,7 @@
 #include "Chwytak.h"
 #include "Kamera.h"
 #include "Cylinder.h"
+#include "Fuel.h"
 #include <iostream>
 #include <string>
 
@@ -25,6 +26,7 @@ public:
 	Kolo* wheel2R;
 	Kolo* wheel3L;
 	Kolo* wheel3R;
+	CAttribute* Fuel;
 
 	float H = 30.f, W = 50.f;
 
@@ -65,6 +67,8 @@ public:
 		this->Children.push_back(wheel3R);
 
 		input = InputHandler::GetInstance();
+		Fuel = (CAttribute*)(new CAttribute(50, 5, 3));
+
 	}
 
 
@@ -81,6 +85,8 @@ public:
 		updateAngleRotation();
 
 		this->Origin +=  Quat::GetZRotation(Rotation) * FORWARD * Velocity * frametime;
+		if(Velocity<1 && Velocity>-1)
+		Fuel->Update(frametime);
 	}
 
 	void CalculateRotations(float vv1, float vv2, float frametime)
@@ -147,16 +153,18 @@ public:
 			VelocityR += 50 * frametime;
 		}
 
-		if (input->IsDown('W'))
+		if (input->IsDown('W') && Fuel->_currentValue>0)
 		{
 			VelocityL += 50 * frametime;
 			VelocityR += 50 * frametime;
+			Fuel->_currentValue -= 5 * frametime;
 		}
 
-		if (input->IsDown('S'))
+		if (input->IsDown('S') && Fuel->_currentValue>0)
 		{
 			VelocityL -= 100 * frametime;
 			VelocityR -= 100 * frametime;
+			Fuel->_currentValue -= 5 * frametime;
 		}
 
 		if (input->IsDown('1')) {
@@ -168,6 +176,8 @@ public:
 			VelocityR = VelocityL = 0;
 
 		Velocity = (vv1 + vv2) / 2;
+		if (abs(Velocity) < 0.5)
+			Velocity = 0;
 	}
 
 	void updateAngleRotation()
