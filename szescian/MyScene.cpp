@@ -49,8 +49,9 @@ MyScene::MyScene()
 	TwAddVarRO(bar, "rotW", TW_TYPE_FLOAT, &lazik->Rotation.W, "Rotw");
 
 	TwAddSeparator(bar, "ang", "speed");
-	TwAddVarRO(bar, "ang1", TW_TYPE_FLOAT, &lazik->LWheelAngle, "ang1");
-	TwAddVarRO(bar, "ang2", TW_TYPE_FLOAT, &lazik->RWheelAngle, "ang2");
+	//TwAddVarRO(bar, "ang1", TW_TYPE_FLOAT, &lazik->LWheelAngle, "ang1");
+	//TwAddVarRO(bar, "ang2", TW_TYPE_FLOAT, &lazik->RWheelAngle, "ang2");
+	
 
 
 
@@ -65,7 +66,16 @@ MyScene::MyScene()
 	auto map = new Map(lazik, ground);
 	this->Geometries.push_back(map->WithPosition(Vec3::Zero()));
 
-
+	//TwAddVarRO(bar, "tang", TW_TYPE_FLOAT, &map->tang, "tang");
+	//TwAddVarRO(bar, "wysokoscOsiBok", TW_TYPE_FLOAT, &map->wysokoscOsiBok, "wysokoscOsiBok");
+	//TwAddVarRO(bar, "odlegloscOsiBok", TW_TYPE_FLOAT, &map->odlegloscOsiBok, "odlegloscOsiBok");
+	//TwAddVarRO(bar, "tangensBoku", TW_TYPE_FLOAT, &map->tangensBoku, "tangensBoku");
+	//TwAddVarRO(bar, "tangboku", TW_TYPE_FLOAT, &map->tangboku, "tangboku");
+	//TwAddVarRO(bar, "midpoint", TW_TYPE_FLOAT, &lazik->Origin.Z, "midpoint");
+	TwAddVarRO(bar, "odlegloscOsi", TW_TYPE_FLOAT, &map->odlegloscOsi, "odlegloscOsi");
+	TwAddVarRO(bar, "wysokoscOsi", TW_TYPE_FLOAT, &map->wysokoscOsi, "wysokoscOsi");
+	TwAddVarRO(bar, "tangens", TW_TYPE_FLOAT, &map->tangens, "tangens");
+	TwAddVarRO(bar, "tang", TW_TYPE_FLOAT, &map->tang, "tang");
 	for (const auto k : kamienie)
 		this->Geometries.push_back((new ObjFile("objects", "marsrock"))
 			->WithScale(Vec3(

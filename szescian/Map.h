@@ -10,6 +10,8 @@ class Map : public Geom
 	float _map[MAP_LENGTH][MAP_LENGTH];
 	Lazik* _lazik;
 public:
+	float tang,wysokoscOsi,odlegloscOsi,tangens, tangboku, odlegloscOsiBok, wysokoscOsiBok, tangensBoku;
+	float kolo1, kolo2, kolo3, kolo4;
 	Map(Lazik* lazik, Geom* mapGeom)
 	{
 		//init with 0s
@@ -27,10 +29,10 @@ public:
 	//update lazik to align to ground
 	void Update(float frametime) override
 	{	
-		auto wheel1 = _lazik->Origin + _lazik->wheel1L->Origin;
-		auto wheel2 = _lazik->Origin + _lazik->wheel1R->Origin;
-		auto wheel3 = _lazik->Origin + _lazik->wheel3L->Origin;
-		auto wheel4 = _lazik->Origin + _lazik->wheel3L->Origin;
+		auto wheel1 = _lazik->Origin + _lazik->Rotation * _lazik->wheel1L->Origin;
+		auto wheel2 = _lazik->Origin + _lazik->Rotation * _lazik->wheel1R->Origin;
+		auto wheel3 = _lazik->Origin + _lazik->Rotation * _lazik->wheel3L->Origin;
+		auto wheel4 = _lazik->Origin + _lazik->Rotation * _lazik->wheel3R->Origin;
 
 		wheel1.Z = GetHeight(wheel1);
 		wheel2.Z = GetHeight(wheel2);
@@ -40,6 +42,17 @@ public:
 		const auto midpoint = (wheel1 + wheel2 + wheel3 + wheel4) / 4;
 
 		_lazik->Origin.Z = midpoint.Z;
+
+		wysokoscOsi = (wheel1.Z + wheel2.Z) / 2 - midpoint.Z;
+		odlegloscOsi = (wheel1.Y + wheel2.Y)/2 - midpoint.Y;
+		wysokoscOsiBok = (wheel2.Z + wheel4.Z) / 2 - midpoint.Z;
+		odlegloscOsiBok = (wheel2.X + wheel4.X) / 2 -midpoint.X;
+		tangens = wysokoscOsi / odlegloscOsi;;
+		tangensBoku = wysokoscOsiBok / odlegloscOsiBok;
+		tang = atan(tangens) *180 / M_PI;
+		tangboku = atan(tangensBoku) * 180 / M_PI;
+		_lazik->Rotation = Quat::FromAngleAxis(tang, RIGHT) * Quat::FromAngleAxis(tangboku, -FORWARD);
+		
 	}
 
 	float GetHeight(const float x, const float y)
