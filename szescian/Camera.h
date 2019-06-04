@@ -41,7 +41,7 @@ public:
 		}
 
 		if(((Lazik*)entity)->Velocity > 10)
-			RequestRotationTo(entity->Rotation);
+			RequestRotationTo(Quat::GetZRotation(entity->Rotation));
 
 		//if (((Lazik*)entity)->Velocity < 0)
 		//	RequestRotationTo(entity->Rotation * Quat::FromAngleAxis(D2R(-120), axisZ));

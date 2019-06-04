@@ -20,7 +20,6 @@ MyScene::MyScene()
 	this->Geometries.push_back(new Grid(500, 50));
 	//this->Geometries.push_back(new Axes());
 	const auto lazik = new Lazik();
-	this->Geometries.push_back(lazik);
 	this->Geometries.push_back(new Camera(lazik));
 
 	Vec3 kamienie[] = {
@@ -86,6 +85,9 @@ MyScene::MyScene()
 		->WithScale(170)
 		->WithPosition(Vec3(-20, -900, 0))
 	);
+
+	this->Geometries.push_back(lazik);
+
 }
 
 MyScene::~MyScene() = default;

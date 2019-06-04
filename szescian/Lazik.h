@@ -41,7 +41,6 @@ public:
 	{
 		this->Rotation *= Quat::FromAngleAxis(Deg2Rad(0), Vec3::Up());
 
-
 		kadlubek = (Kadlubek*)(new Kadlubek(15, 25, 10))->WithPosition(UP*25);
 		chwytak = (Chwytak*)(new Chwytak(4, 6, 5))->WithPosition(Vec3(0, 23, 34));
 		kamera = (Kamera*)(new Kamera(15, 3, 8, 5))->WithPosition(Vec3(8, -20, 35));
@@ -77,13 +76,11 @@ public:
 
 		UpdateSteering(vv1, vv2, frametime);
 		CalculateTurnRadius(vv1, vv2);
-
 		CalculateRotations(vv1, vv2, frametime);
-
 		updateWheelRotation(vv1, vv2, frametime);
 		updateAngleRotation();
 
-		this->Origin += Rotation * FORWARD * Velocity * frametime;
+		this->Origin +=  Quat::GetZRotation(Rotation) * FORWARD * Velocity * frametime;
 	}
 
 	void CalculateRotations(float vv1, float vv2, float frametime)
@@ -94,7 +91,7 @@ public:
 			LWheelAngle = atan(H / (TurnRadius - W / 2));
 			RWheelAngle = atan(H / (TurnRadius + W / 2));
 
-			auto angl = (Velocity > 0 ? 1 : -1) * abs(TurnRadius) / 29 * atan(H / TurnRadius) * frametime;
+			const auto angl = (Velocity > 0 ? 1 : -1) * abs(TurnRadius) / 29 * atan(H / TurnRadius) * frametime;
 			Rotation *= Quat::FromAngleAxis(angl, axisZ);
 		}
 	}

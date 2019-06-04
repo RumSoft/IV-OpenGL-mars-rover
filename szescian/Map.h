@@ -3,42 +3,61 @@
 
 const int MAP_SIZE = 100;
 const int MAP_LENGTH = MAP_SIZE + MAP_SIZE + 1;
-const int MAP_SCALE = 50; // one map[x][y] = 10 units in opengl
+const int MAP_SCALE = 20; // one map[x][y] = 10 units in opengl
 
 class Map : public Geom
 {
 	float _map[MAP_LENGTH][MAP_LENGTH];
 	Lazik* _lazik;
+
+	Vec3 midpoint;
 public:
 	Map(Lazik* lazik, Geom* mapGeom)
 	{
 		//init with 0s
-		for(int i = 0; i<MAP_LENGTH; i++)
-		{
-			for(int j = 0; j < MAP_LENGTH; j++)
-			{
-				_map[i][j] = 10 * sin(i) + 10 * cos(j);
-			}
-		}
+		for (int i = 0; i < MAP_LENGTH; i++)
+
+			for (int j = 0; j < MAP_LENGTH; j++)
+				_map[i][j] =  20 * sin(i / 2.f) * cos(j / 2.f) - 10;
+
+
 
 		_lazik = lazik;
 	}
 
+	Quat lastRot = Quat::Identity();
 	//update lazik to align to ground
 	void Update(float frametime) override
-	{	
-		auto wheel1 = _lazik->Origin + _lazik->wheel1L->Origin;
-		auto wheel2 = _lazik->Origin + _lazik->wheel1R->Origin;
-		auto wheel3 = _lazik->Origin + _lazik->wheel3L->Origin;
-		auto wheel4 = _lazik->Origin + _lazik->wheel3L->Origin;
+	{
+		auto wheel1 = _lazik->Origin + _lazik->Rotation * _lazik->wheel1L->Origin;
+		auto wheel2 = _lazik->Origin + _lazik->Rotation * _lazik->wheel1R->Origin;
+		auto wheel3 = _lazik->Origin + _lazik->Rotation * _lazik->wheel3L->Origin;
+		auto wheel4 = _lazik->Origin + _lazik->Rotation * _lazik->wheel3R->Origin;
 
 		wheel1.Z = GetHeight(wheel1);
 		wheel2.Z = GetHeight(wheel2);
 		wheel3.Z = GetHeight(wheel3);
 		wheel4.Z = GetHeight(wheel4);
 
-		const auto midpoint = (wheel1 + wheel2 + wheel3 + wheel4) / 4;
+		midpoint = (wheel1 + wheel2 + wheel3 + wheel4) / 4;
 
+		wheel1 -= midpoint;
+		wheel2 -= midpoint;
+		wheel3 -= midpoint;
+		wheel4 -= midpoint;
+
+		const auto wheel12 = (wheel1 + wheel2) / 2;
+		const auto wheel13 = (wheel1 + wheel3) / 2;
+		const auto wheel24 = (wheel2 + wheel4) / 2;
+		const auto wheel34 = (wheel3 + wheel4) / 2;
+
+		const auto cr1 = Vec3::Cross(wheel12, wheel13);
+		const auto cr2 = Vec3::Cross(wheel24, wheel12);
+		const auto cr3 = Vec3::Cross(wheel34, wheel24);
+		const auto cr4 = Vec3::Cross(wheel13, wheel34);
+
+		const auto rot = Quat::FromEuler(Vec3::Normalized(cr1 + cr2 + cr3 + cr4));
+		_lazik->Rotation = Quat::FromAngleAxis(D2R(90), UP) * rot;
 		_lazik->Origin.Z = midpoint.Z;
 	}
 
@@ -82,9 +101,17 @@ public:
 
 	void PostRender() override
 	{
-		for (auto i = 0; i < MAP_LENGTH-1; i++)
-			for (auto j = 0; j < MAP_LENGTH-1; j++)
+		for (auto i = 0; i < MAP_LENGTH - 1; i++)
+			for (auto j = 0; j < MAP_LENGTH - 1; j++)
 				DrawSquare(i, j);
+
+
+		glLineWidth(5);
+		glColor3fv(ColorF(0x66900).GL());
+		glBegin(GL_LINE_LOOP);
+		glVertex3f(XYZ((midpoint + UP * 100)));
+		glVertex3f(XYZ((midpoint - UP * 100)));
+		glEnd();
 	}
 
 private:
@@ -101,10 +128,10 @@ private:
 		p4.Z = GetHeight(p4);
 
 		glBegin(GL_QUADS);
-		glVertex3f(XYZ((p1 + Vec3(1,1,0))));
-		glVertex3f(XYZ((p2 + Vec3(1,-1, 0)  )));
-		glVertex3f(XYZ((p4 + Vec3(-1,-1, 0)  )));
-		glVertex3f(XYZ((p3 + Vec3(-1,1,0) )));
+		glVertex3f(XYZ((p1 + Vec3(1, 1, 0))));
+		glVertex3f(XYZ((p2 + Vec3(1, -1, 0))));
+		glVertex3f(XYZ((p4 + Vec3(-1, -1, 0))));
+		glVertex3f(XYZ((p3 + Vec3(-1, 1, 0))));
 		glEnd();
 	}
 

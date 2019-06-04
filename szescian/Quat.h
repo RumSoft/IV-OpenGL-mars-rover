@@ -88,6 +88,14 @@ struct Quat
 	 */
 	static inline Quat FromEuler(float x, float y, float z);
 
+
+	static inline Quat GetZRotation(Quat q)
+	{
+		auto rot = Quat::ToEuler(q);
+		rot.X = 0; rot.Y = 0;
+		return Quat::FromEuler(rot);
+	}
+
 	/**
 	 * Create a quaternion rotation which rotates "fromVector" to "toVector".
 	 * @param fromVector: The vector from which to start the rotation.
