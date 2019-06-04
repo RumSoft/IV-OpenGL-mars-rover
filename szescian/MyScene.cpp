@@ -17,7 +17,7 @@ MyScene::MyScene()
 
 	input = InputHandler::GetInstance();
 	this->Geometries.push_back(new Background());
-	this->Geometries.push_back(new Grid(500, 50));
+	//this->Geometries.push_back(new Grid(500, 50));
 	//this->Geometries.push_back(new Axes());
 	const auto lazik = new Lazik();
 	this->Geometries.push_back(new Camera(lazik));
@@ -46,6 +46,12 @@ MyScene::MyScene()
 	TwAddVarRO(bar, "rotY", TW_TYPE_FLOAT, &lazik->Rotation.Y, "Roty");
 	TwAddVarRO(bar, "rotZ", TW_TYPE_FLOAT, &lazik->Rotation.Z, "Rotz");
 	TwAddVarRO(bar, "rotW", TW_TYPE_FLOAT, &lazik->Rotation.W, "Rotw");
+
+	TwAddSeparator(bar, "pos", "pos");
+	TwAddVarRO(bar, "posX", TW_TYPE_FLOAT, &lazik->Origin.X, "posX");
+	TwAddVarRO(bar, "posY", TW_TYPE_FLOAT, &lazik->Origin.Y, "posY");
+	TwAddVarRO(bar, "posZ", TW_TYPE_FLOAT, &lazik->Origin.Z, "posZ");
+
 
 	TwAddSeparator(bar, "ang", "speed");
 	TwAddVarRO(bar, "ang1", TW_TYPE_FLOAT, &lazik->LWheelAngle, "ang1");
