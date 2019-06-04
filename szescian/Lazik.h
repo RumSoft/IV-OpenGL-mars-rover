@@ -67,6 +67,7 @@ public:
 		input = InputHandler::GetInstance();
 	}
 
+	Quat zrot = Quat::Identity();
 
 	void Update(float frametime) override
 	{
@@ -80,7 +81,7 @@ public:
 		updateWheelRotation(vv1, vv2, frametime);
 		updateAngleRotation();
 
-		this->Origin +=  Quat::GetZRotation(Rotation) * FORWARD * Velocity * frametime;
+		this->Origin +=  Rotation * FORWARD * Velocity * frametime;
 	}
 
 	void CalculateRotations(float vv1, float vv2, float frametime)
@@ -92,7 +93,7 @@ public:
 			RWheelAngle = atan(H / (TurnRadius + W / 2));
 
 			const auto angl = (Velocity > 0 ? 1 : -1) * abs(TurnRadius) / 29 * atan(H / TurnRadius) * frametime;
-			Rotation *= Quat::FromAngleAxis(angl, axisZ);
+			zrot *= Quat::FromAngleAxis(angl, axisZ);
 		}
 	}
 
@@ -208,49 +209,6 @@ public:
 		wheel3R->Rotation = Quat::FromAngleAxis(RDist / WheelRadius, LEFT);
 
 	}
-#ifdef debug
-	void PostRender() override
-	{
-		glLineWidth(5);
-		glBegin(GL_LINE_LOOP);
-		glColor3fv(RED.GL());
-		glVertex3f(XYZ(this->Origin));
-		glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius)));
-		glEnd();
-
-		glBegin(GL_LINE_LOOP);
-		glColor3fv(GREEN.GL());
-		glVertex3f(XYZ((this->Origin + Rotation * this->wheel1L->Origin)));
-		glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius)));
-		glEnd();
-
-		glBegin(GL_LINE_LOOP);
-		glColor3fv(BLUE.GL());
-		glVertex3f(XYZ((this->Origin + Rotation * this->wheel1R->Origin)));
-		glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius)));
-		glEnd();
-
-		int steps = 50;
-		float f = 2 * M_PI / steps;
-		glBegin(GL_LINE_LOOP);
-		glColor3fv(WHITE.GL());
-		for (int i = 0; i < steps; i++)
-			glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius + Vec3(sin(i * f), cos(i * f), 0) * (TurnRadius - 25))));
-		glEnd();
-		glBegin(GL_LINE_LOOP);
-		glColor3fv(WHITE.GL());
-		for (int i = 0; i < steps; i++)
-			glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius + Vec3(sin(i * f), cos(i * f), 0) * (TurnRadius + 25))));
-		glEnd();
-		glBegin(GL_LINE_LOOP);
-		glColor3fv(GREEN.GL());
-		for (int i = 0; i < steps; i++)
-			glVertex3f(XYN((this->Origin + Rotation * LEFT * TurnRadius + Vec3(sin(i * f), cos(i * f), 0) * TurnRadius)));
-		glEnd();
-		glLineWidth(1);
-	}
-#endif
-
 };
 
 

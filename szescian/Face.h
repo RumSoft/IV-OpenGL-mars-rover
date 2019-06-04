@@ -25,14 +25,4 @@ public:
 		this->Vertices.emplace_back(x3, n, Vec2(1, 0));
 		this->Vertices.emplace_back(x4, n, Vec2(1, 1));
 	}
-
-	void PreRender() override
-	{
-		
-	}
-
-	void PostRender() override
-	{
-		
-	}
 };

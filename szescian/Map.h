@@ -1,10 +1,11 @@
 #pragma once
 #include "Shape.h"
+#include "Lazik.h"
+#include "ObjFile.h"
 
-const int MAP_SIZE = 100;
+const int MAP_SIZE = 120;
 const int MAP_LENGTH = MAP_SIZE + MAP_SIZE + 1;
-const int MAP_SCALE = 20; // one map[x][y] = 10 units in opengl
-
+const int MAP_SCALE = 17; // one map[x][y] = 10 units in opengl
 class Map : public Geom
 {
 	float _map[MAP_LENGTH][MAP_LENGTH];
@@ -36,25 +37,14 @@ class Map : public Geom
 
 	float InterpolateTraingle(Vec3 p, Vec3 a, Vec3 b, Vec3 c)
 	{
+		auto w1 = ((b.Y - c.Y) * (p.X - c.X) + (c.X - b.X) * (p.Y - c.Y))
+			/ ((b.Y - c.Y) * (a.X - c.X) + (c.X - b.X) * (a.Y - c.Y));
 
-		a.Z = 0;
+		auto w2 = ((c.Y - a.Y) * (p.X - c.X) + (a.X - c.X) * (p.Y - c.Y))
+			/ ((b.Y - c.Y) * (a.X - c.X) + (c.X - b.X) * (a.Y - c.Y));
+		auto w3 = 1 - w1 - w2;
 
-		// calculate vectors from point f to vertices p1, p2 and p3:
-		auto f1 = a - p;
-		auto f2 = b - p;
-		auto f3 = c - p;
-		f1.Z = 0;
-		f2.Z = 0;
-		f3.Z = 0;
-		// calculate the areas and factors (order of parameters doesn't matter):
-		auto aa = Vec3::Magnitude(Vec3::Cross(a - b, a - c)); // main triangle area a
-		auto a1 = Vec3::Magnitude(Vec3::Cross(f2, f3)) / aa; // p1's triangle area / a
-		auto a2 = Vec3::Magnitude(Vec3::Cross(f3, f1)) / aa; // p2's triangle area / a 
-		auto a3 = Vec3::Magnitude(Vec3::Cross(f1, f2)) / aa; // p3's triangle area / a
-		// find the uv corresponding to point f (uv1/uv2/uv3 are associated to p1/p2/p3):
-		auto uv = a.Z * a1 + b.Z * a2 + c.Z * a3;
-
-		return uv;
+		return a.Z * w1 + b.Z * w2 + c.Z * w3;
 	}
 
 
@@ -62,9 +52,9 @@ class Map : public Geom
 	{
 		for (int i = 0; i < MAP_LENGTH; i++)
 			for (int j = 0; j < MAP_LENGTH; j++)
-			{
 				for (int k = 0; k < geom->Shapes[1]->Vertices.size(); k += 3)
 				{
+
 					const auto a_ = geom->Shapes[1]->Vertices[k];
 					const auto b_ = geom->Shapes[1]->Vertices[1 + k];
 					const auto c_ = geom->Shapes[1]->Vertices[2 + k];
@@ -76,21 +66,13 @@ class Map : public Geom
 					p.Z = 0;
 					if (PointInTriangle(p, a, b, c))
 					{
-						_map[i][j] = InterpolateTraingle(p, c, b, a);
+						_map[i][j] = InterpolateTraingle(p, a, b, c);
 					}
+
 				}
-
-			}
-
-		//for (int i = 0; i < MAP_LENGTH; i++)
-		//	for (int j = 0; j < MAP_LENGTH; j++)
-		//		if (_map[i][j] > 100)
-		//			_map[i][j] = 100;
-		//		else if (_map[i][j] < -100)
-		//			_map[i][j] = -100;
 	}
 public:
-	Map(Lazik* lazik, Geom* mapGeom)
+	Map(Lazik* lazik, ObjFile* mapGeom)
 	{
 		{
 			//init with 0s
@@ -136,16 +118,8 @@ public:
 		const auto cr4 = Vec3::Cross(wheel13, wheel34);
 
 		const auto rot = Quat::FromEuler(Vec3::Normalized(cr1 + cr2 + cr3 + cr4));
-		_lazik->Rotation = Quat::FromAngleAxis(D2R(90), UP) * rot;
+		_lazik->Rotation = Quat::FromAngleAxis(D2R(90), UP) * rot * _lazik->zrot;
 		_lazik->Origin.Z = midpoint.Z;
-
-
-		/*auto wheelML = _lazik->Origin + _lazik->Rotation * _lazik->wheel3R->Origin;
-		auto wheelMR = _lazik->Origin + _lazik->Rotation * _lazik->wheel3R->Origin;
-		wheel3.Z = GetHeight(wheelML);
-		wheel4.Z = GetHeight(wheelMR);
-*/
-//_lazik->wheel2L->Origin = wheelML;
 	}
 
 	float GetHeight(const float x, const float y)
@@ -192,12 +166,14 @@ public:
 			for (auto j = 0; j < MAP_LENGTH - 1; j++)
 				DrawSquare(i, j);
 
-
+		int a = (MAP_SIZE)* MAP_SCALE;
 		glLineWidth(5);
-		glColor3fv(ColorF(0x66900).GL());
+		glColor3f(0, 0, 255);
 		glBegin(GL_LINE_LOOP);
-		glVertex3f(XYZ((midpoint + UP * 100)));
-		glVertex3f(XYZ((midpoint - UP * 100)));
+		glVertex3f(a, a, 0);
+		glVertex3f(a, -a, 0);
+		glVertex3f(-a, -a, 0);
+		glVertex3f(-a, a, 0);
 		glEnd();
 	}
 
@@ -231,6 +207,6 @@ private:
 	/// convert map coordinates to world position
 	Vec3 ToWorld(const Vec3 mapPos) const
 	{
-		return (mapPos - MAP_SIZE) * MAP_SCALE;
+		return (mapPos - MAP_SIZE ) * MAP_SCALE;
 	}
 };
