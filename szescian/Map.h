@@ -11,7 +11,6 @@ class Map : public Geom
 	Lazik* _lazik;
 public:
 	float tang,wysokoscOsi,odlegloscOsi,tangens, tangboku, odlegloscOsiBok, wysokoscOsiBok, tangensBoku;
-	float kolo1, kolo2, kolo3, kolo4;
 	Map(Lazik* lazik, Geom* mapGeom)
 	{
 		//init with 0s
