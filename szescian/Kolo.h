@@ -14,7 +14,7 @@ public:
 	{
 		int steps = 15;
 		float f = 2 * M_PI / steps;
-		float r2 = r * 0.7;
+		float r2 = r * 0.8;
 
 		auto s1 = new Shape(TriangleStrip, ColorF(0.2, 0.2, 0.2));
 		for (int i = 0; i <= steps; i++)

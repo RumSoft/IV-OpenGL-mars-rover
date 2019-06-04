@@ -6,8 +6,7 @@
 #include "ObjFile.h"
 #include "Camera.h"
 #include <ctime>
-
-
+#include "Map.h"
 
 
 MyScene::MyScene()
@@ -15,7 +14,7 @@ MyScene::MyScene()
 	TwInit(TW_OPENGL, NULL);
 	bar = TwNewBar("OGLDEV");
 	TwWindowSize(1280, 720);
-	
+
 	input = InputHandler::GetInstance();
 	this->Geometries.push_back(new Background());
 	this->Geometries.push_back(new Grid(500, 50));
@@ -55,35 +54,38 @@ MyScene::MyScene()
 
 
 
-	int kolory[] = { 0x99857a, 0xc67b5c, 0xe27b58, 0xff9d6f, 0x663926, 0x8e6a5a};
+	int kolory[] = { 0x99857a, 0xc67b5c, 0xe27b58, 0xff9d6f, 0x663926, 0x8e6a5a };
 	srand(time(NULL));
 
-	//this->Geometries.push_back((new ObjFile("objects", "MarsGround", GRAY))
-	//		->WithScale(120)
-	//		->WithPosition(Vec3(0,0,-100))
-	//	->WithRotation(Quat::FromAngleAxis(D2R(90), Vec3(1,0,0))));
+	auto ground = new ObjFile("objects", "MarsGround", GRAY);
+	this->Geometries.push_back((ground)
+		->WithScale(120)
+		->WithPosition(Vec3(0, 0, -100))
+		->WithRotation(Quat::FromAngleAxis(D2R(90), Vec3(1, 0, 0))));
+	auto map = new Map(lazik, ground);
+	this->Geometries.push_back(map->WithPosition(Vec3::Zero()));
 
-	for(const auto k : kamienie)
+
+	for (const auto k : kamienie)
 		this->Geometries.push_back((new ObjFile("objects", "marsrock"))
 			->WithScale(Vec3(
-				rand() % 20 + 30, 
-				rand() % 20 + 30, 
+				rand() % 20 + 30,
+				rand() % 20 + 30,
 				rand() % 20 + 30))
 			->WithPosition(k)
 			->WithRotation(Quat::FromEuler(
-				rand() % 100 / 100.f, 
-				rand() % 100 / 100.f, 
+				rand() % 100 / 100.f,
+				rand() % 100 / 100.f,
 				rand() % 100 / 100.f)));
 
 	this->Geometries.push_back((new ObjFile("objects", "marsrock"))
 		->WithScale(100)
-		->WithPosition(Vec3(500,500,0))
-	); 
+		->WithPosition(Vec3(500, 500, 0))
+	);
 	this->Geometries.push_back((new ObjFile("objects", "marsrock"))
 		->WithScale(170)
 		->WithPosition(Vec3(-20, -900, 0))
 	);
-	//this->Geometries.push_back((new ObjFile("","marsground2", kolory[rand() % 6]))
 }
 
 MyScene::~MyScene() = default;

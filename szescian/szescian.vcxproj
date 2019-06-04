@@ -175,6 +175,7 @@
     <ClInclude Include="Geom.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="image_loader.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="obj_loader.h" />
     <ClInclude Include="TextureMemory.h" />
     <ClInclude Include="Vertex.h" />

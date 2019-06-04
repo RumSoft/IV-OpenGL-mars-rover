@@ -39,21 +39,20 @@ public:
 
 	Lazik()
 	{
-		this->Origin += Vec3(0, 5, 16.5);
 		this->Rotation *= Quat::FromAngleAxis(Deg2Rad(0), Vec3::Up());
 
 
-		kadlubek = new Kadlubek(15, 25, 10);
-		chwytak = (Chwytak*)(new Chwytak(4, 6, 5))->WithPosition(Vec3(0, 23, 9));
-		kamera = (Kamera*)(new Kamera(15, 3, 8, 5))->WithPosition(Vec3(8, -20, 10));
+		kadlubek = (Kadlubek*)(new Kadlubek(15, 25, 10))->WithPosition(UP*25);
+		chwytak = (Chwytak*)(new Chwytak(4, 6, 5))->WithPosition(Vec3(0, 23, 34));
+		kamera = (Kamera*)(new Kamera(15, 3, 8, 5))->WithPosition(Vec3(8, -20, 35));
 
 		float h = 8;
-		wheel1L = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(-25, 30, -15));
-		wheel1R = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(25, 30, -15));
-		wheel2L = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(-25, 0, -15));
-		wheel2R = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(25, 0, -15));
-		wheel3L = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(-25, -30, -15));
-		wheel3R = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(25, -30, -15));
+		wheel1L = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(-25, 30, 13));
+		wheel1R = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(25, 30, 13));
+		wheel2L = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(-25, 0, 13));
+		wheel2R = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(25, 0, 13));
+		wheel3L = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(-25, -30, 13));
+		wheel3R = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(25, -30, 13));
 
 		this->Children.push_back(kadlubek);
 		this->Children.push_back(chwytak);
