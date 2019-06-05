@@ -68,7 +68,7 @@ public:
 
 	proxy = new Proxy(this);
 		proxy->Scale = Vec3(60, 50, 25);
-		proxy->Origin = Vec3(0,0,-5);
+		proxy->Origin = Vec3(0,0,15);
 		input = InputHandler::GetInstance();	}
 
 
@@ -88,11 +88,14 @@ public:
 
 		this->Origin +=  Rotation * FORWARD * Velocity * frametime;
 
+		if(proxy != nullptr)
 		proxy->Update(frametime);
 	}
 
 	void PostRender() override
 	{
+		if (proxy != nullptr)
+
 		proxy->DrawProxy();
 	}
 
@@ -181,6 +184,12 @@ public:
 			VelocityR = VelocityL = 0;
 
 		Velocity = (vv1 + vv2) / 2;
+
+		if(proxy->isColliding)
+		{
+			VelocityL *= 0.9;
+			VelocityR *= 0.9;
+		}
 	}
 
 	void updateAngleRotation()

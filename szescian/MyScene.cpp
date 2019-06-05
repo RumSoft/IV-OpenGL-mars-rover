@@ -75,7 +75,7 @@ MyScene::MyScene()
 
 
 	for (const auto k : kamienie)
-		this->Geometries.push_back((new ObjFile("objects", "marsrock"))
+		this->Geometries.push_back((new ObjFile("objects", "marsrock", true))
 			->WithScale(Vec3(
 				rand() % 20 + 30,
 				rand() % 20 + 30,
@@ -86,11 +86,11 @@ MyScene::MyScene()
 				rand() % 100 / 100.f,
 				rand() % 100 / 100.f)));
 
-	this->Geometries.push_back((new ObjFile("objects", "marsrock"))
+	this->Geometries.push_back((new ObjFile("objects", "marsrock",true))
 		->WithScale(100)
 		->WithPosition(Vec3(500, 500, 0))
 	);
-	this->Geometries.push_back((new ObjFile("objects", "marsrock"))
+	this->Geometries.push_back((new ObjFile("objects", "marsrock",true))
 		->WithScale(170)
 		->WithPosition(Vec3(-20, -900, 0))
 	);

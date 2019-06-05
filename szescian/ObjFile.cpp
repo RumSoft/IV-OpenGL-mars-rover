@@ -63,6 +63,8 @@ ObjFile::ObjFile(string folder, string filename, bool proxyPhysics): _folder(mov
 
 void ObjFile::PostRender()
 {
+	if (proxy != nullptr)
+
 	this->proxy->DrawProxy();
 }
 
@@ -82,5 +84,6 @@ void ObjFile::Init()
 
 void ObjFile::Update(float frametime)
 {
-	proxy->Update(frametime);
+	if(proxy != nullptr)
+		proxy->Update(frametime);
 }
