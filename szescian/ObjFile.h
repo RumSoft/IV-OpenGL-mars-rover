@@ -1,5 +1,4 @@
 #pragma once
-#include "string";
 #include <utility>
 #include <vector>
 #include "Shape.h"
@@ -10,6 +9,10 @@
 #include "TextureMemory.h"
 
 using namespace std;
+
+#define smaller(a, b) if (b < a) a = b;
+#define bigger(a, b) if (b > a) a = b;
+
 
 class ObjFile : public Geom
 {
@@ -29,26 +32,59 @@ class ObjFile : public Geom
 	}
 
 public:
+	Proxy* proxy = nullptr;
+	Shape* shape = nullptr;
+
 	string _folder;
 	string _filename;
 	string _texture;
 	ColorF _color;
 	string fullname() const { return (!_folder.empty() ? _folder + "/" : "") + _filename; }
 
-	ObjFile(string folder, string filename, ColorF color)
-		: ObjFile(folder, filename)
+	ObjFile(string folder, string filename, ColorF color, bool proxyPhysics = false)
+		: ObjFile(folder, filename, proxyPhysics)
 	{
 		_color = color;
 	}
 
-	ObjFile(string folder, string filename)
+	ObjFile(string folder, string filename, bool proxyPhysics = false)
 		: _folder(move(folder)), _filename(move(filename))
 	{
 		auto memory = ObjShapeMemory::Instance();
 		if (!memory.Exists(fullname()))
 			memory.AddShape(loadOBJ(), fullname());
-		this->Shapes.push_back(memory.GetShape(fullname()));
+		shape = memory.GetShape(fullname());
+		this->Shapes.push_back(shape);
+
+
+		if (proxyPhysics) {
+			proxy = (new Proxy(this));
+		}
+
+		if (proxy != nullptr) {
+			float maxX = 0, minX = 0, maxY = 0, minY = 0, maxZ = 0, minZ = 0;
+			for (auto p : shape->Vertices)
+			{
+				smaller(minX, p.Position.X);
+				smaller(minY, p.Position.Y);
+				smaller(minZ, p.Position.Z);
+				bigger(maxX, p.Position.X);
+				bigger(maxY, p.Position.Y);
+				bigger(maxZ, p.Position.Z);
+			}
+			proxy->Scale = Vec3::Scale(Vec3(
+				maxX - minX,
+				maxY - minY,
+				maxZ - minZ
+			), 0.7);
+		}
 	}
+
+	void PostRender() override
+	{
+		this->proxy->DrawProxy();
+	}
+
 
 	void Init() override
 	{
@@ -64,4 +100,8 @@ public:
 			shape->Color = _color;
 	}
 
+	void Update(float frametime) override
+	{
+		proxy->Update(frametime);
+	}
 };

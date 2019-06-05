@@ -141,6 +141,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4244;4305</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,9 +152,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Gl_template.cpp" />
+    <ClCompile Include="CollisionDetectorHelper.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="IScene.cpp" />
     <ClCompile Include="MyScene.cpp" />
+    <ClCompile Include="Proxy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\RESOURCE.APS" />
@@ -167,6 +170,7 @@
     <ClInclude Include="Background.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chwytak.h" />
+    <ClInclude Include="CollisionDetectorHelper.h" />
     <ClInclude Include="ColorF.h" />
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Disc.h" />
@@ -177,6 +181,7 @@
     <ClInclude Include="image_loader.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="obj_loader.h" />
+    <ClInclude Include="Proxy.h" />
     <ClInclude Include="TextureMemory.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="InputHandler.h" />

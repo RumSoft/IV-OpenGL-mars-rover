@@ -46,6 +46,12 @@
     <ClCompile Include="MyScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionDetectorHelper.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Proxy.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\RESOURCE.H">
@@ -155,6 +161,12 @@
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDetectorHelper.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Proxy.h">
+      <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
