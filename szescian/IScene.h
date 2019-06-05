@@ -1,6 +1,8 @@
 #pragma once
 #include "InputHandler.h"
 #include "Geom.h"
+#include "Lazik.h"
+#include "ObjFile.h"
 
 class IScene : public Entity {
 public:
@@ -16,9 +18,13 @@ public:
 	void RenderScene();
 	void UpdateAllGeometries(float frametime);
 	void Update(float frametime);
+	void UpdatePhysics();
 
 	std::vector<Geom*> Geometries;
+	std::vector<ObjFile*> PhysicializedGeometries;
+	Lazik* Lazikk;
 	InputHandler* input;
+
 
 private:
 	void RenderAllObjects();

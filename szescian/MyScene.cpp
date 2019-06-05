@@ -8,6 +8,9 @@
 #include <ctime>
 #include "Map.h"
 
+#define smaller(a, b) if (b < a) a = b;
+#define bigger(a, b) if (b > a) a = b;
+
 
 MyScene::MyScene()
 {
@@ -72,7 +75,7 @@ MyScene::MyScene()
 
 
 	for (const auto k : kamienie)
-		this->Geometries.push_back((new ObjFile("objects", "marsrock"))
+		this->Geometries.push_back((new ObjFile("objects", "marsrock", true))
 			->WithScale(Vec3(
 				rand() % 20 + 30,
 				rand() % 20 + 30,
@@ -83,17 +86,27 @@ MyScene::MyScene()
 				rand() % 100 / 100.f,
 				rand() % 100 / 100.f)));
 
-	this->Geometries.push_back((new ObjFile("objects", "marsrock"))
+	this->Geometries.push_back((new ObjFile("objects", "marsrock",true))
 		->WithScale(100)
 		->WithPosition(Vec3(500, 500, 0))
 	);
-	this->Geometries.push_back((new ObjFile("objects", "marsrock"))
+	this->Geometries.push_back((new ObjFile("objects", "marsrock",true))
 		->WithScale(170)
 		->WithPosition(Vec3(-20, -900, 0))
 	);
 
+
+
 	this->Geometries.push_back(lazik);
 
+
+	Lazikk = lazik;
+	for (auto geom : Geometries)
+	{
+		const auto physGeom = dynamic_cast<ObjFile*>(geom);
+		if (physGeom != nullptr && physGeom->proxy != nullptr)
+			PhysicializedGeometries.push_back(physGeom);
+	}
 }
 
 MyScene::~MyScene() = default;

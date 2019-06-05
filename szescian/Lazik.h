@@ -2,12 +2,12 @@
 #include "Geom.h"
 #include "Kadlubek.h"
 #include "Kolo.h"
-#include "Ramie.h"
 #include "Chwytak.h"
 #include "Kamera.h"
 #include "Cylinder.h"
 #include <iostream>
-#include <string>
+#include "Proxy.h"
+
 
 #define debug
 
@@ -25,6 +25,7 @@ public:
 	Kolo* wheel2R;
 	Kolo* wheel3L;
 	Kolo* wheel3R;
+	Proxy* proxy = nullptr;
 
 	float H = 30.f, W = 50.f;
 
@@ -64,8 +65,12 @@ public:
 		this->Children.push_back(wheel3L);
 		this->Children.push_back(wheel3R);
 
-		input = InputHandler::GetInstance();
-	}
+
+	proxy = new Proxy(this);
+		proxy->Scale = Vec3(60, 50, 25);
+		proxy->Origin = Vec3(0,0,15);
+		input = InputHandler::GetInstance();	}
+
 
 	Quat zrot = Quat::Identity();
 
@@ -82,6 +87,16 @@ public:
 		updateAngleRotation();
 
 		this->Origin +=  Rotation * FORWARD * Velocity * frametime;
+
+		if(proxy != nullptr)
+		proxy->Update(frametime);
+	}
+
+	void PostRender() override
+	{
+		if (proxy != nullptr)
+
+		proxy->DrawProxy();
 	}
 
 	void CalculateRotations(float vv1, float vv2, float frametime)
@@ -169,6 +184,12 @@ public:
 			VelocityR = VelocityL = 0;
 
 		Velocity = (vv1 + vv2) / 2;
+
+		if(proxy->isColliding)
+		{
+			VelocityL *= 0.9;
+			VelocityR *= 0.9;
+		}
 	}
 
 	void updateAngleRotation()
@@ -209,7 +230,7 @@ public:
 		wheel3R->Rotation = Quat::FromAngleAxis(RDist / WheelRadius, LEFT);
 
 	}
+
+	
 };
-
-
 
