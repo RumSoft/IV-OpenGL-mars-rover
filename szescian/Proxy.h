@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Entity.h"
+#include "Geom.h"
 
 class Proxy : public Geom
 {

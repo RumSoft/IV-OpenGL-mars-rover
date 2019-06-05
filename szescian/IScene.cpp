@@ -121,7 +121,7 @@ void IScene::UpdatePhysics()
 	}
 }
 
-void IScene::RecursivelyUpdateGeometries(Geom* geom)
+void IScene::RecursivelyUpdateGeometries(Geom* geom, float frametime)
 {
 	geom->Update(frametime);
 	for (auto shape : geom->Shapes)

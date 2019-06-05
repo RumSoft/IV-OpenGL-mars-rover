@@ -1,7 +1,4 @@
 #pragma once
-#include "Shape.h"
-#include "Lazik.h"
-#include "ObjFile.h"
 
 const int MAP_SIZE = 120;
 const int MAP_LENGTH = MAP_SIZE + MAP_SIZE + 1;

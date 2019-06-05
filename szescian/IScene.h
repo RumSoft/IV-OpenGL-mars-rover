@@ -25,9 +25,6 @@ public:
 	Lazik* Lazikk;
 	InputHandler* input;
 
-	void UpdatePhysics();
-	std::vector<ObjFile*> PhysicializedGeometries;
-	Lazik* Lazikk;
 
 private:
 	void RenderAllObjects();

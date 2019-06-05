@@ -156,6 +156,7 @@
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="IScene.cpp" />
     <ClCompile Include="MyScene.cpp" />
+    <ClCompile Include="ObjFile.cpp" />
     <ClCompile Include="Proxy.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +172,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chwytak.h" />
     <ClInclude Include="CollisionDetector.h" />
+    <ClInclude Include="CollisionDetectorHelper.h" />
     <ClInclude Include="ColorF.h" />
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Disc.h" />

@@ -37,7 +37,6 @@ public:
 	float max_speed = 150;
 	float WheelRadius = 13.5;
 	float MinTurnRadius = 50;
-	Proxy* proxy = nullptr;
 
 	Lazik()
 	{
