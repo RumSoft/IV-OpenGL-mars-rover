@@ -18,8 +18,11 @@ public:
 	void RenderScene();
 	void UpdateAllGeometries(float frametime);
 	void Update(float frametime);
+	void UpdatePhysics();
 
 	std::vector<Geom*> Geometries;
+	std::vector<ObjFile*> PhysicializedGeometries;
+	Lazik* Lazikk;
 	InputHandler* input;
 
 	void UpdatePhysics();

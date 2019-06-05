@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "Entity.h"
-#include "Geom.h"
 
 class Proxy : public Geom
 {
@@ -11,8 +10,8 @@ public:
 
 	Geom* parent;
 	float Mass = 50;
-	float
-		MaxSpeed = 5;
+	float 
+	MaxSpeed = 5;
 	Vec3 Velocity = Vec3::Zero();
 	Vec3 Acceleration = Vec3::Zero();
 	Vec3 _acc = Vec3::Zero();

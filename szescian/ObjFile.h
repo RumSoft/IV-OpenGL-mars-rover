@@ -7,12 +7,13 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "image_loader.h"
 #include "TextureMemory.h"
+#include "Proxy.h"
+using namespace std;
 
 using namespace std;
 
 #define smaller(a, b) if (b < a) a = b;
 #define bigger(a, b) if (b > a) a = b;
-
 
 class ObjFile : public Geom
 {
@@ -103,5 +104,10 @@ public:
 	void Update(float frametime) override
 	{
 		proxy->Update(frametime);
+	}
+
+	void Update() override
+	{
+		proxy->Update();
 	}
 };

@@ -37,6 +37,7 @@ public:
 	float max_speed = 150;
 	float WheelRadius = 13.5;
 	float MinTurnRadius = 50;
+	Proxy* proxy = nullptr;
 
 	Lazik()
 	{
@@ -65,11 +66,11 @@ public:
 		this->Children.push_back(wheel3L);
 		this->Children.push_back(wheel3R);
 
-		input = InputHandler::GetInstance();
-		proxy = new Proxy(this);
+
+	proxy = new Proxy(this);
 		proxy->Scale = Vec3(60, 50, 25);
-		proxy->Origin = Vec3(0, 0, -5);
-	}
+		proxy->Origin = Vec3(0,0,-5);
+		input = InputHandler::GetInstance();	}
 
 
 	Quat zrot = Quat::Identity();
