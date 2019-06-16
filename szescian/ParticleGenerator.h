@@ -10,7 +10,7 @@ public:
 	Vec3 _offset;
 
 	Vec3 GeneratorSize = Vec3(10, 10, 0);
-	int spawnRate = 200; //per second
+	int spawnRate = 300; //per second
 
 	Vec3 PositionRandom = ONE * 50;
 	Vec3 VelocityRandom = Vec3::One();

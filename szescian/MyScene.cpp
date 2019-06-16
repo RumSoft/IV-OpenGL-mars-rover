@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include <ctime>
 #include "Map.h"
+#include "Meteor.h"
 
 #define smaller(a, b) if (b < a) a = b;
 #define bigger(a, b) if (b > a) a = b;
@@ -36,7 +37,7 @@ void MyScene::InitUI()
 	TwAddVarRO(bar, "posZ", TW_TYPE_FLOAT, &lazik->Origin.Z, "precision=1");
 
 	TwAddSeparator(bar, "paliwko", "value");
-	TwAddVarRO(bar, "Paliwko", TW_TYPE_FLOAT, &lazik->Fuel->_currentValue, "Paliwko");
+	TwAddVarRO(bar, "Paliwko", TW_TYPE_FLOAT, &lazik->Fuel->_currentValue, "precision=1");
 
 	TwAddSeparator(bar, "particles:", "particles:");
 	TwAddVarRO(bar, "particles", TW_TYPE_INT32, &particles, "particles");
@@ -118,8 +119,17 @@ MyScene::MyScene()
 
 MyScene::~MyScene() = default;
 
+
+
 void MyScene::Update(float frametime)
 {
 	TwRefreshBar(bar);
 	particles = Particles.size();
+
+
+	
+	if(input->IsPressed('V'))
+	{
+		this->Geometries.push_back(new Meteor(this, lazik->Origin));
+	}
 }

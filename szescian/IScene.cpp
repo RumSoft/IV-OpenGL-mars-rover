@@ -55,18 +55,32 @@ void IScene::RenderScene()
 
 void IScene::UpdateAllGeometries(float frametime)
 {
-	for (auto geom : this->Geometries)
-		RecursivelyUpdateGeometries(geom, frametime);
-	auto it = Particles.begin();
-	while (it != Particles.end()) {
-		it->Life += frametime;
-		if (it->Life > it->Lifetime) {
-			it = Particles.erase(it);	
+	//for (auto geom : this->Geometries)
+	//	RecursivelyUpdateGeometries(geom, frametime);
+
+	auto it = this->Geometries.begin();
+	while (it != this->Geometries.end())
+	{
+		if ((*it)->Delete)
+		{
+			delete* it;
+			this->Geometries.erase(it);
 		}
 		else
-			it->Update(frametime);
-		if(it != Particles.end())
+			RecursivelyUpdateGeometries(*it, frametime);
+		if (it != this->Geometries.end())
 			++it;
+	}
+
+	auto it2 = Particles.begin();
+	while (it2 != Particles.end()) {
+		it2->Life += frametime;
+		if (it2->Life > it2->Lifetime) 
+			it2 = Particles.erase(it2);	
+		else
+			it2->Update(frametime);
+		if(it2 != Particles.end())
+			++it2;
 	}
 }
 
@@ -139,8 +153,21 @@ void IScene::RecursivelyUpdateGeometries(Geom * geom, float frametime)
 	geom->Update(frametime);
 	for (auto shape : geom->Shapes)
 		shape->Update(frametime);
-	for (auto child : geom->Children)
-		RecursivelyUpdateGeometries(child, frametime);
+
+	auto it = geom->Children.begin();
+	while(it != geom->Children.end())
+	{
+		if((*it)->Delete)
+		{
+			delete* it;
+			geom->Children.erase(it);
+		}
+		else
+			RecursivelyUpdateGeometries(*it, frametime);
+		if (it != geom->Children.end())
+			++it;
+	}
+
 }
 
 float lerp(float a, float b, float t)

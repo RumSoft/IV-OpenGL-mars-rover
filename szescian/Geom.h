@@ -18,7 +18,7 @@ public:
 		for (auto shapes : Shapes)
 			shapes->Init();
 	}
-
+	bool Delete = false;
 	std::vector<Shape*> Shapes;
 	std::vector<Geom*> Children;
 	//virtual void PostInit() {}

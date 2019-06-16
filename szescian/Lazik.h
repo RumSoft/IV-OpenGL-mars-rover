@@ -29,11 +29,16 @@ public:
 	Proxy* proxy = nullptr;
 	CAttribute* Fuel;
 
-	ParticleGenerator* fp;
 
 	float H = 30.f, W = 50.f;
 
-	float VelocityDiff, Velocity, VelocityL = 0, VelocityR = 0, TurnRadius, LWheelAngle, RWheelAngle;
+	float VelocityDiff;
+	float Velocity;
+	float VelocityL = 0;
+	float VelocityR = 0;
+	float TurnRadius;
+	float LWheelAngle;
+	float RWheelAngle;
 	float LDist = 0, RDist = 0;
 	float angle = 0;
 	float maxAngle = D2R(180);
@@ -69,9 +74,6 @@ public:
 		this->Children.push_back(wheel3L);
 		this->Children.push_back(wheel3R);
 
-		fp = new ParticleGenerator(scene, this, UP * 50);
-		this->Children.push_back(fp->WithPosition(Vec3(0, 100, 10)));
-
 		_scene = scene;
 
 		proxy = new Proxy(this);
@@ -81,11 +83,11 @@ public:
 		Fuel = (CAttribute*)(new CAttribute(50000, 5, 1));
 	}
 
-
 	Quat zrot = Quat::Identity();
 
 	void Rozpierdol()
 	{
+		this->Scale.Z = 0.1;
 	}
 
 	void Update(float frametime) override

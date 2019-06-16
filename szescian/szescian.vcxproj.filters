@@ -29,12 +29,16 @@
     <Filter Include="Objects\Particles">
       <UniqueIdentifier>{26097f4a-9e06-49bb-9856-ae91ffad3369}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Fabula">
+      <UniqueIdentifier>{9e70f402-a3fe-4175-ba2a-9159c44f1195}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\RESOURCE.APS">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Gl_template.cpp">
@@ -183,6 +187,10 @@
     </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>Objects\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Proxy.h" />
+    <ClInclude Include="Meteor.h">
+      <Filter>Objects\Fabula</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

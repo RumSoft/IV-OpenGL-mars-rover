@@ -162,6 +162,7 @@
   <ItemGroup>
     <None Include="..\RESOURCE.APS" />
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AntTweakBar.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Disc.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Face.h" />
+    <ClInclude Include="Meteor.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleGenerator.h" />
     <ClInclude Include="Fuel.h" />
