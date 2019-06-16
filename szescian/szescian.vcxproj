@@ -178,6 +178,7 @@
     <ClInclude Include="Disc.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Face.h" />
+    <ClInclude Include="Fuel.h" />
     <ClInclude Include="Geom.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="image_loader.h" />

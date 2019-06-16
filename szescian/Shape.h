@@ -76,8 +76,8 @@ public:
 		// Copy file to OpenGL
 		glGenTextures(textureSlot, &texHandle);
 		glBindTexture(GL_TEXTURE_2D, texHandle);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
 
 		int width, height, nrChannels;
 		const auto data = stbi_load(file, &width, &height, &nrChannels, 0);
@@ -97,7 +97,7 @@ public:
 private:
 	static bool is_file_exist(const char* fileName)
 	{
-		std::ifstream infile(fileName);
+		const std::ifstream infile(fileName);
 		return infile.good();
 	}
 };

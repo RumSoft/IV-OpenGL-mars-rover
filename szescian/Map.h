@@ -1,8 +1,8 @@
 #pragma once
 
-const int MAP_SIZE = 120;
+const int MAP_SIZE = 100;
 const int MAP_LENGTH = MAP_SIZE + MAP_SIZE + 1;
-const int MAP_SCALE = 17; // one map[x][y] = 10 units in opengl
+const int MAP_SCALE = 30; // one map[x][y] = 10 units in opengl
 class Map : public Geom
 {
 	float _map[MAP_LENGTH][MAP_LENGTH];
@@ -53,8 +53,8 @@ class Map : public Geom
 				{
 
 					const auto a_ = geom->Shapes[1]->Vertices[k];
-					const auto b_ = geom->Shapes[1]->Vertices[1 + k];
-					const auto c_ = geom->Shapes[1]->Vertices[2 + k];
+					const auto b_ = geom->Shapes[1]->Vertices[k + 1];
+					const auto c_ = geom->Shapes[1]->Vertices[k + 2];
 					const auto a = scalePoint(geom, a_.Position);
 					const auto b = scalePoint(geom, b_.Position);
 					const auto c = scalePoint(geom, c_.Position);
@@ -75,7 +75,7 @@ public:
 			//init with 0s
 			for (auto& i : _map)
 				for (auto& j : i)
-					j = -10;
+					j = 50;
 		}
 
 
@@ -159,19 +159,9 @@ public:
 
 	void PostRender() override
 	{
-		//for (auto i = 0; i < MAP_LENGTH - 1; i++)
-		//	for (auto j = 0; j < MAP_LENGTH - 1; j++)
-		//		DrawSquare(i, j);
-
-		int a = (MAP_SIZE)* MAP_SCALE;
-		glLineWidth(5);
-		glColor3f(0, 0, 255);
-		glBegin(GL_LINE_LOOP);
-		glVertex3f(a, a, 0);
-		glVertex3f(a, -a, 0);
-		glVertex3f(-a, -a, 0);
-		glVertex3f(-a, a, 0);
-		glEnd();
+		for (auto i = 0; i < MAP_LENGTH - 1; i++)
+			for (auto j = 0; j < MAP_LENGTH - 1; j++)
+				DrawSquare(i, j);
 	}
 
 private:
