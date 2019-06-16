@@ -12,38 +12,13 @@
 #define bigger(a, b) if (b > a) a = b;
 
 
-MyScene::MyScene()
+void MyScene::InitUI()
 {
-	TwInit(TW_OPENGL, NULL);
+	TwInit(TW_OPENGL, nullptr);
 	bar = TwNewBar("OGLDEV");
 	TwWindowSize(1280, 720);
 
-	input = InputHandler::GetInstance();
-	this->Geometries.push_back(new Background());
-	//this->Geometries.push_back(new Grid(500, 50));
-	//this->Geometries.push_back(new Axes());
-	const auto lazik = new Lazik();
-	this->Geometries.push_back(new Camera(lazik));
-
-	Vec3 kamienie[] = {
-		Vec3(50, -300, -60),
-		Vec3(100, 100, 0),
-		Vec3(600, 600, -45),
-		Vec3(600, 800, -45),
-		Vec3(600, 700, -45),
-		Vec3(-250, -550, -70),
-		Vec3(1000, -500, -80),
-		Vec3(1850, 300, -150),
-		Vec3(1400, -900, -50),
-		Vec3(550, -800, -50),
-		Vec3(-100, -950, -50),
-		Vec3(-100, -950, -50),
-		Vec3(-100, -850, -50),
-		Vec3(-100, -750, -50),
-		Vec3(-100, -650, -50)
-	};
-
-	TwAddButton(bar, "Lazik", NULL, NULL, "");
+	TwAddButton(bar, "Lazik", nullptr, nullptr, "");
 	TwAddVarRO(bar, "Kat skretu", TW_TYPE_FLOAT, &lazik->angle, "Kat skretu kol");
 	TwAddVarRO(bar, "Predkosc", TW_TYPE_FLOAT, &lazik->speedAcc, "Aktualna predkosc lazika");
 	TwAddVarRO(bar, "V1", TW_TYPE_FLOAT, &lazik->VelocityL, "v1");
@@ -61,61 +36,81 @@ MyScene::MyScene()
 	TwAddVarRO(bar, "posY", TW_TYPE_FLOAT, &lazik->Origin.Y, "posY");
 	TwAddVarRO(bar, "posZ", TW_TYPE_FLOAT, &lazik->Origin.Z, "posZ");
 
-
-	//TwAddSeparator(bar, "ang", "speed");
-	//TwAddVarRO(bar, "ang1", TW_TYPE_FLOAT, &lazik->LWheelAngle, "ang1");
-	//TwAddVarRO(bar, "ang2", TW_TYPE_FLOAT, &lazik->RWheelAngle, "ang2");
-	
 	TwAddSeparator(bar, "paliwko", "value");
 	TwAddVarRO(bar, "Paliwko", TW_TYPE_FLOAT, &lazik->Fuel->_currentValue, "Paliwko");
+}
 
-
-
-	int kolory[] = { 0x99857a, 0xc67b5c, 0xe27b58, 0xff9d6f, 0x663926, 0x8e6a5a };
-	srand(time(NULL));
-
-	auto ground = new ObjFile("objects", "MarsGround", GRAY);
-	this->Geometries.push_back((ground)
-		->WithScale(200)
-		->WithPosition(Vec3(-1500, -1000, -100))
-		->WithRotation(Quat::FromAngleAxis(D2R(90), Vec3(1, 0, 0))));
-	auto map = new Map(lazik, ground);
-	this->Geometries.push_back(map->WithPosition(Vec3::Zero()));
-
-
+void MyScene::InitRocks()
+{
+	Vec3 kamienie[] = {
+		Vec3(50, -300, -60),
+		Vec3(100, 100, 0),
+		Vec3(600, 600, -45),
+		Vec3(600, 800, -45),
+		Vec3(600, 700, -45),
+		Vec3(-250, -550, -70),
+		Vec3(1000, -500, -80),
+		Vec3(1850, 300, -150),
+		Vec3(1400, -900, -50),
+		Vec3(550, -800, -50),
+		Vec3(-100, -950, -50),
+		Vec3(-100, -950, -50),
+		Vec3(-100, -850, -50),
+		Vec3(-100, -750, -50),
+		Vec3(-100, -650, -50)
+	};
 	for (const auto k : kamienie)
 		this->Geometries.push_back((new ObjFile("objects", "marsrock", true))
-			->WithScale(Vec3(
-				rand() % 20 + 30,
-				rand() % 20 + 30,
-				rand() % 20 + 30))
-			->WithPosition(k)
-			->WithRotation(Quat::FromEuler(
-				rand() % 100 / 100.f,
-				rand() % 100 / 100.f,
-				rand() % 100 / 100.f)));
+		                           ->WithScale(Vec3(
+			                           rand() % 20 + 30,
+			                           rand() % 20 + 30,
+			                           rand() % 20 + 30))
+		                           ->WithPosition(k)
+		                           ->WithRotation(Quat::FromEuler(
+			                           rand() % 100 / 100.f,
+			                           rand() % 100 / 100.f,
+			                           rand() % 100 / 100.f)));
 
-	this->Geometries.push_back((new ObjFile("objects", "marsrock",true))
-		->WithScale(100)
-		->WithPosition(Vec3(500, 500, 0))
+	this->Geometries.push_back((new ObjFile("objects", "marsrock", true))
+	                           ->WithScale(100)
+	                           ->WithPosition(Vec3(500, 500, 0))
 	);
-	this->Geometries.push_back((new ObjFile("objects", "marsrock",true))
-		->WithScale(170)
-		->WithPosition(Vec3(-20, -900, 0))
+	this->Geometries.push_back((new ObjFile("objects", "marsrock", true))
+	                           ->WithScale(170)
+	                           ->WithPosition(Vec3(-20, -900, 0))
 	);
+}
 
+void MyScene::InitGround()
+{
+	ground = new ObjFile("objects", "MarsGround", GRAY);
+	this->Geometries.push_back(ground
+	                           ->WithScale(200)
+	                           ->WithPosition(Vec3(-1500, -1000, -100))
+	                           ->WithRotation(Quat::FromAngleAxis(D2R(90), Vec3(1, 0, 0))));
+}
 
+MyScene::MyScene()
+{
+	InitRocks();
+	InitGround();
 
+	input = InputHandler::GetInstance();
+	this->Geometries.push_back(new Background());
+	lazik = new Lazik(this);
+	this->Geometries.push_back(new Camera(lazik));
 	this->Geometries.push_back(lazik);
+	map = new Map(this);
+	this->Geometries.push_back(map->WithPosition(Vec3::Zero()));
 
-
-	Lazikk = lazik;
 	for (auto geom : Geometries)
 	{
 		const auto physGeom = dynamic_cast<ObjFile*>(geom);
 		if (physGeom != nullptr && physGeom->proxy != nullptr)
 			PhysicializedGeometries.push_back(physGeom);
 	}
+
+	InitUI();
 }
 
 MyScene::~MyScene() = default;

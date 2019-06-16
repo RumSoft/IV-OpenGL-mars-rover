@@ -1,8 +1,10 @@
 #pragma once
 #include "InputHandler.h"
 #include "Geom.h"
-#include "Lazik.h"
-#include "ObjFile.h"
+
+class Lazik;
+class Map;
+class ObjFile;
 
 class IScene : public Entity {
 public:
@@ -22,9 +24,12 @@ public:
 
 	std::vector<Geom*> Geometries;
 	std::vector<ObjFile*> PhysicializedGeometries;
-	Lazik* Lazikk;
 	InputHandler* input;
-
+	
+	Lazik* lazik;
+	//vector<Lazik*> laziki;
+	Map* map;
+	ObjFile* ground;
 
 private:
 	void RenderAllObjects();

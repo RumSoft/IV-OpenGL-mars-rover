@@ -59,7 +59,7 @@ void IScene::UpdateAllGeometries(float frametime)
 
 void IScene::UpdatePhysics()
 {
-	const auto a = Lazikk;
+	const auto a = lazik;
 	const auto apos = a->proxy->Origin + a->Origin;
 	const auto asize1 = a->proxy->Scale;
 	const auto asize2 = a->Scale;
@@ -117,7 +117,7 @@ void IScene::UpdatePhysics()
 			b_pts[i] = brot * bpts[i] + bpos;			
 
 		if(CollisionDetectorHelper::Intersects(a_pts,  b_pts, arot, brot))
-			return Lazikk->proxy->OnCollision(geom->proxy);
+			return lazik->proxy->OnCollision(geom->proxy);
 	}
 }
 
@@ -163,8 +163,8 @@ void IScene::RecursivelyRenderGeometries(Geom * geom, Entity * parent)
 				parent->Scale) + parent->Origin;
 
 			const auto n = parent->Rotation * geom->Rotation * shape->Rotation * v.Normal;
-
-			glNormal3f(XYZ(Vec3::Normalized(n)));
+			const auto nn = Vec3::Normalized(n);
+			glNormal3f(XYZ(nn));
 			glTexCoord2d(XY(v.TextureCoordinate));
 			glVertex3f(XYZ(p));
 		}

@@ -4,17 +4,16 @@
 #include "Kolo.h"
 #include "Chwytak.h"
 #include "Kamera.h"
-#include "Cylinder.h"
 #include "Fuel.h"
 #include <iostream>
 #include "Proxy.h"
 
-
-#define debug
+class IScene;
 
 class Lazik : public Geom
 {
 private:
+	IScene* _scene;
 	InputHandler* input;
 public:
 	Chwytak* chwytak;
@@ -40,7 +39,7 @@ public:
 	float WheelRadius = 13.5;
 	float MinTurnRadius = 50;
 
-	Lazik()
+	Lazik(IScene* scene)
 	{
 		this->Rotation *= Quat::FromAngleAxis(Deg2Rad(0), Vec3::Up());
 
@@ -67,6 +66,7 @@ public:
 		this->Children.push_back(wheel3L);
 		this->Children.push_back(wheel3R);
 
+		_scene = scene;
 
 		proxy = new Proxy(this);
 		proxy->Scale = Vec3(60, 50, 25);
@@ -78,6 +78,11 @@ public:
 
 
 	Quat zrot = Quat::Identity();
+
+	void Rozpierdol()
+	{
+		
+	}
 
 	void Update(float frametime) override
 	{
@@ -91,14 +96,15 @@ public:
 		updateWheelRotation(vv1, vv2, frametime);
 		updateAngleRotation();
 
+		if (input->IsDown('M'))
+			Rozpierdol();
+
 		if (proxy != nullptr)
 			proxy->Update(frametime);
 
-		//if(Velocity<1 && Velocity>-1)
 		Fuel->Update(frametime);
 
 		this->Origin += Quat::GetZRotation(Rotation) * FORWARD * Velocity * frametime;
-
 	}
 
 	void CalculateRotations(float vv1, float vv2, float frametime)
@@ -125,19 +131,11 @@ public:
 			TurnRadius *= VelocityDiff;
 			if (abs(TurnRadius) < 0.1)
 				TurnRadius = 0;
-
-			/*if (TurnRadius > 0 && TurnRadius < MinTurnRadius)
-				TurnRadius = MinTurnRadius;
-
-			if (TurnRadius < 0 && abs(TurnRadius) < MinTurnRadius)
-				TurnRadius = -MinTurnRadius;
-*/
 		}
 	}
 
 	void UpdateSteering(float& vv1, float& vv2, float frametime)
 	{
-
 		if (input->IsDown('D'))
 			vv1 *= 0.8;
 		else if (input->IsDown('A'))
@@ -194,8 +192,6 @@ public:
 			VelocityL *= 0.3;
 			VelocityR *= 0.3;
 		}
-		if (abs(Velocity) < 0.5)
-			Velocity = 0;
 	}
 
 	void updateAngleRotation()
@@ -234,9 +230,6 @@ public:
 
 		wheel3L->Rotation = Quat::FromAngleAxis(LDist / WheelRadius, LEFT);
 		wheel3R->Rotation = Quat::FromAngleAxis(RDist / WheelRadius, LEFT);
-
 	}
-
-
 };
 

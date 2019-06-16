@@ -3,19 +3,24 @@
 const int MAP_SIZE = 100;
 const int MAP_LENGTH = MAP_SIZE + MAP_SIZE + 1;
 const int MAP_SCALE = 30; // one map[x][y] = 10 units in opengl
+
+#include "IScene.h"
+#include "Lazik.h"
+
 class Map : public Geom
 {
 	float _map[MAP_LENGTH][MAP_LENGTH];
-	Lazik* _lazik;
 
 	Vec3 midpoint;
+	IScene* _scene;
+	Lazik* _lazik;
 
 	float sign(Vec3 p1, Vec3 p2, Vec3 p3)
 	{
 		return (p1.X - p3.X) * (p2.Y - p3.Y) - (p2.X - p3.X) * (p1.Y - p3.Y);
 	}
 
-	bool PointInTriangle(Vec3 pt, Vec3 v1, Vec3 v2, Vec3 v3)
+	bool IsPointInTriangle(Vec3 pt, Vec3 v1, Vec3 v2, Vec3 v3)
 	{
 		const auto d1 = sign(pt, v1, v2);
 		const auto d2 = sign(pt, v2, v3);
@@ -27,9 +32,9 @@ class Map : public Geom
 		return !(has_neg && has_pos);
 	}
 
-	Vec3 scalePoint(Geom* geom, Vec3 v)
+	Vec3 scalePoint(Geom * geom, Vec3 v)
 	{
-		return geom->Rotation * Vec3::Scale(v, geom->Scale) + geom->Origin;
+		return geom->Rotation* Vec3::Scale(v, geom->Scale) + geom->Origin;
 	}
 
 	float InterpolateTraingle(Vec3 p, Vec3 a, Vec3 b, Vec3 c)
@@ -44,8 +49,7 @@ class Map : public Geom
 		return a.Z * w1 + b.Z * w2 + c.Z * w3;
 	}
 
-
-	void InitializeHeightmap(Geom* geom)
+	void InitializeHeightmap(Geom * geom)
 	{
 		for (int i = 0; i < MAP_LENGTH; i++)
 			for (int j = 0; j < MAP_LENGTH; j++)
@@ -61,7 +65,7 @@ class Map : public Geom
 
 					auto p = ToWorld(Vec3(i, j));
 					p.Z = 0;
-					if (PointInTriangle(p, a, b, c))
+					if (IsPointInTriangle(p, a, b, c))
 					{
 						_map[i][j] = InterpolateTraingle(p, a, b, c);
 					}
@@ -69,20 +73,22 @@ class Map : public Geom
 				}
 	}
 public:
-	Map(Lazik* lazik, ObjFile* mapGeom)
+	Map(IScene * scene)
 	{
-		{
-			//init with 0s
-			for (auto& i : _map)
-				for (auto& j : i)
-					j = 50;
-		}
+
+		//init with 0s
+		for (auto& i : _map)
+			for (auto& j : i)
+				j = -100;
 
 
-		InitializeHeightmap(mapGeom);
+		_scene = scene;
+		_lazik = _scene->lazik;
 
-		_lazik = lazik;
+		InitializeHeightmap((Geom*)_scene->ground);
 	}
+
+
 
 	//update lazik to align to ground
 	void Update(float frametime) override
@@ -194,6 +200,6 @@ private:
 	/// convert map coordinates to world position
 	Vec3 ToWorld(const Vec3 mapPos) const
 	{
-		return (mapPos - MAP_SIZE ) * MAP_SCALE;
+		return (mapPos - MAP_SIZE) * MAP_SCALE;
 	}
 };

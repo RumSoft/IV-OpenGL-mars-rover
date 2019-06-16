@@ -1,6 +1,6 @@
 #pragma once
 #include "Geom.h"
-
+#include "Lazik.h"
 
 class Camera : public Geom
 {
