@@ -1,10 +1,11 @@
-#include "IScene.h"
+﻿#include "IScene.h"
 #include <gl/gl.h>
 #include <string>
 #include "M33.h"
 #include "../AntTweakBar.h"
 #include "ObjFile.h"
 #include "Camera.h"
+#include <cmath>
 #include "CollisionDetector.h"
 
 auto TypeToGlMode(ShapeType type)
@@ -58,8 +59,8 @@ void IScene::UpdateAllGeometries(float frametime)
 		RecursivelyUpdateGeometries(geom, frametime);
 	auto it = Particles.begin();
 	while (it != Particles.end()) {
-		it->life += frametime;
-		if (it->life > it->LifeTime) {
+		it->Life += frametime;
+		if (it->Life > it->Lifetime) {
 			it = Particles.erase(it);	
 		}
 		else
@@ -142,17 +143,27 @@ void IScene::RecursivelyUpdateGeometries(Geom * geom, float frametime)
 		RecursivelyUpdateGeometries(child, frametime);
 }
 
+float lerp(float a, float b, float t)
+{
+	return a + t * (b - a);
+}
+
 void IScene::RenderParticle(Particle particle)
 {
 	const auto c1 = particle.StartColor.rgba;
 	const auto c2 = particle.EndColor.rgba;
+	const auto t = particle.Life / particle.Lifetime;
 	ColorF color = ColorF(
-		(c1[0] + c2[0]) / 2,
-		(c1[1] + c2[1]) / 2,
-		(c1[2] + c2[2]) / 2,
-		(c1[3] + c2[3]) / 2);
-	glColor4f(color.rgba[0], color.rgba[1], color.rgba[2], color.rgba[3]);
+		lerp(c1[0], c2[0], t),
+		lerp(c1[1], c2[1], t),
+		lerp(c1[2], c2[2], t),
+		lerp(c1[3], c2[3], t));
+	const auto size = lerp(particle.StartSize, particle.EndSize, t);
+	glPointSize(size);
+	glBegin(GL_POINTS);
+	glColor4f(TAB4(color.rgba));
 	glVertex3f(XYZ(particle.Position));
+	glEnd();
 }
 
 void IScene::RenderAllObjects()
@@ -161,12 +172,11 @@ void IScene::RenderAllObjects()
 		RecursivelyRenderGeometries(geom, new Entity());
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	glPointSize(5.0);
-
-	glBegin(GL_POINTS);
+	
+	
 	for (const auto particle : Particles)
 		RenderParticle(particle);
-	glEnd();		
+	
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 }

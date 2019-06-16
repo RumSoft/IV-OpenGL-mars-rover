@@ -21,25 +21,25 @@ void MyScene::InitUI()
 
 	TwAddButton(bar, "Lazik", nullptr, nullptr, "");
 	TwAddVarRO(bar, "Predkosc", TW_TYPE_FLOAT, &lazik->speedAcc, "Aktualna predkosc lazika");
-	TwAddVarRO(bar, "V1", TW_TYPE_FLOAT, &lazik->VelocityL, "v1");
-	TwAddVarRO(bar, "V2", TW_TYPE_FLOAT, &lazik->VelocityR, "v2");
+	TwAddVarRO(bar, "V1", TW_TYPE_FLOAT, &lazik->VelocityL, "precision=1");
+	TwAddVarRO(bar, "V2", TW_TYPE_FLOAT, &lazik->VelocityR, "precision=1");
 
 	TwAddSeparator(bar, "rot", "rot");
-	TwAddVarRO(bar, "rotX", TW_TYPE_FLOAT, &lazik->Rotation.X, "Rotx");
-	TwAddVarRO(bar, "rotY", TW_TYPE_FLOAT, &lazik->Rotation.Y, "Roty");
-	TwAddVarRO(bar, "rotZ", TW_TYPE_FLOAT, &lazik->Rotation.Z, "Rotz");
-	TwAddVarRO(bar, "rotW", TW_TYPE_FLOAT, &lazik->Rotation.W, "Rotw");
+	TwAddVarRO(bar, "rotX", TW_TYPE_FLOAT, &lazik->Rotation.X, "precision=1");
+	TwAddVarRO(bar, "rotY", TW_TYPE_FLOAT, &lazik->Rotation.Y, "precision=1");
+	TwAddVarRO(bar, "rotZ", TW_TYPE_FLOAT, &lazik->Rotation.Z, "precision=1");
+	TwAddVarRO(bar, "rotW", TW_TYPE_FLOAT, &lazik->Rotation.W, "precision=1");
 
 	TwAddSeparator(bar, "pos", "pos");
-	TwAddVarRO(bar, "posX", TW_TYPE_FLOAT, &lazik->Origin.X, "posX");
-	TwAddVarRO(bar, "posY", TW_TYPE_FLOAT, &lazik->Origin.Y, "posY");
-	TwAddVarRO(bar, "posZ", TW_TYPE_FLOAT, &lazik->Origin.Z, "posZ");
+	TwAddVarRO(bar, "posX", TW_TYPE_FLOAT, &lazik->Origin.X, "precision=1");
+	TwAddVarRO(bar, "posY", TW_TYPE_FLOAT, &lazik->Origin.Y, "precision=1");
+	TwAddVarRO(bar, "posZ", TW_TYPE_FLOAT, &lazik->Origin.Z, "precision=1");
 
 	TwAddSeparator(bar, "paliwko", "value");
 	TwAddVarRO(bar, "Paliwko", TW_TYPE_FLOAT, &lazik->Fuel->_currentValue, "Paliwko");
 
-	TwAddSeparator(bar, "particles", "particles");
-	TwAddVarRO(bar, "particless", TW_TYPE_INT32, &particles, "particless");
+	TwAddSeparator(bar, "particles:", "particles:");
+	TwAddVarRO(bar, "particles", TW_TYPE_INT32, &particles, "particles");
 
 }
 

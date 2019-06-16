@@ -5,7 +5,6 @@
 //CAttribute
 //callback pattern from 
 //https://gist.github.com/4poc/3155832
-#define ZERO  0;
 
 class CAttribute
 {
@@ -19,7 +18,7 @@ public:
 	}
 
 	bool IsFull() { return _currentValue == _maxValue; }
-	bool IsZero() { return _currentValue == ZERO; }
+	bool IsZero() { return _currentValue <= 0; }
 
 	float GetValue() { return _currentValue; }
 	float GetMaxValue() { return _maxValue; }

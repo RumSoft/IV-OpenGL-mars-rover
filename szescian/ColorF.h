@@ -29,10 +29,10 @@ public:
 		rgba[3] = 1;
 	}
 
-	ColorF Red(const float r)		{ rgba[0] = r; return *this; }
-	ColorF Green(const float g)		{ rgba[1] = g; return *this; }
-	ColorF Blue(const float b)		{ rgba[2] = b; return *this; }
-	ColorF Opacity(const float a)	{ rgba[3] = a; return *this; }
+	ColorF Red(float r) { r = min(1, r); rgba[0] = r; return *this; }
+	ColorF Green(float g) { g = min(1, g); rgba[1] = g; return *this; }
+	ColorF Blue(float b) { b = min(1, b);  rgba[2] = b; return *this; }
+	ColorF Opacity(float a) { a = min(1, a); rgba[3] = a; return *this; }
 	GLfloat* GL() { return rgba; }
 
 };

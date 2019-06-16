@@ -12,10 +12,19 @@
 #define RIGHT Vec3::Right()
 #define LEFT Vec3::Left()
 
+#define ONE Vec3::One()
+#define ZERO Vec3::Zero()
+
+
+
 #define axisZ UP
+
 #define XYZ(o) o.X, o.Y, o.Z
 #define XYN(o) o.X, o.Y, 0
 #define XY(o) o.X, o.Y
+
+#define TAB3(o) o[0], o[1], o[2]
+#define TAB4(o) o[0], o[1], o[2], o[3]
 
 struct Vec3
 {

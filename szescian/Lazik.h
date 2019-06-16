@@ -69,7 +69,7 @@ public:
 		this->Children.push_back(wheel3L);
 		this->Children.push_back(wheel3R);
 
-		fp = new ParticleGenerator(scene);
+		fp = new ParticleGenerator(scene, this, UP * 50);
 		this->Children.push_back(fp->WithPosition(Vec3(0, 100, 10)));
 
 		_scene = scene;
@@ -86,8 +86,6 @@ public:
 
 	void Rozpierdol()
 	{
-		const auto particle = FireParticle(this->Origin);
-		_scene->Particles.push_back(particle);
 	}
 
 	void Update(float frametime) override
