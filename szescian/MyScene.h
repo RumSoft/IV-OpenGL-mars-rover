@@ -6,6 +6,7 @@
 class MyScene : public IScene
 {
 public:
+	
 	TwBar* bar;
 	void InitUI();
 	void InitRocks();

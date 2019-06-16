@@ -178,6 +178,8 @@
     <ClInclude Include="Disc.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Face.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleGenerator.h" />
     <ClInclude Include="Fuel.h" />
     <ClInclude Include="Geom.h" />
     <ClInclude Include="Grid.h" />

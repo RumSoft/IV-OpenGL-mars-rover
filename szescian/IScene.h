@@ -1,6 +1,7 @@
 #pragma once
 #include "InputHandler.h"
 #include "Geom.h"
+#include "Particle.h"
 
 class Lazik;
 class Map;
@@ -18,9 +19,12 @@ public:
 	}
 
 	void RenderScene();
+	void UpdateParticle(Particle* particle, float frametime);
 	void UpdateAllGeometries(float frametime);
 	void Update(float frametime);
 	void UpdatePhysics();
+
+	std::vector<Particle*> Particles;
 
 	std::vector<Geom*> Geometries;
 	std::vector<ObjFile*> PhysicializedGeometries;
@@ -30,8 +34,9 @@ public:
 	//vector<Lazik*> laziki;
 	Map* map;
 	ObjFile* ground;
-
+	int particles = 0;
 private:
+	void RenderParticle(Particle* particle);
 	void RenderAllObjects();
 	void RecursivelyRenderGeometries(Geom* geom, Entity* parent);
 	void RecursivelyUpdateGeometries(Geom * geom, float frametime);

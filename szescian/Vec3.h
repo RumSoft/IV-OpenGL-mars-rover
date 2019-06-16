@@ -30,6 +30,15 @@ struct Vec3
 		float data[3];
 	};
 
+	static Vec3 Random(Vec3 range)
+	{
+		auto x = fmod(rand(), range.X);
+		auto y = fmod(rand(), range.Y);
+		auto z = fmod(rand(), range.Z);
+		return Vec3(x, y, z);
+	}
+
+	static Vec3 RandomSym(Vec3 range);
 
 	/**
 	 * Constructors.
@@ -328,6 +337,11 @@ inline bool operator!=(const Vec3 lhs, const Vec3 rhs);
 /*******************************************************************************
  * Implementation
  */
+
+inline Vec3 Vec3::RandomSym(Vec3 range)
+{
+	return Random(range / 2) - (range / 2);
+}
 
 Vec3::Vec3() : X(0), Y(0), Z(0) {}
 Vec3::Vec3(float data[]) : X(data[0]), Y(data[1]), Z(data[2]) {}

@@ -51,10 +51,22 @@ void IScene::RenderScene()
 	glFlush();
 }
 
+
 void IScene::UpdateAllGeometries(float frametime)
 {
 	for (auto geom : this->Geometries)
 		RecursivelyUpdateGeometries(geom, frametime);
+	auto it = Particles.begin();
+	while (it != Particles.end()) {
+		(*it)->life += frametime;
+		if ((*it)->life > (*it)->LifeTime) {
+			delete* it;
+			it = Particles.erase(it);	
+		}
+		else
+			(*it)->Update(frametime);
+		++it;
+	}
 }
 
 void IScene::UpdatePhysics()
@@ -66,7 +78,7 @@ void IScene::UpdatePhysics()
 	const auto asize = Vec3::Scale(asize1, asize2);
 	const auto arot = a->Rotation;
 
-	for(auto geom : PhysicializedGeometries)
+	for (auto geom : PhysicializedGeometries)
 	{
 		const auto b = geom;
 		const auto bpos = b->proxy->Origin + b->Origin;
@@ -74,7 +86,7 @@ void IScene::UpdatePhysics()
 		const auto bsize2 = b->Scale;
 		const auto bsize = Vec3::Scale(bsize1, bsize2);
 		const auto brot = b->Rotation;
-		
+
 		auto distSqr = Vec3::SqrMagnitude(bpos - apos);
 		if (distSqr > 20000) continue;
 		//method1 : simple cubes
@@ -112,16 +124,16 @@ void IScene::UpdatePhysics()
 
 		for (int i = 0; i < 8; i++)
 			a_pts[i] = arot * apts[i] + apos;
-				
-		for (int i = 0; i < 8; i++)
-			b_pts[i] = brot * bpts[i] + bpos;			
 
-		if(CollisionDetectorHelper::Intersects(a_pts,  b_pts, arot, brot))
+		for (int i = 0; i < 8; i++)
+			b_pts[i] = brot * bpts[i] + bpos;
+
+		if (CollisionDetectorHelper::Intersects(a_pts, b_pts, arot, brot))
 			return lazik->proxy->OnCollision(geom->proxy);
 	}
 }
 
-void IScene::RecursivelyUpdateGeometries(Geom* geom, float frametime)
+void IScene::RecursivelyUpdateGeometries(Geom * geom, float frametime)
 {
 	geom->Update(frametime);
 	for (auto shape : geom->Shapes)
@@ -130,10 +142,34 @@ void IScene::RecursivelyUpdateGeometries(Geom* geom, float frametime)
 		RecursivelyUpdateGeometries(child, frametime);
 }
 
+void IScene::RenderParticle(Particle * particle)
+{
+	const auto c1 = particle->StartColor.rgba;
+	const auto c2 = particle->EndColor.rgba;
+	ColorF color = ColorF(
+		(c1[0] + c2[0]) / 2,
+		(c1[1] + c2[1]) / 2,
+		(c1[2] + c2[2]) / 2,
+		(c1[3] + c2[3]) / 2);
+	glColor4fv(color.GL());
+	glVertex3f(XYZ(particle->Position));
+}
+
 void IScene::RenderAllObjects()
 {
 	for (auto geom : Geometries)
 		RecursivelyRenderGeometries(geom, new Entity());
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+	glPointSize(5.0);
+
+	glBegin(GL_POINTS);
+	for (auto particle : Particles)
+		RenderParticle(particle);
+	glEnd();		
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 }
 
 void IScene::RecursivelyRenderGeometries(Geom * geom, Entity * parent)
@@ -145,15 +181,15 @@ void IScene::RecursivelyRenderGeometries(Geom * geom, Entity * parent)
 
 		geom->PreRender();
 		shape->PreRender();
-		
+
 		if (shape->texture > 0) {
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, shape->texture);
 		}
-		
+
 		glBegin(TypeToGlMode(shape->Type));
 		glColor4fv(shape->Color.GL());
-		
+
 		for (const auto v : shape->Vertices)
 		{
 			const auto p = parent->Rotation * Vec3::Scale(

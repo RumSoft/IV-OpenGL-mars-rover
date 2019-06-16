@@ -26,6 +26,9 @@
     <Filter Include="Objects\Shapes">
       <UniqueIdentifier>{0c27bd52-bf71-4c22-b002-3b30b1d3b138}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Particles">
+      <UniqueIdentifier>{26097f4a-9e06-49bb-9856-ae91ffad3369}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\RESOURCE.APS">
@@ -172,6 +175,14 @@
     <ClInclude Include="Proxy.h" />
     <ClInclude Include="CollisionDetectorHelper.h">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Fuel.h" />
+    <ClInclude Include="Proxy.h" />
+    <ClInclude Include="ParticleGenerator.h">
+      <Filter>Objects\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Objects\Particles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

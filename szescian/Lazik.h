@@ -7,6 +7,7 @@
 #include "Fuel.h"
 #include <iostream>
 #include "Proxy.h"
+#include "ParticleGenerator.h"
 
 class IScene;
 
@@ -27,6 +28,8 @@ public:
 	Kolo* wheel3R;
 	Proxy* proxy = nullptr;
 	CAttribute* Fuel;
+
+	ParticleGenerator* fp;
 
 	float H = 30.f, W = 50.f;
 
@@ -66,6 +69,9 @@ public:
 		this->Children.push_back(wheel3L);
 		this->Children.push_back(wheel3R);
 
+		fp = new ParticleGenerator(scene);
+		this->Children.push_back(fp->WithPosition(Vec3(0, 100, 10)));
+
 		_scene = scene;
 
 		proxy = new Proxy(this);
@@ -73,7 +79,6 @@ public:
 		proxy->Origin = Vec3(0, 0, 15);
 		input = InputHandler::GetInstance();
 		Fuel = (CAttribute*)(new CAttribute(50000, 5, 1));
-
 	}
 
 
@@ -81,7 +86,8 @@ public:
 
 	void Rozpierdol()
 	{
-		
+		const auto particle = new FireParticle(this->Origin);
+		_scene->Particles.push_back(particle);
 	}
 
 	void Update(float frametime) override
@@ -111,7 +117,8 @@ public:
 	{
 		if (vv1 == vv2)
 			LWheelAngle = RWheelAngle = 0;
-		else {
+		else
+		{
 			LWheelAngle = atan(H / (TurnRadius - W / 2));
 			RWheelAngle = atan(H / (TurnRadius + W / 2));
 
@@ -122,8 +129,9 @@ public:
 
 	void CalculateTurnRadius(float vv1, float vv2)
 	{
-		if (vv1 == vv2)  TurnRadius = 0;
-		else {
+		if (vv1 == vv2) TurnRadius = 0;
+		else
+		{
 			TurnRadius = W * (vv1 + vv2) / (2 * (vv1 - vv2));
 
 			VelocityDiff = abs(vv1 - vv2) / W;
@@ -158,7 +166,8 @@ public:
 			VelocityR -= 50 * frametime;
 		}
 
-		if (!input->IsDown('S') && Velocity < 0) {
+		if (!input->IsDown('S') && Velocity < 0)
+		{
 			VelocityL += 50 * frametime;
 			VelocityR += 50 * frametime;
 		}
@@ -177,7 +186,8 @@ public:
 			Fuel->ChangeValue(-5 * frametime);
 		}
 
-		if (input->IsDown('1')) {
+		if (input->IsDown('1'))
+		{
 			VelocityL += 100 * frametime;
 			VelocityR += 100 * frametime;
 		}
@@ -231,5 +241,5 @@ public:
 		wheel3L->Rotation = Quat::FromAngleAxis(LDist / WheelRadius, LEFT);
 		wheel3R->Rotation = Quat::FromAngleAxis(RDist / WheelRadius, LEFT);
 	}
-};
 
+};

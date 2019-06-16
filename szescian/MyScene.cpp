@@ -17,13 +17,12 @@ void MyScene::InitUI()
 	TwInit(TW_OPENGL, nullptr);
 	bar = TwNewBar("OGLDEV");
 	TwWindowSize(1280, 720);
+	
 
 	TwAddButton(bar, "Lazik", nullptr, nullptr, "");
-	TwAddVarRO(bar, "Kat skretu", TW_TYPE_FLOAT, &lazik->angle, "Kat skretu kol");
 	TwAddVarRO(bar, "Predkosc", TW_TYPE_FLOAT, &lazik->speedAcc, "Aktualna predkosc lazika");
 	TwAddVarRO(bar, "V1", TW_TYPE_FLOAT, &lazik->VelocityL, "v1");
 	TwAddVarRO(bar, "V2", TW_TYPE_FLOAT, &lazik->VelocityR, "v2");
-	TwAddVarRO(bar, "R", TW_TYPE_FLOAT, &lazik->TurnRadius, "R");
 
 	TwAddSeparator(bar, "rot", "rot");
 	TwAddVarRO(bar, "rotX", TW_TYPE_FLOAT, &lazik->Rotation.X, "Rotx");
@@ -38,6 +37,10 @@ void MyScene::InitUI()
 
 	TwAddSeparator(bar, "paliwko", "value");
 	TwAddVarRO(bar, "Paliwko", TW_TYPE_FLOAT, &lazik->Fuel->_currentValue, "Paliwko");
+
+	TwAddSeparator(bar, "particles", "particles");
+	TwAddVarRO(bar, "particless", TW_TYPE_INT32, &particles, "particless");
+
 }
 
 void MyScene::InitRocks()
@@ -118,4 +121,5 @@ MyScene::~MyScene() = default;
 void MyScene::Update(float frametime)
 {
 	TwRefreshBar(bar);
+	particles = Particles.size();
 }
