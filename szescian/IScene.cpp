@@ -166,6 +166,7 @@ void IScene::RecursivelyRenderGeometries(Geom * geom, Entity * parent)
 			const auto nn = Vec3::Normalized(n);
 			glNormal3f(XYZ(nn));
 			glTexCoord2d(XY(v.TextureCoordinate));
+
 			glVertex3f(XYZ(p));
 		}
 
