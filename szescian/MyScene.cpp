@@ -29,12 +29,18 @@ MyScene::MyScene()
 		Vec3(50, -300, -60),
 		Vec3(100, 100, 0),
 		Vec3(600, 600, -45),
+		Vec3(600, 800, -45),
+		Vec3(600, 700, -45),
 		Vec3(-250, -550, -70),
 		Vec3(1000, -500, -80),
 		Vec3(1850, 300, -150),
 		Vec3(1400, -900, -50),
 		Vec3(550, -800, -50),
-		Vec3(-100, -950, -50)
+		Vec3(-100, -950, -50),
+		Vec3(-100, -950, -50),
+		Vec3(-100, -850, -50),
+		Vec3(-100, -750, -50),
+		Vec3(-100, -650, -50)
 	};
 
 	TwAddButton(bar, "Lazik", NULL, NULL, "");
@@ -61,7 +67,7 @@ MyScene::MyScene()
 	//TwAddVarRO(bar, "ang2", TW_TYPE_FLOAT, &lazik->RWheelAngle, "ang2");
 	
 	TwAddSeparator(bar, "paliwko", "value");
-	TwAddVarRO(bar, "_currentValue", TW_TYPE_FLOAT, &lazik->Fuel->_currentValue, "_currentValue");
+	TwAddVarRO(bar, "Paliwko", TW_TYPE_FLOAT, &lazik->Fuel->_currentValue, "Paliwko");
 
 
 
@@ -70,8 +76,8 @@ MyScene::MyScene()
 
 	auto ground = new ObjFile("objects", "MarsGround", GRAY);
 	this->Geometries.push_back((ground)
-		->WithScale(120)
-		->WithPosition(Vec3(0, 0, -100))
+		->WithScale(200)
+		->WithPosition(Vec3(-1500, -1000, -100))
 		->WithRotation(Quat::FromAngleAxis(D2R(90), Vec3(1, 0, 0))));
 	auto map = new Map(lazik, ground);
 	this->Geometries.push_back(map->WithPosition(Vec3::Zero()));
