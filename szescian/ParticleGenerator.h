@@ -10,12 +10,12 @@ public:
 	int spawnRate = 100; //(//10/s)
 	void AddParticle()
 	{
-		auto particle = new Particle();
+		auto particle = Particle();
 		auto posX = rand() / GeneratorSize.X;
 		auto posY = rand() / GeneratorSize.Y;
 		auto posZ = rand() / GeneratorSize.Z;
 
-		particle->Position = Vec3(posX, posY, posZ);
+		particle.Position = Vec3(posX, posY, posZ);
 		_scene->Particles.push_back(particle);
 	}
 	

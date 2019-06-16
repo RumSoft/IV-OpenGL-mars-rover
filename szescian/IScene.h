@@ -19,12 +19,12 @@ public:
 	}
 
 	void RenderScene();
-	void UpdateParticle(Particle* particle, float frametime);
+	void UpdateParticle(Particle particle, float frametime);
 	void UpdateAllGeometries(float frametime);
 	void Update(float frametime);
 	void UpdatePhysics();
 
-	std::vector<Particle*> Particles;
+	std::vector<Particle> Particles = std::vector<Particle>(1000);
 
 	std::vector<Geom*> Geometries;
 	std::vector<ObjFile*> PhysicializedGeometries;
@@ -36,7 +36,7 @@ public:
 	ObjFile* ground;
 	int particles = 0;
 private:
-	void RenderParticle(Particle* particle);
+	void RenderParticle(Particle particle);
 	void RenderAllObjects();
 	void RecursivelyRenderGeometries(Geom* geom, Entity* parent);
 	void RecursivelyUpdateGeometries(Geom * geom, float frametime);

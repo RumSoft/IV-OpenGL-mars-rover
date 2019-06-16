@@ -47,7 +47,7 @@ struct FireParticle : Particle
 		Position = position;
 
 		Velocity = UP * 50;
-		StartColor = ColorF(1, 0.5, 0.2, 2.0);
+		StartColor = ColorF(1, 0.5, 0.2, 1.0);
 		EndColor = ColorF(1, 0.3, 0.1, 0.0);
 		LifeTime = 1;
 		VelocityRandom = Vec3::One() * 5;

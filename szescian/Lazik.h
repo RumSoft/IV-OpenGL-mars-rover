@@ -86,7 +86,7 @@ public:
 
 	void Rozpierdol()
 	{
-		const auto particle = new FireParticle(this->Origin);
+		const auto particle = FireParticle(this->Origin);
 		_scene->Particles.push_back(particle);
 	}
 

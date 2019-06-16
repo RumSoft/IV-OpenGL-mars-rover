@@ -58,14 +58,14 @@ void IScene::UpdateAllGeometries(float frametime)
 		RecursivelyUpdateGeometries(geom, frametime);
 	auto it = Particles.begin();
 	while (it != Particles.end()) {
-		(*it)->life += frametime;
-		if ((*it)->life > (*it)->LifeTime) {
-			delete* it;
+		it->life += frametime;
+		if (it->life > it->LifeTime) {
 			it = Particles.erase(it);	
 		}
 		else
-			(*it)->Update(frametime);
-		++it;
+			it->Update(frametime);
+		if(it != Particles.end())
+			++it;
 	}
 }
 
@@ -142,17 +142,17 @@ void IScene::RecursivelyUpdateGeometries(Geom * geom, float frametime)
 		RecursivelyUpdateGeometries(child, frametime);
 }
 
-void IScene::RenderParticle(Particle * particle)
+void IScene::RenderParticle(Particle particle)
 {
-	const auto c1 = particle->StartColor.rgba;
-	const auto c2 = particle->EndColor.rgba;
+	const auto c1 = particle.StartColor.rgba;
+	const auto c2 = particle.EndColor.rgba;
 	ColorF color = ColorF(
 		(c1[0] + c2[0]) / 2,
 		(c1[1] + c2[1]) / 2,
 		(c1[2] + c2[2]) / 2,
 		(c1[3] + c2[3]) / 2);
-	glColor4fv(color.GL());
-	glVertex3f(XYZ(particle->Position));
+	glColor4f(color.rgba[0], color.rgba[1], color.rgba[2], color.rgba[3]);
+	glVertex3f(XYZ(particle.Position));
 }
 
 void IScene::RenderAllObjects()
@@ -161,11 +161,10 @@ void IScene::RenderAllObjects()
 		RecursivelyRenderGeometries(geom, new Entity());
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
 	glPointSize(5.0);
 
 	glBegin(GL_POINTS);
-	for (auto particle : Particles)
+	for (const auto particle : Particles)
 		RenderParticle(particle);
 	glEnd();		
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
