@@ -5,6 +5,7 @@
 #include "Chwytak.h"
 #include "Kamera.h"
 #include "Cylinder.h"
+#include "Fuel.h"
 #include <iostream>
 #include "Proxy.h"
 
@@ -26,6 +27,7 @@ public:
 	Kolo* wheel3L;
 	Kolo* wheel3R;
 	Proxy* proxy = nullptr;
+	CAttribute* Fuel;
 
 	float H = 30.f, W = 50.f;
 
@@ -42,7 +44,7 @@ public:
 	{
 		this->Rotation *= Quat::FromAngleAxis(Deg2Rad(0), Vec3::Up());
 
-		kadlubek = (Kadlubek*)(new Kadlubek(15, 25, 10))->WithPosition(UP*25);
+		kadlubek = (Kadlubek*)(new Kadlubek(15, 25, 10))->WithPosition(UP * 25);
 		chwytak = (Chwytak*)(new Chwytak(4, 6, 5))->WithPosition(Vec3(0, 23, 34));
 		kamera = (Kamera*)(new Kamera(15, 3, 8, 5))->WithPosition(Vec3(8, -20, 35));
 
@@ -66,10 +68,13 @@ public:
 		this->Children.push_back(wheel3R);
 
 
-	proxy = new Proxy(this);
+		proxy = new Proxy(this);
 		proxy->Scale = Vec3(60, 50, 25);
-		proxy->Origin = Vec3(0,0,15);
-		input = InputHandler::GetInstance();	}
+		proxy->Origin = Vec3(0, 0, 15);
+		input = InputHandler::GetInstance();
+		Fuel = (CAttribute*)(new CAttribute(50000, 5, 1));
+
+	}
 
 
 	Quat zrot = Quat::Identity();
@@ -86,17 +91,14 @@ public:
 		updateWheelRotation(vv1, vv2, frametime);
 		updateAngleRotation();
 
-		this->Origin +=  Rotation * FORWARD * Velocity * frametime;
-
-		if(proxy != nullptr)
-		proxy->Update(frametime);
-	}
-
-	void PostRender() override
-	{
 		if (proxy != nullptr)
+			proxy->Update(frametime);
 
-		proxy->DrawProxy();
+		//if(Velocity<1 && Velocity>-1)
+		Fuel->Update(frametime);
+
+		this->Origin += Quat::GetZRotation(Rotation) * FORWARD * Velocity * frametime;
+
 	}
 
 	void CalculateRotations(float vv1, float vv2, float frametime)
@@ -121,7 +123,7 @@ public:
 			VelocityDiff = abs(vv1 - vv2) / W;
 
 			TurnRadius *= VelocityDiff;
-			if (abs(TurnRadius ) < 0.1)
+			if (abs(TurnRadius) < 0.1)
 				TurnRadius = 0;
 
 			/*if (TurnRadius > 0 && TurnRadius < MinTurnRadius)
@@ -163,16 +165,18 @@ public:
 			VelocityR += 50 * frametime;
 		}
 
-		if (input->IsDown('W'))
+		if (input->IsDown('W') && Fuel->_currentValue > 0)
 		{
 			VelocityL += 50 * frametime;
 			VelocityR += 50 * frametime;
+			Fuel->ChangeValue(-5 * frametime);
 		}
 
-		if (input->IsDown('S'))
+		if (input->IsDown('S') && Fuel->_currentValue > 0)
 		{
 			VelocityL -= 100 * frametime;
 			VelocityR -= 100 * frametime;
+			Fuel->ChangeValue(-5 * frametime);
 		}
 
 		if (input->IsDown('1')) {
@@ -185,11 +189,13 @@ public:
 
 		Velocity = (vv1 + vv2) / 2;
 
-		if(proxy->isColliding)
+		if (proxy->isColliding)
 		{
-			VelocityL *= 0.9;
-			VelocityR *= 0.9;
+			VelocityL *= 0.3;
+			VelocityR *= 0.3;
 		}
+		if (abs(Velocity) < 0.5)
+			Velocity = 0;
 	}
 
 	void updateAngleRotation()
@@ -231,6 +237,6 @@ public:
 
 	}
 
-	
+
 };
 
