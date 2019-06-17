@@ -127,9 +127,6 @@
     <ClInclude Include="Sphere.h">
       <Filter>Objects\Shapes</Filter>
     </ClInclude>
-    <ClInclude Include="Chwytak.h">
-      <Filter>Objects\Lazik</Filter>
-    </ClInclude>
     <ClInclude Include="Kamera.h">
       <Filter>Objects\Lazik</Filter>
     </ClInclude>
@@ -190,6 +187,10 @@
     </ClInclude>
     <ClInclude Include="Proxy.h" />
     <ClInclude Include="Meteor.h">
+      <Filter>Objects\Fabula</Filter>
+    </ClInclude>
+    <ClInclude Include="Proxy.h" />
+    <ClInclude Include="Fabula.h">
       <Filter>Objects\Fabula</Filter>
     </ClInclude>
   </ItemGroup>

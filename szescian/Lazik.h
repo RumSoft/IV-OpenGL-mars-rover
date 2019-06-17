@@ -2,7 +2,6 @@
 #include "Geom.h"
 #include "Kadlubek.h"
 #include "Kolo.h"
-#include "Chwytak.h"
 #include "Kamera.h"
 #include "Fuel.h"
 #include <iostream>
@@ -17,7 +16,6 @@ private:
 	IScene* _scene;
 	InputHandler* input;
 public:
-	Chwytak* chwytak;
 	Kadlubek* kadlubek;
 	Kamera* kamera;
 	Kolo* wheel1L;
@@ -52,7 +50,6 @@ public:
 		this->Rotation *= Quat::FromAngleAxis(Deg2Rad(0), Vec3::Up());
 
 		kadlubek = (Kadlubek*)(new Kadlubek(15, 25, 10))->WithPosition(UP * 25);
-		chwytak = (Chwytak*)(new Chwytak(4, 6, 5))->WithPosition(Vec3(0, 23, 34));
 		kamera = (Kamera*)(new Kamera(15, 3, 8, 5))->WithPosition(Vec3(8, -20, 35));
 
 		float h = 8;
@@ -64,7 +61,6 @@ public:
 		wheel3R = (Kolo*)(new Kolo(WheelRadius, h))->WithPosition(Vec3(25, -30, 13));
 
 		this->Children.push_back(kadlubek);
-		this->Children.push_back(chwytak);
 		this->Children.push_back(kamera);
 
 		this->Children.push_back(wheel1L);
@@ -164,7 +160,6 @@ public:
 		if (VelocityL < -max_speed)
 			VelocityL = -max_speed;
 
-
 		if (!input->IsDown('W') && Velocity > 0)
 		{
 			VelocityL -= 50 * frametime;
@@ -179,8 +174,8 @@ public:
 
 		if (input->IsDown('W') && Fuel->_currentValue > 0)
 		{
-			VelocityL += 50 * frametime;
-			VelocityR += 50 * frametime;
+			VelocityL += 100 * frametime;
+			VelocityR += 100 * frametime;
 			Fuel->ChangeValue(-5 * frametime);
 		}
 

@@ -12,6 +12,7 @@
 #define RIGHT Vec3::Right()
 #define LEFT Vec3::Left()
 
+#define FLAT Vec3(1,1,0)
 #define ONE Vec3::One()
 #define ZERO Vec3::Zero()
 

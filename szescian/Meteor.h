@@ -25,10 +25,15 @@ public:
 	void Update(float frametime) override
 	{
 		if (Origin.Z < _hitPosition.Z - 5) {
-			for (int i = 0; i < 100; i++) {
+			for (auto i = 0; i < 100; i++) {
 				auto particle = Particles::ExplosionDerbis()
 					.WithPosition(_hitPosition);
 				_scene->Particles.push_back(particle.Randomized(ONE, ONE * 150 + UP * 50, 0.1));
+			}
+			for (auto i = 0; i < 100; i++) {
+				auto particle = Particles::Fire()
+					.WithPosition(_hitPosition);
+				_scene->Particles.push_back(particle.Randomized(ONE  * 20, ONE * 150 + UP * 50, 0.1));
 			}
 			Delete = true;
 

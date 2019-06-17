@@ -14,7 +14,7 @@ public:
 	Quat from;
 	Quat to;
 	
-	float zoom = 5;
+	float zoom = 3;
 	Vec3 Offset = Vec3(-20, -50, 50);
 	
 	Camera(Geom* ent)
@@ -26,7 +26,7 @@ public:
 
 	void Update(float frametime) override
 	{
-		auto offset = Rotation * Offset * zoom *2;
+		auto offset = Rotation * Offset * zoom * 3;
 		auto obj = entity->Origin;
 		auto eyes = obj + offset;
 		

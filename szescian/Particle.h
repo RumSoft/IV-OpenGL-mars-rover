@@ -15,7 +15,7 @@ struct Particle {
 	float GravityStrength = 1;
 	void Update(float frametime) { 
 		Position += Velocity * frametime;
-		Velocity -= UP * GravityStrength;
+		Velocity -= 100 * UP * GravityStrength * frametime;
 	}
 	
 	Particle(Vec3 position = ZERO,
@@ -65,7 +65,7 @@ public:
 	static Particle ExplosionDerbis() {
 		return Particle()
 			.WithLifetime(2)
-			.WithVelocity(UP * 100)
+			.WithVelocity(UP * 200)
 			.WithStartColor(ColorF(0x663300))
 			.WithEndColor(ColorF(0x331a00))
 			.WithGravity(5)

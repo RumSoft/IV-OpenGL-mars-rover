@@ -8,6 +8,7 @@
 #include <ctime>
 #include "Map.h"
 #include "Meteor.h"
+#include "Fabula.h"
 
 #define smaller(a, b) if (b < a) a = b;
 #define bigger(a, b) if (b > a) a = b;
@@ -113,6 +114,8 @@ MyScene::MyScene()
 		if (physGeom != nullptr && physGeom->proxy != nullptr)
 			PhysicializedGeometries.push_back(physGeom);
 	}
+	const auto fabula = new Fabula(this);
+	this->Geometries.push_back(fabula);
 
 	InitUI();
 }
