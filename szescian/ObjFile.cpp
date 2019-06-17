@@ -21,13 +21,13 @@ Shape* ObjFile::loadOBJ()
 	return shape;
 }
 
-ObjFile::ObjFile(string folder, string filename, ColorF color, bool proxyPhysics): ObjFile(
+ObjFile::ObjFile(string folder, string filename, ColorF color, float proxyPhysics): ObjFile(
 	folder, filename, proxyPhysics)
 {
 	_color = color;
 }
 
-ObjFile::ObjFile(string folder, string filename, bool proxyPhysics): _folder(move(folder)), _filename(move(filename))
+ObjFile::ObjFile(string folder, string filename, float proxyPhysics): _folder(move(folder)), _filename(move(filename))
 {
 	auto memory = ObjShapeMemory::Instance();
 	if (!memory.Exists(fullname()))
@@ -36,7 +36,7 @@ ObjFile::ObjFile(string folder, string filename, bool proxyPhysics): _folder(mov
 	this->Shapes.push_back(shape);
 
 
-	if (proxyPhysics)
+	if (proxyPhysics > 0)
 	{
 		proxy = (new Proxy(this));
 	}
@@ -57,7 +57,7 @@ ObjFile::ObjFile(string folder, string filename, bool proxyPhysics): _folder(mov
 			                           maxX - minX,
 			                           maxY - minY,
 			                           maxZ - minZ
-		                           ), 0.7);
+		                           ), proxyPhysics);
 	}
 }
 

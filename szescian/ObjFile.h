@@ -10,10 +10,10 @@ using namespace std;
 
 class ObjFile : public Geom
 {
+protected:
 	Shape* loadOBJ();
 
 public:
-	Proxy* proxy = nullptr;
 	Shape* shape = nullptr;
 
 	string _folder;
@@ -22,12 +22,11 @@ public:
 	ColorF _color;
 	string fullname() const { return (!_folder.empty() ? _folder + "/" : "") + _filename; }
 
-	ObjFile(string folder, string filename, ColorF color, bool proxyPhysics = false);
+	ObjFile(string folder, string filename, ColorF color, float proxyPhysics = 0);
 
-	ObjFile(string folder, string filename, bool proxyPhysics = false);
+	ObjFile(string folder, string filename, float proxyPhysics = 0);
 
 	void PostRender() override;
-
 
 	void Init() override;
 

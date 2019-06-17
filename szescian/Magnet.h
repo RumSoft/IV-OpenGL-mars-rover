@@ -3,9 +3,12 @@
 
 class Magnet : public Geom
 {
+	IScene* _scene;
 public:
-	Magnet()
+	Magnet(IScene* scene)
 	{
+		_scene = scene;
+
 		auto shape = new Shape(TriangleStrip, RED);
 		shape->AddPoint(Vec3(1, 0, 1), -BACKWARD);
 		shape->AddPoint(Vec3(0, 0, 1), -BACKWARD);

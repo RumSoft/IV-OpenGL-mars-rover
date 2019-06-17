@@ -1,6 +1,7 @@
 #pragma once
 #include "Geom.h"
 #include "Meteor.h"
+#include "Mineral.h"
 
 inline int rand(const int a, const int b)
 {
@@ -25,6 +26,22 @@ public:
 	Fabula(IScene* scene)
 	{
 		_scene = scene;
+		SpawnMinerals();
+	}
+
+	void SpawnMinerals()
+	{
+		const int mineralCount = 30;
+		for(int i = 0; i< mineralCount; i++)
+		{
+			auto pos = Vec3::RandomSym(FLAT * 500);
+			pos *= 10;
+			pos.Z = _scene->map->GetHeight(pos) + 18;
+			//this->Children.push_back((new ObjFile("objects", "mineral", 1))
+			//	->WithScale(17)
+			//	->WithPosition(pos));
+			this->Children.push_back((new Mineral(_scene))->WithPosition(pos));
+		}
 	}
 
 	// map boundaries: xy = [-2500, 2000]

@@ -15,7 +15,7 @@ public:
 		hitPosition.Z = _scene->map->GetHeight(hitPosition);
 		_hitPosition = hitPosition;
 
-		this->Origin = hitPosition + Vec3(1,1,1) * 1000;
+		this->Origin = hitPosition + Vec3(1,1,1) * 500;
 		gen = new ParticleGenerator(scene, Particles::Fire(), this);
 		this->Children.push_back(gen);
 		const auto x = new Sphere(ZERO, 10, BLACK);
@@ -39,7 +39,7 @@ public:
 
 		}
 
-		const float speed = 5;
-		this->Origin -= Vec3(1, 1, 1) * speed;
+		const float speed = 200;
+		this->Origin -= Vec3(1, 1, 1) * speed * frametime;
 	}
 };

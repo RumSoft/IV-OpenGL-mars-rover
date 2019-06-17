@@ -182,6 +182,7 @@
     <ClInclude Include="Face.h" />
     <ClInclude Include="Magnet.h" />
     <ClInclude Include="Meteor.h" />
+    <ClInclude Include="Mineral.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleGenerator.h" />
     <ClInclude Include="Fuel.h" />

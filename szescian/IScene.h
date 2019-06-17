@@ -27,7 +27,7 @@ public:
 	std::vector<Particle> Particles = std::vector<Particle>(1000);
 
 	std::vector<Geom*> Geometries;
-	std::vector<ObjFile*> PhysicializedGeometries;
+	std::vector<Geom*> PhysicializedGeometries;
 	InputHandler* input;
 	
 	Lazik* lazik;

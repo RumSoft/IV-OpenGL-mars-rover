@@ -199,5 +199,8 @@
     <ClInclude Include="Magnet.h">
       <Filter>Objects\Lazik</Filter>
     </ClInclude>
+    <ClInclude Include="Mineral.h">
+      <Filter>Objects\Fabula</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

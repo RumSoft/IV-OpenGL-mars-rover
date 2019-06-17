@@ -2,6 +2,8 @@
 #include "Shape.h"
 #include "Face.h"
 
+class Proxy;
+
 class Geom : public Entity
 {
 public:
@@ -22,6 +24,7 @@ public:
 	std::vector<Shape*> Shapes;
 	std::vector<Geom*> Children;
 	//virtual void PostInit() {}
+	Proxy* proxy = nullptr;
 
 	void SetShapesOrigin(const Vec3 newOrigin) { for (auto shape : Shapes) shape->Origin = newOrigin; }
 	void AddShapesOrigin(const Vec3 newOrigin) { for (auto shape : Shapes) shape->Origin += newOrigin; }

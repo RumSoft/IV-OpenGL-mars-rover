@@ -103,7 +103,7 @@ void IScene::UpdatePhysics()
 		const auto brot = b->Rotation;
 
 		auto distSqr = Vec3::SqrMagnitude(bpos - apos);
-		if (distSqr > 20000) continue;
+		if (distSqr > 200000) continue;
 		//method1 : simple cubes
 		//if (abs((apos - bpos).X) < (asize + bsize).X)
 		//	if (abs((apos - bpos).Y) < (asize + bsize).Y)
