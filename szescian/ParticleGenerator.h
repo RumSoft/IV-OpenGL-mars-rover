@@ -8,34 +8,33 @@ public:
 	Entity* _entity;
 	IScene* _scene;
 	Vec3 _offset;
+	Particle _p;
 
 	Vec3 GeneratorSize = Vec3(10, 10, 0);
 	int spawnRate = 300; //per second
 
-	Vec3 PositionRandom = ONE * 50;
-	Vec3 VelocityRandom = Vec3::One();
+	Vec3 PositionRandom = ONE * 30;
+	Vec3 VelocityRandom = ONE *10;
 	float LifeTimeRandom = 0.8;
 
 private:
 	
 	void AddParticle()
 	{
-		const auto particle = Particle()
+		const auto particle = _p
 		.WithPosition(_entity->Origin + _offset)
-		.WithVelocity(UP * 100)
-		.WithLifetime(0.5)
-		.WithStartColor(ColorF(0xffcc00))
-		.WithEndColor(ColorF(1, 0,0, 10))
 		.Randomized(PositionRandom, VelocityRandom, LifeTimeRandom);
 		_scene->Particles.push_back(particle);
 	}
 
 public:
 
-	ParticleGenerator(IScene* scene, Entity* entityToFollow, Vec3 offset = ZERO)
+	ParticleGenerator(IScene* scene, Particle p, Entity* entityToFollow, Vec3 offset = ZERO)
 	{
 		_scene = scene;
 		_entity = entityToFollow;
+		_p = p;
+		_offset = offset;
 	}
 
 	float particlesLeftToDraw = 0;

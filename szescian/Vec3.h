@@ -349,7 +349,7 @@ inline bool operator!=(const Vec3 lhs, const Vec3 rhs);
 
 inline Vec3 Vec3::RandomSym(Vec3 range)
 {
-	return Random(range / 2) - (range / 2);
+	return Random(range) - (range / 2);
 }
 
 Vec3::Vec3() : X(0), Y(0), Z(0) {}

@@ -177,6 +177,9 @@ float lerp(float a, float b, float t)
 
 void IScene::RenderParticle(Particle particle)
 {
+	if(particle.Additive)
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
 	const auto c1 = particle.StartColor.rgba;
 	const auto c2 = particle.EndColor.rgba;
 	const auto t = particle.Life / particle.Lifetime;
@@ -191,21 +194,17 @@ void IScene::RenderParticle(Particle particle)
 	glColor4f(TAB4(color.rgba));
 	glVertex3f(XYZ(particle.Position));
 	glEnd();
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 }
 
 void IScene::RenderAllObjects()
 {
 	for (auto geom : Geometries)
 		RecursivelyRenderGeometries(geom, new Entity());
-
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	
-	
 	for (const auto particle : Particles)
 		RenderParticle(particle);
-	
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 }
 
 void IScene::RecursivelyRenderGeometries(Geom * geom, Entity * parent)

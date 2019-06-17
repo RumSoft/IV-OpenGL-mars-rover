@@ -16,7 +16,7 @@ public:
 		_hitPosition = hitPosition;
 
 		this->Origin = hitPosition + Vec3(1,1,1) * 1000;
-		gen = new ParticleGenerator(scene, this);
+		gen = new ParticleGenerator(scene, Particles::Fire(), this);
 		this->Children.push_back(gen);
 		const auto x = new Sphere(ZERO, 10, GRAY);
 		this->Shapes.push_back(x);
@@ -24,8 +24,15 @@ public:
 
 	void Update(float frametime) override
 	{
-		if (Origin.Z < _hitPosition.Z)
+		if (Origin.Z < _hitPosition.Z - 5) {
+			for (int i = 0; i < 100; i++) {
+				auto particle = Particles::ExplosionDerbis()
+					.WithPosition(_hitPosition);
+				_scene->Particles.push_back(particle.Randomized(ONE, ONE * 150 + UP * 50, 0.1));
+			}
 			Delete = true;
+
+		}
 
 		const float speed = 5;
 		this->Origin -= Vec3(1, 1, 1) * speed;
