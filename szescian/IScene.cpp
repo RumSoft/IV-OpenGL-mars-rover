@@ -95,6 +95,9 @@ void IScene::UpdatePhysics()
 
 	for (auto geom : PhysicializedGeometries)
 	{
+		if (!geom->proxy->Enabled)
+			continue;
+
 		const auto b = geom;
 		const auto bpos = b->proxy->Origin + b->Origin;
 		const auto bsize1 = b->proxy->Scale;

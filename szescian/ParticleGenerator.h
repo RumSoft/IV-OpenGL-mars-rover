@@ -5,6 +5,7 @@
 class ParticleGenerator : public Geom
 {
 public:
+	bool IsActive = true;
 	Entity* _entity;
 	IScene* _scene;
 	Vec3 _offset;
@@ -22,7 +23,7 @@ private:
 	void AddParticle()
 	{
 		const auto particle = _p
-		.WithPosition(_entity->Origin + _offset)
+		.WithPosition(_entity->Origin + _entity->Rotation * _offset)
 		.Randomized(PositionRandom, VelocityRandom, LifeTimeRandom);
 		_scene->Particles.push_back(particle);
 	}
@@ -40,6 +41,8 @@ public:
 	float particlesLeftToDraw = 0;
 	void Update(float frametime) override
 	{
+		if (!IsActive)
+			return;
 		const auto particlesToDrawFloat = particlesLeftToDraw + spawnRate * frametime;
 		const auto particlesToDraw = int(particlesToDrawFloat);
 		particlesLeftToDraw = particlesToDrawFloat - particlesToDraw;

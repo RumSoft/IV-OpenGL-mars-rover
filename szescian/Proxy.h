@@ -8,11 +8,11 @@ public:
 	Vec3 LastPos;
 	Quat LastRot;
 	bool LastCollided;
+	bool Enabled = true;
 
 	Geom* parent;
 	float Mass = 50;
-	float 
-	MaxSpeed = 5;
+	float MaxSpeed = 5;
 	Vec3 Velocity = Vec3::Zero();
 	Vec3 Acceleration = Vec3::Zero();
 	Vec3 _acc = Vec3::Zero();

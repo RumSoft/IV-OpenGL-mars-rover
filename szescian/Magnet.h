@@ -1,13 +1,19 @@
 #pragma once
 #include "Geom.h"
+#include "ParticleGenerator.h"
+class Lazik;
 
 class Magnet : public Geom
 {
 	IScene* _scene;
+	ParticleGenerator* par;
 public:
-	Magnet(IScene* scene)
+	Magnet(IScene* scene, Entity* parent)
 	{
 		_scene = scene;
+		par = new ParticleGenerator(_scene, Particles::Magnet(), parent, UP * 50 + FORWARD *60);
+		par->spawnRate = 10;
+		par->VelocityRandom = ONE * 70;
 
 		auto shape = new Shape(TriangleStrip, RED);
 		shape->AddPoint(Vec3(1, 0, 1), -BACKWARD);
@@ -57,8 +63,8 @@ public:
 		shape3->AddPoint(Vec3(3, h, 2), LEFT);
 		shape3->AddPoint(Vec3(3, 0, 1), LEFT);
 		shape3->AddPoint(Vec3(3, h, 1), LEFT);
-		
-		auto shape4 = new Shape(TriangleStrip, RED);		
+
+		auto shape4 = new Shape(TriangleStrip, RED);
 		shape4->AddPoint(Vec3(0, 0, 1), -LEFT);
 		shape4->AddPoint(Vec3(0, h, 1), -LEFT);
 		shape4->AddPoint(Vec3(0, 0, 2.5), -LEFT);
@@ -68,7 +74,7 @@ public:
 		shape4->AddPoint(Vec3(2, 0, 4), -UP);
 		shape4->AddPoint(Vec3(2, h, 4), -UP);
 		shape4->AddPoint(Vec3(3, 0, 3.5), -UP);
-		shape4->AddPoint(Vec3(3, h, 3.5), -UP);		
+		shape4->AddPoint(Vec3(3, h, 3.5), -UP);
 		shape4->AddPoint(Vec3(4, 0, 2.5), -RIGHT);
 		shape4->AddPoint(Vec3(4, h, 2.5), -RIGHT);
 		shape4->AddPoint(Vec3(4, 0, 1), -RIGHT);
@@ -78,12 +84,17 @@ public:
 		this->Shapes.push_back(shape2);
 		this->Shapes.push_back(shape3);
 		this->Shapes.push_back(shape4);
-		this->Shapes.push_back(new Face(Vec3(0.5, 0, 0), Vec3(0,0,1), Vec3(1.5, 0, 0), Vec3(1, 0, 1), LIGHTGRAY, true));
-		this->Shapes.push_back(new Face(Vec3(0.5, h, 0), Vec3(0,h,1), Vec3(1.5, h, 0), Vec3(1, h, 1), LIGHTGRAY));
+		this->Shapes.push_back(new Face(Vec3(0.5, 0, 0), Vec3(0, 0, 1), Vec3(1.5, 0, 0), Vec3(1, 0, 1), LIGHTGRAY, true));
+		this->Shapes.push_back(new Face(Vec3(0.5, h, 0), Vec3(0, h, 1), Vec3(1.5, h, 0), Vec3(1, h, 1), LIGHTGRAY));
 	}
 
 	void Update(float frametime) override
 	{
+		if (_scene->input->IsDown(VK_SPACE))
+		{
+			par->IsActive = true;
+			par->Update(frametime);
+		}
 		
 	}
 };

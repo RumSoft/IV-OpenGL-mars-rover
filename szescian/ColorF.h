@@ -21,12 +21,12 @@ public:
 		rgba[3] = a;
 	}
 
-	ColorF(int hex)
+	ColorF(int hex, float alpha = 1)
 	{
 		rgba[0] = ((hex >> 16) & 0xFF) / 255.0;  // Extract the RR byte
 		rgba[1] = ((hex >> 8) & 0xFF) / 255.0;   // Extract the GG byte
 		rgba[2] = ((hex) & 0xFF) / 255.0;        // Extract the BB byte
-		rgba[3] = 1;
+		rgba[3] = alpha;
 	}
 
 	ColorF Red(float r) { r = min(1, r); rgba[0] = r; return *this; }

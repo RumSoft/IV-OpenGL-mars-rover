@@ -37,6 +37,8 @@ struct Particle {
 	Particle WithVelocity(Vec3 velocity) { Velocity = velocity; return *this; }
 	Particle WithStartColor(ColorF startColor) { StartColor = startColor; return *this; }
 	Particle WithEndColor(ColorF endColor) { EndColor = endColor; return *this; }
+	Particle WithStartSize(float startSize) { StartSize =startSize; return *this; }
+	Particle WithEndSize(float endSize)  { EndSize = endSize; return *this; }
 	Particle WithLifetime(float lifetime) { Lifetime = lifetime; return *this; }
 	Particle WithGravity(float gravity = 1) { GravityStrength = gravity; return *this; }
 	Particle IsAdditive(bool additive = 1) { Additive = additive; return *this; }
@@ -70,6 +72,18 @@ public:
 			.WithEndColor(ColorF(0x331a00))
 			.WithGravity(5)
 			.IsAdditive(false);
+	}
+
+	static Particle Magnet() {
+		return Particle()
+			.WithLifetime(2)
+			//.WithVelocity(UP * 200)
+			.WithStartColor(ColorF(0x4286f4, 5))
+			.WithEndColor(ColorF(0xf7faff, 0))
+			.WithGravity(0)
+			.WithStartSize(3)
+			.WithEndSize(1)
+			.IsAdditive(true);
 	}
 };
 

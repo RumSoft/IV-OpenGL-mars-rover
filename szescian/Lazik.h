@@ -78,7 +78,7 @@ public:
 		this->Children.push_back((new Ramie(Vec3::Scale(wheel2R->Origin, Vec3(0.5, 0.7, 0)) + UP * 23, wheel2R->Origin+LEFT*3,  5, 2, 3, ColorF(0x545963))));
 		this->Children.push_back((new Ramie(Vec3::Scale(wheel3R->Origin, Vec3(0.5, 0.7, 0)) + UP * 23, wheel3R->Origin+LEFT*3,  5, 2, 3, ColorF(0x545963))));
 
-		chwytak = (new Chwytak(scene));
+		chwytak = (new Chwytak(scene, this));
 		chwytak->Rotation = Quat::Identity();
 		this->Children.push_back(chwytak->WithPosition(Vec3(0, 22, 35)));
 		
