@@ -16,6 +16,7 @@ private:
 	IScene* _scene;
 	InputHandler* input;
 public:
+	Chwytak* chwytak;
 	Kadlubek* kadlubek;
 	Kamera* kamera;
 	Kolo* wheel1L;
@@ -70,6 +71,17 @@ public:
 		this->Children.push_back(wheel3L);
 		this->Children.push_back(wheel3R);
 
+		this->Children.push_back((new Ramie(Vec3::Scale(wheel1L->Origin, Vec3(0.5, 0.7, 0)) + UP * 23, wheel1L->Origin+RIGHT*3, 5, 2, 3, ColorF(0x545963))));
+		this->Children.push_back((new Ramie(Vec3::Scale(wheel2L->Origin, Vec3(0.5, 0.7, 0)) + UP * 23, wheel2L->Origin+RIGHT*3, 5, 2, 3, ColorF(0x545963))));
+		this->Children.push_back((new Ramie(Vec3::Scale(wheel3L->Origin, Vec3(0.5, 0.7, 0)) + UP * 23, wheel3L->Origin+RIGHT*3, 5, 2, 3, ColorF(0x545963))));
+		this->Children.push_back((new Ramie(Vec3::Scale(wheel1R->Origin, Vec3(0.5, 0.7, 0)) + UP * 23, wheel1R->Origin+LEFT*3,  5, 2, 3, ColorF(0x545963))));
+		this->Children.push_back((new Ramie(Vec3::Scale(wheel2R->Origin, Vec3(0.5, 0.7, 0)) + UP * 23, wheel2R->Origin+LEFT*3,  5, 2, 3, ColorF(0x545963))));
+		this->Children.push_back((new Ramie(Vec3::Scale(wheel3R->Origin, Vec3(0.5, 0.7, 0)) + UP * 23, wheel3R->Origin+LEFT*3,  5, 2, 3, ColorF(0x545963))));
+
+		chwytak = (new Chwytak());
+		chwytak->Rotation = Quat::Identity();
+		this->Children.push_back(chwytak->WithPosition(Vec3(0, 22, 35)));
+		
 		_scene = scene;
 		
 		proxy = new Proxy(this);
@@ -77,18 +89,14 @@ public:
 		proxy->Origin = Vec3(0, 0, 15);
 		input = InputHandler::GetInstance();
 		Fuel = (CAttribute*)(new CAttribute(50000, 5, 1));
-
-		/*part = new ParticleGenerator(_scene, Particle::Grav(), this, UP * 100);
-		part->VelocityRandom = ONE * 100 + UP * 100;*/
-		//this->Children.push_back(part);
 	}
 
 	Quat zrot = Quat::Identity();
 
 	void Rozpierdol()
 	{
-		this->Scale.Z = 0.1;
-		this->wheel1L->Rotation *= Quat::FromAngleAxis(D2R(90), Vec3(1,0,1));
+		//this->Scale.Z = 0.1;
+		//this->wheel1L->Rotation *= Quat::FromAngleAxis(D2R(90), Vec3(1,0,1));
 	}
 
 	void Update(float frametime) override

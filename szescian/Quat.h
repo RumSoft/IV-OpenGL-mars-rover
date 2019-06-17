@@ -4,7 +4,8 @@
 #include "Vec3.h"
 
 #define SMALL_float 0.0000000001
-
+#define ANGROT Quat::FromAngleAxis
+#define ROT(deg, axis) Quat::FromAngleAxis(D2R(deg), axis)
 struct Quat
 {
 	union

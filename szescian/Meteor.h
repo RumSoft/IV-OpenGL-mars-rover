@@ -18,7 +18,7 @@ public:
 		this->Origin = hitPosition + Vec3(1,1,1) * 1000;
 		gen = new ParticleGenerator(scene, Particles::Fire(), this);
 		this->Children.push_back(gen);
-		const auto x = new Sphere(ZERO, 10, GRAY);
+		const auto x = new Sphere(ZERO, 10, BLACK);
 		this->Shapes.push_back(x);
 	}
 

@@ -24,8 +24,8 @@ public:
 					sin(j * f2) * sin((i + 1) * f),
 					cos(j * f2));
 
-				this->AddPoint(r * v1);
-				this->AddPoint(r * v2);
+				this->AddPoint(r * v1, v1);
+				this->AddPoint(r * v2, v2);
 			}
 		}
 	}

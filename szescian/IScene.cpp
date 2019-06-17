@@ -190,6 +190,7 @@ void IScene::RenderParticle(Particle particle)
 		lerp(c1[3], c2[3], t));
 	const auto size = lerp(particle.StartSize, particle.EndSize, t);
 	glPointSize(size);
+
 	glBegin(GL_POINTS);
 	glColor4f(TAB4(color.rgba));
 	glVertex3f(XYZ(particle.Position));

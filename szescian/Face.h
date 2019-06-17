@@ -19,7 +19,8 @@ public:
 		auto x4 = d - center;
 
 		auto n = Vec3::Normalized(Vec3::Cross(x2 - x1, x3 - x1));
-
+		if (reverse)
+			n = -n;
 		this->Vertices.emplace_back(x1, n, Vec2(0, 0));
 		this->Vertices.emplace_back(x2, n, Vec2(0, 1));
 		this->Vertices.emplace_back(x3, n, Vec2(1, 0));

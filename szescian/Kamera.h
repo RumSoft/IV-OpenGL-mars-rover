@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "Geom.h"
-#include "Ramie.h"
 
 class Kamera : public Geom
 {
@@ -10,7 +9,7 @@ public:
 	{
 		auto kams = Vec3::Zero();
 
-		auto r1 = new Ramie(kams, kams + Vec3(0, 0, h), 3, 2, 0, RED);	//pierwsze ramie
+		auto r1 = new Ramie(kams, UP * h + FORWARD, 10, 2, 0, ColorF(0x7e72a0));	//pierwsze ramie
 		this->Children.push_back(r1);
 
 
@@ -81,7 +80,7 @@ public:
 		auto tex = Shape::LoadTexture("textures/ProjektKamera.png", 1);
 		this->Shapes[0]->texture = tex;
 		this->Shapes[1]->texture = tex;
-		this->Shapes[2]->texture = tex;
+		//this->Shapes[2]->texture = tex;
 	
 	}
 };
