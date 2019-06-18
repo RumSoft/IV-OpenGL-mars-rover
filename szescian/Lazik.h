@@ -88,7 +88,7 @@ public:
 		proxy->Scale = Vec3(60, 50, 33);
 		proxy->Origin = Vec3(0, 0, 20);
 		input = InputHandler::GetInstance();
-		Fuel = (CAttribute*)(new CAttribute(500, 5, 1));
+		Fuel = (CAttribute*)(new CAttribute(500, 10, 1));
 
 		UpdateBatteryLevel();
 	}
@@ -114,12 +114,14 @@ public:
 
 	void Rozpierdol()
 	{
-		this->Fuel->ChangeValue(-20, true); //decrease by 20/500 = 4% 
+		this->Fuel->ChangeValue(-100, true); //decrease by 100/500 = 20% 
 		for (auto i = 0; i < 100; i++) {
 			auto particle = Particles::Fire()
 				.WithPosition(this->Origin);
 			_scene->Particles.push_back(particle.Randomized(ONE * 20, ONE * 150 + UP * 50, 0.1));
 		}
+		this->VelocityL *= 0.0;
+		this->VelocityR *= 0.0;
 	}
 
 	void Update(float frametime) override
@@ -134,7 +136,7 @@ public:
 		updateWheelRotation(vv1, vv2, frametime);
 		updateAngleRotation();
 
-		if (input->IsDown('M'))
+		if (input->IsPressed('M'))
 			Rozpierdol();
 
 		if (proxy != nullptr)
@@ -203,18 +205,18 @@ public:
 			VelocityR += 50 * frametime;
 		}
 
-		if (input->IsDown('W') && Fuel->_currentValue > 0)
+		if (input->IsDown('W') && !Fuel->IsZero())
 		{
 			VelocityL += 100 * frametime;
 			VelocityR += 100 * frametime;
-			Fuel->ChangeValue(-5 * frametime);
+			Fuel->ChangeValue(-2 * frametime);
 		}
 
-		if (input->IsDown('S') && Fuel->_currentValue > 0)
+		if (input->IsDown('S') && !Fuel->IsZero())
 		{
 			VelocityL -= 100 * frametime;
 			VelocityR -= 100 * frametime;
-			Fuel->ChangeValue(-5 * frametime);
+			Fuel->ChangeValue(-2 * frametime);
 		}
 
 		if (input->IsDown('1'))

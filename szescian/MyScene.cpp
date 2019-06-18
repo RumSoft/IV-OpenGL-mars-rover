@@ -15,10 +15,11 @@
 void MyScene::InitUI()
 {
 	TwInit(TW_OPENGL, nullptr);
-	bar = TwNewBar("OGLDEV");
+	bar = TwNewBar("bar");
 	
 	TwWindowSize(1280, 720);
 	
+	TwDefine(" bar position='20 400' "); // resize bar
 
 	TwAddButton(bar, "Lazik", nullptr, nullptr, "");
 	TwAddVarRO(bar, "Predkosc", TW_TYPE_FLOAT, &lazik->speedAcc, "Aktualna predkosc lazika");
@@ -121,7 +122,7 @@ MyScene::MyScene()
 	map = new Map(this);
 	this->Geometries.push_back(map->WithPosition(Vec3::Zero()));
 	
-	 fabula = new Fabula(this);
+	fabula = new Fabula(this);
 	this->Geometries.push_back(fabula);
 
 	auto par = new ParticleGenerator(this, Particles::Ambient(), this->lazik, ZERO);

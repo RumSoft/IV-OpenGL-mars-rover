@@ -18,13 +18,16 @@ public:
 	}
 
 	bool IsFull() { return _currentValue == _maxValue; }
-	bool IsZero() { return _currentValue <= 0; }
+	bool IsZero() { return _currentValue <= _maxValue/100; }
 
 	float GetValue() { return _currentValue; }
 	float GetMaxValue() { return _maxValue; }
 
-	void SetValue(const float setTo, const bool pauseRegen = true)
+	void SetValue(float setTo, const bool pauseRegen = true)
 	{
+		if (setTo > _maxValue) setTo = _maxValue;
+		if (setTo < 0) setTo = 0;
+
 		_currentValue = setTo;
 		if (pauseRegen) {
 			_timer = 0;

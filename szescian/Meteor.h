@@ -38,7 +38,7 @@ public:
 			Delete = true;
 
 			auto diff = this->Origin - this->_scene->lazik->Origin;
-			if (Vec3::SqrMagnitude(diff) < 1000)
+			if (Vec3::SqrMagnitude(diff) < 2000)
 				_scene->lazik->Rozpierdol();
 		}
 
