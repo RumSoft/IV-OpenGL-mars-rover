@@ -168,9 +168,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		scene->RenderScene();
 
 		scene->UpdatePhysics();
-		glAccum(GL_ACCUM, 1.0);
-		glAccum(GL_RETURN,1.0);
-		glAccum(GL_MULT, 0.4);
+		//glAccum(GL_ACCUM, 1.0);
+		//glAccum(GL_RETURN,1.0);
+		//glAccum(GL_MULT, 0.4);
 		SwapBuffers(hDC);
 
 		//glDrawBuffer(GL_FRONT);
