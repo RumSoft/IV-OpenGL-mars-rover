@@ -50,7 +50,7 @@ public:
 		rocket = (Rocket*)(new Rocket(_scene))
 			->WithPosition(pos)
 			->WithScale(scale)
-			->WithRotation(ROT(90, Vec3(1, 0, 0)));
+			->WithRotation(ROT(90, UP) * ROT(90, Vec3(1, 0, 0)));
 		
 		this->Children.push_back(rocket);
 

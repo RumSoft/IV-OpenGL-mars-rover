@@ -105,7 +105,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_CREATE:
-
+		
 		hDC = GetDC(hWnd);
 
 		renderer->SetDCPixelFormat(hDC);
@@ -144,7 +144,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			free(bitmapData);
 		
 		scene->Init();
-		
+		glClear(GL_ACCUM_BUFFER_BIT);
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		break;
 
@@ -162,11 +162,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	case WM_PAINT:
 		c1 = clock();
+		
 		scene->Update(lastframetime);
 		scene->UpdateAllGeometries(lastframetime);
 		scene->RenderScene();
+
 		scene->UpdatePhysics();
+		glAccum(GL_ACCUM, 1.0);
+		glAccum(GL_RETURN,1.0);
+		glAccum(GL_MULT, 0.4);
 		SwapBuffers(hDC);
+
+		//glDrawBuffer(GL_FRONT);
+
 		ValidateRect(hWnd, nullptr);
 		InvalidateRect(hWnd, nullptr, NULL);
 		

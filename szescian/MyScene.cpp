@@ -129,6 +129,7 @@ MyScene::MyScene()
 	auto par = new ParticleGenerator(this, Particles::Ambient(), this->lazik, ZERO);
 	par->PositionRandom = FLAT * 2000 + UP * 500;
 	par->VelocityRandom = ONE * 100;
+	par->spawnRate = 50;
 	this->Geometries.push_back(par);
 
 	for (auto geom : Geometries)
