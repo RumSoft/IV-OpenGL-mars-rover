@@ -21,7 +21,6 @@ public:
 	void OnPickUp()
 	{
 		IsPickedUp = true;
-		//this->proxy->Enabled = false;
 	}
 	const float r = 30;
 	void Update(float frametime) override

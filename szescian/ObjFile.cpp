@@ -62,13 +62,6 @@ ObjFile::ObjFile(string folder, string filename, float proxyPhysics, float heigh
 	}
 }
 
-void ObjFile::PostRender()
-{
-	if (proxy != nullptr)
-
-	this->proxy->DrawProxy();
-}
-
 void ObjFile::Init()
 {
 	const auto shape = this->Shapes[1];

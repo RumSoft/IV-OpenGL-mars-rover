@@ -23,7 +23,7 @@ public:
 
 	float speed = 0;
 	bool flying = false;
-	bool enabled = true;
+	bool enabled = false;
 	void Fly(float frametime)
 	{
 		_scene->lazik->Origin = this->Origin;

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Geom.h"
 #include "Meteor.h"
 #include "Mineral.h"
@@ -29,6 +29,8 @@ public:
 	int requiredPoints = 10;
 	string RocketFuel = "";
 
+	Rocket* rocket;
+
 	Fabula(IScene* scene)
 	{
 		_scene = scene;
@@ -36,11 +38,11 @@ public:
 		auto pos = Vec3(500, 100, -80);
 		auto scale = ONE * 150;
 
-		auto roc = (new Rocket(_scene))
+		rocket = (Rocket*)(new Rocket(_scene))
 			->WithPosition(pos)
 			->WithScale(scale)
 			->WithRotation(ROT(90, RIGHT));
-		this->Children.push_back(roc);
+		this->Children.push_back(rocket);
 
 
 		auto pos2 = Vec3(700, 200, -80);
@@ -48,6 +50,7 @@ public:
 			->WithPosition(pos2)
 			->WithScale(100);
 		this->Children.push_back(factory);
+		UpdateRocketFuel();
 	}
 
 	void GatherMineral(Mineral* mineral)
@@ -57,23 +60,28 @@ public:
 		points += 1;
 
 		UpdateRocketFuel();
+
+		if (points >= requiredPoints)
+		{
+			this->RocketFuel = "PELNE, JEDZ DO RAKIETY";
+			this->rocket->enabled = true;
+		}
+
 	}
 
 	void UpdateRocketFuel()
 	{
-		//length = 10;
-		//fuel
+
 		RocketFuel.clear();
 		RocketFuel.push_back('[');
 		const float fuel = points / (float)requiredPoints;
-		const int length = 10;
+		const int length = 35;
 		const int fuell = fuel * length;
 		for(auto i = 0; i<length; i++)
 			if (i < fuell)
-				RocketFuel.push_back('#');
-			else
-				RocketFuel.push_back('_');
-
+				RocketFuel.push_back('[');
+			else 
+				RocketFuel.push_back('.');
 		RocketFuel.push_back(']');
 	}
 

@@ -143,8 +143,7 @@ public:
 
 		*/
 		const auto mapPos = ToMap(p);
-		if (mapPos.X > MAP_SIZE || mapPos.Y > MAP_SIZE)
-			return 0;
+
 		const int l = floor(mapPos.X);
 		const int r = ceil(mapPos.X);
 		const int b = floor(mapPos.Y);

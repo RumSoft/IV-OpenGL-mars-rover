@@ -37,9 +37,27 @@ public:
 			}
 			Delete = true;
 
+			auto diff = this->Origin - this->_scene->lazik->Origin;
+			if (Vec3::SqrMagnitude(diff) < 1000)
+				_scene->lazik->Rozpierdol();
 		}
 
 		const float speed = 200;
 		this->Origin -= Vec3(1, 1, 1) * speed * frametime;
 	}
+
+#ifdef DEBUG
+	void PostRender() override
+	{
+		float r = 33;
+		int steps = 20;
+		float f = 2 * M_PI / steps;
+		glLineWidth(5);
+		glBegin(GL_LINE_LOOP);
+		for (int i = 0; i <= steps; i++)
+			glVertex3f(this->Origin.X + r * sin(f * i), this->Origin.Y+ r * cos(f * i), this->Origin.Z);
+		glEnd();
+	}
+#endif
+
 };

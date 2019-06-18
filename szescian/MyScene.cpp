@@ -46,13 +46,15 @@ void MyScene::InitUI()
 	bar2 = TwNewBar("bar2");
 
 
-	TwDefine(" bar2 size='240 320' "); // resize bar
-	TwDefine(" bar2 valueswidth=120 ");
+	TwDefine(" bar2 size='400 240' "); // resize bar
+	TwDefine(" bar2 valueswidth=200 ");
+
+	TwDefine(" GLOBAL contained=true ");
+
 
 	TwAddSeparator(bar2, "particles:", "particles:");
-	TwAddVarRO(bar2, "particles", TW_TYPE_INT32, &particles, "particles");
-
 	TwAddVarRO(bar2, "Paliwo Rakiety", TW_TYPE_STDSTRING, &fabula->RocketFuel, "");
+	TwAddVarRO(bar2, "Bateria Lazika", TW_TYPE_STDSTRING, &lazik->BatteryLevel, "");
 
 }
 

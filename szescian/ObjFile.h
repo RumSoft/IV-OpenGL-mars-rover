@@ -26,8 +26,6 @@ public:
 
 	ObjFile(string folder, string filename, float proxyPhysics = 0, float heightOffset=0);
 
-	void PostRender() override;
-
 	void Init() override;
 
 	void Update(float frametime) override;

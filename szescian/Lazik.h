@@ -44,6 +44,7 @@ public:
 	float max_speed = 150;
 	float WheelRadius = 13.5;
 	float MinTurnRadius = 50;
+	std::string BatteryLevel;
 
 	Lazik(IScene* scene)
 	{
@@ -87,15 +88,38 @@ public:
 		proxy->Scale = Vec3(60, 50, 33);
 		proxy->Origin = Vec3(0, 0, 20);
 		input = InputHandler::GetInstance();
-		Fuel = (CAttribute*)(new CAttribute(50000, 5, 1));
+		Fuel = (CAttribute*)(new CAttribute(500, 5, 1));
+
+		UpdateBatteryLevel();
+	}
+
+	void UpdateBatteryLevel()
+	{
+
+		BatteryLevel.clear();
+		BatteryLevel.push_back('[');
+		const float fuel = Fuel->GetValue() / (float)Fuel->GetMaxValue();
+		const int length = 35;
+		const int fuell = fuel * length;
+		for (auto i = 0; i < length; i++)
+			if (i < fuell)
+				BatteryLevel.push_back('[');
+			else {
+				BatteryLevel.push_back('.');
+			}
+		BatteryLevel.push_back(']');
 	}
 
 	Quat zrot = Quat::Identity();
 
 	void Rozpierdol()
 	{
-		//this->Scale.Z = 0.1;
-		//this->wheel1L->Rotation *= Quat::FromAngleAxis(D2R(90), Vec3(1,0,1));
+		this->Fuel->ChangeValue(-20, true); //decrease by 20/500 = 4% 
+		for (auto i = 0; i < 100; i++) {
+			auto particle = Particles::Fire()
+				.WithPosition(this->Origin);
+			_scene->Particles.push_back(particle.Randomized(ONE * 20, ONE * 150 + UP * 50, 0.1));
+		}
 	}
 
 	void Update(float frametime) override
@@ -117,7 +141,7 @@ public:
 			proxy->Update(frametime);
 
 		Fuel->Update(frametime);
-
+		UpdateBatteryLevel();
 		this->Origin += Quat::GetZRotation(Rotation) * FORWARD * Velocity * frametime;
 	}
 
@@ -248,8 +272,5 @@ public:
 		wheel3L->Rotation = Quat::FromAngleAxis(LDist / WheelRadius, LEFT);
 		wheel3R->Rotation = Quat::FromAngleAxis(RDist / WheelRadius, LEFT);
 	}
-	void PostRender() override
-	{
-		this->proxy->DrawProxy();
-	}
+	
 };
