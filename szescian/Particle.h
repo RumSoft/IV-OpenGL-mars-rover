@@ -85,6 +85,32 @@ public:
 			.WithEndSize(1)
 			.IsAdditive(true);
 	}
+
+	static Particle Ambient()
+	{
+		return Particle()
+			.WithLifetime(5)
+			.WithVelocity(-Vec3(1,1,0) * 50)
+			.WithStartColor(ColorF(0x925001, 0.2))
+			.WithEndColor(ColorF(0x653A17, 1))
+			.WithGravity(0)
+			.WithStartSize(5)
+			.WithEndSize(2)
+			.IsAdditive(true);
+	}
+
+	static Particle RocketSmoke()
+	{
+		return Particle()
+			.WithLifetime(0.2)
+			.WithVelocity(DOWN * 200)
+			.WithStartColor(ColorF(0xff6666, 1))
+			.WithEndColor(ColorF(0xffffff, 1))
+			.WithGravity(0)
+			.WithStartSize(10)
+			.WithEndSize(1)
+			.IsAdditive(true);
+	}
 };
 
 

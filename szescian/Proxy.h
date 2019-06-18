@@ -10,7 +10,7 @@ public:
 	bool LastCollided;
 	bool Enabled = true;
 
-	float groundOffset = 0;
+	float heightOffset = 0;
 	Geom* parent;
 	float Mass = 50;
 	float MaxSpeed = 5;

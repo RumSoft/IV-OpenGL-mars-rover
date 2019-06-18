@@ -6,6 +6,7 @@
 class Lazik;
 class Map;
 class ObjFile;
+class Fabula;
 
 class IScene : public Entity {
 public:
@@ -32,6 +33,7 @@ public:
 	
 	Lazik* lazik;
 	//vector<Lazik*> laziki;
+	Fabula* fabula;
 	Map* map;
 	ObjFile* ground;
 	int particles = 0;

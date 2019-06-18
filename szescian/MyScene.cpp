@@ -47,12 +47,12 @@ void MyScene::InitUI()
 
 
 	TwDefine(" bar2 size='240 320' "); // resize bar
-
+	TwDefine(" bar2 valueswidth=120 ");
 
 	TwAddSeparator(bar2, "particles:", "particles:");
 	TwAddVarRO(bar2, "particles", TW_TYPE_INT32, &particles, "particles");
 
-	TwAddVarRO(bar2, "Paliwo Rakiety", TW_TYPE_STDSTRING, &fab->RocketFuel, "");
+	TwAddVarRO(bar2, "Paliwo Rakiety", TW_TYPE_STDSTRING, &fabula->RocketFuel, "");
 
 }
 
@@ -76,7 +76,7 @@ void MyScene::InitRocks()
 		Vec3(-100, -650, -50)
 	};
 	for (const auto k : kamienie)
-		this->Geometries.push_back((new ObjFile("objects", "marsrock", 0.7))
+		this->Geometries.push_back((new ObjFile("objects", "marsrock", 0.7, 15))
 		                           ->WithScale(Vec3(
 			                           rand() % 20 + 30,
 			                           rand() % 20 + 30,
@@ -91,14 +91,9 @@ void MyScene::InitRocks()
 	                           ->WithScale(100)
 	                           ->WithPosition(Vec3(500, 500, -50))
 	);
-	this->Geometries.push_back((new ObjFile("objects", "mineral", true, 1))
-	                           ->WithScale(170)
+	this->Geometries.push_back((new ObjFile("objects", "marsrock", true, 0.6))
+	                           ->WithScale(108)
 	                           ->WithPosition(Vec3(-20, -900, 0))
-	);
-
-	this->Geometries.push_back((new ObjFile("objects", "mineral", true, 1))
-		->WithScale(17)
-		->WithPosition(Vec3(-220, -900, -50))
 	);
 }
 
@@ -124,17 +119,27 @@ MyScene::MyScene()
 	map = new Map(this);
 	this->Geometries.push_back(map->WithPosition(Vec3::Zero()));
 	
-	fab = new Fabula(this);
-	this->Geometries.push_back(fab);
+	fabula = new Fabula(this);
+	this->Geometries.push_back(fabula);
+
+	auto par = new ParticleGenerator(this, Particles::Ambient(), this->lazik, ZERO);
+	par->PositionRandom = FLAT * 2000 + UP * 500;
+	par->VelocityRandom = ONE * 100;
+	this->Geometries.push_back(par);
 
 	for (auto geom : Geometries)
 	{
 		if (geom != nullptr ) {
-			if(geom->proxy != nullptr)
+			if (geom->proxy != nullptr) {
 				PhysicializedGeometries.push_back(geom);
+				geom->Origin.Z = map->GetHeight(geom->Origin) + geom->proxy->heightOffset; // align to ground
+			}
 			for (auto geomChildren : geom->Children)
-				if (geomChildren != nullptr && geomChildren->proxy != nullptr)
+				if (geomChildren != nullptr && geomChildren->proxy != nullptr) {
 					PhysicializedGeometries.push_back(geomChildren);
+					geomChildren->Origin.Z = map->GetHeight(geomChildren->Origin) + geomChildren->proxy->heightOffset; // align to ground
+
+				}
 		}
 
 	

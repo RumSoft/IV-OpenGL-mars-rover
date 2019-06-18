@@ -22,9 +22,9 @@ public:
 	ColorF _color;
 	string fullname() const { return (!_folder.empty() ? _folder + "/" : "") + _filename; }
 
-	ObjFile(string folder, string filename, ColorF color, float proxyPhysics = 0);
+	ObjFile(string folder, string filename, ColorF color, float proxyPhysics = 0, float heightOffset=0);
 
-	ObjFile(string folder, string filename, float proxyPhysics = 0);
+	ObjFile(string folder, string filename, float proxyPhysics = 0, float heightOffset=0);
 
 	void PostRender() override;
 

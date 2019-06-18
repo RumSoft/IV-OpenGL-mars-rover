@@ -13,7 +13,7 @@ public:
 		_scene = scene;
 		this->Scale = 17;
 		this->proxy->Mass = 10;
-		this->proxy->groundOffset = 18;
+		this->proxy->heightOffset = 18;
 
 	}
 	bool IsPickedUp = false;
@@ -55,6 +55,6 @@ public:
 	void OnDrop()
 	{
 		IsPickedUp = false;
-		this->Origin.Z = _scene->map->GetHeight(Origin)  + proxy->groundOffset;
+		this->Origin.Z = _scene->map->GetHeight(Origin)  + proxy->heightOffset;
 	}
 };

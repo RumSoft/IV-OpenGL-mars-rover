@@ -10,7 +10,6 @@ public:
 	
 	TwBar* bar;
 	TwBar* bar2;
-	Fabula* fab;
 	void InitUI();
 	void InitRocks();
 	void InitGround();

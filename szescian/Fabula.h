@@ -23,8 +23,8 @@ inline float randf(const float a, const float b)
 
 class Fabula : public Geom
 {
-	IScene* _scene;
 public:
+	IScene* _scene;
 	int points = 0;
 	int requiredPoints = 10;
 	string RocketFuel = "";
@@ -36,7 +36,7 @@ public:
 		auto pos = Vec3(500, 100, -80);
 		auto scale = ONE * 150;
 
-		auto roc = (new Rocket())
+		auto roc = (new Rocket(_scene))
 			->WithPosition(pos)
 			->WithScale(scale)
 			->WithRotation(ROT(90, RIGHT));
@@ -44,7 +44,7 @@ public:
 
 
 		auto pos2 = Vec3(700, 200, -80);
-		auto factory = (new Factory())
+		auto factory = (new Factory(_scene))
 			->WithPosition(pos2)
 			->WithScale(100);
 		this->Children.push_back(factory);

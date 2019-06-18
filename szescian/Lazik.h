@@ -4,7 +4,6 @@
 #include "Kolo.h"
 #include "Kamera.h"
 #include "Fuel.h"
-#include <iostream>
 #include "Proxy.h"
 #include "ParticleGenerator.h"
 

@@ -84,5 +84,5 @@ void Proxy::OnCollision(Proxy* obj)
 	////this->Acceleration *= 0.95;
 	obj->parent->Origin += dir;
 	////lazik->Velocity
-	obj->parent->Origin.Z = lazik->_scene->map->GetHeight(obj->parent->Origin) + 18;
+	obj->parent->Origin.Z = lazik->_scene->map->GetHeight(obj->parent->Origin) + obj->heightOffset;
 }
