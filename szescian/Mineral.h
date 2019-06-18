@@ -3,15 +3,22 @@
 #include "IScene.h"
 #include "ObjFile.h"
 #include "CollisionDetector.h"
+#include "Fabryka.h"
+
+//class Fabula;
 
 class Mineral : public ObjFile
 {
 	IScene* _scene;
+	//Factory* _factory;
+	//Fabula* _fabula;
 public:
-	Mineral(IScene* scene)
+	//Mineral(IScene* scene, Fabula* fabula)
+	Mineral(IScene* scene, Factory* factory = nullptr)
 		: ObjFile("objects", "mineral", 1)
 	{
 		_scene = scene;
+		//_fabula = fabula;
 		this->Scale = 17;
 		this->proxy->Mass = 10;
 		this->proxy->heightOffset = 18;
@@ -56,9 +63,9 @@ public:
 	{
 		IsPickedUp = false;
 		this->Origin.Z = _scene->map->GetHeight(Origin)  + proxy->heightOffset;
-
-		CollisionDetectorHelper::Intersects(proxy->)
-		
-		
+		//auto diff = this->Origin - _fabula->factory->Origin;
+		//auto dist = Vec3::Magnitude(diff);
+		//if(dist < 300)
+			
 	}
 };

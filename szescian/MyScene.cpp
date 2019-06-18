@@ -121,7 +121,7 @@ MyScene::MyScene()
 	map = new Map(this);
 	this->Geometries.push_back(map->WithPosition(Vec3::Zero()));
 	
-	fabula = new Fabula(this);
+	 fabula = new Fabula(this);
 	this->Geometries.push_back(fabula);
 
 	auto par = new ParticleGenerator(this, Particles::Ambient(), this->lazik, ZERO);

@@ -7,7 +7,7 @@
 class MyScene : public IScene
 {
 public:
-	
+	Fabula* fabula;
 	TwBar* bar;
 	TwBar* bar2;
 	void InitUI();

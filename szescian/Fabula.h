@@ -105,7 +105,7 @@ public:
 			auto pos = Vec3::RandomSym(FLAT * 500);
 			pos *= 10;
 			pos.Z = _scene->map->GetHeight(pos) + 18;
-			auto obj = (Mineral*)(new Mineral(_scene))->WithPosition(pos);
+			auto obj = (Mineral*)(new Mineral(_scene, factory))->WithPosition(pos);
 			this->Children.push_back(obj);
 			obj->OnDrop();
 
