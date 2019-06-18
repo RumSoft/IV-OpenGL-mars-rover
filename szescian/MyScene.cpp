@@ -4,10 +4,10 @@
 #include "Lazik.h"
 #include "Background.h"
 #include "ObjFile.h"
-#include "Camera.h"
 #include <ctime>
 #include "Map.h"
 #include "Meteor.h"
+#include "Camera.h"
 
 #define smaller(a, b) if (b < a) a = b;
 #define bigger(a, b) if (b > a) a = b;
@@ -117,7 +117,8 @@ MyScene::MyScene()
 	input = InputHandler::GetInstance();
 	this->Geometries.push_back(new Background());
 	lazik = new Lazik(this);
-	this->Geometries.push_back(new Camera(lazik));
+	camera = new Camera(lazik);
+	this->Geometries.push_back(camera);
 	this->Geometries.push_back(lazik);
 	map = new Map(this);
 	this->Geometries.push_back(map->WithPosition(Vec3::Zero()));

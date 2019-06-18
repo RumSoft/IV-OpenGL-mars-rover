@@ -1,8 +1,6 @@
 #pragma once
 #include "ObjFile.h"
-
-
-class Fabula;
+#include "Camera.h"
 
 class Rocket : public ObjFile
 {
@@ -26,13 +24,16 @@ public:
 	bool enabled = false;
 	void Fly(float frametime)
 	{
-		_scene->lazik->Origin = this->Origin;
+		_scene->lazik->Origin = this->Origin + UP * 50 + UP * speed * 5;
 		speed += 1 * frametime;
 		this->Origin.Z += speed;
 		par1->Update(frametime);
 		par2->Update(frametime);
 		par3->Update(frametime);
 		par4->Update(frametime);
+
+		_scene->camera->RequestRotationBy(ROT(1,UP));
+		
 	}
 
 	void EnableFlying()

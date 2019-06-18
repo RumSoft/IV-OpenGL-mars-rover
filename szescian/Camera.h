@@ -2,6 +2,7 @@
 #include "Geom.h"
 #include "Lazik.h"
 
+
 class Camera : public Geom
 {
 public:
@@ -58,7 +59,6 @@ public:
 			zoom += 1 * frametime;
 	}
 
-private:
 	void RequestRotationBy(Quat by)
 	{
 		RequestRotationTo(Rotation * by);
