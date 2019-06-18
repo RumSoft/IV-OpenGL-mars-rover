@@ -54,15 +54,11 @@ public:
 		
 		this->Children.push_back(rocket);
 
-
-
 		UpdateRocketFuel();
 	}
 
-	void GatherMineral(Mineral* mineral)
+	void GatherMineral()
 	{
-		
-		mineral->Delete = true;
 		points += 1;
 
 		UpdateRocketFuel();
@@ -105,7 +101,8 @@ public:
 			auto pos = Vec3::RandomSym(FLAT * 500);
 			pos *= 10;
 			pos.Z = _scene->map->GetHeight(pos) + 18;
-			auto obj = (Mineral*)(new Mineral(_scene, factory))->WithPosition(pos);
+
+			auto obj = (Mineral*)(new Mineral(_scene, [this]() {GatherMineral(); }, factory))->WithPosition(pos);
 			this->Children.push_back(obj);
 			obj->OnDrop();
 
@@ -133,6 +130,6 @@ public:
 		}
 	
 		if (_scene->input->IsPressed('N'))
-			GatherMineral(new Mineral(nullptr));
+			GatherMineral();
 	}
 };
