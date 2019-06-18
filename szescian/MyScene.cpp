@@ -8,16 +8,15 @@
 #include <ctime>
 #include "Map.h"
 #include "Meteor.h"
-#include "Fabula.h"
 
 #define smaller(a, b) if (b < a) a = b;
 #define bigger(a, b) if (b > a) a = b;
-
 
 void MyScene::InitUI()
 {
 	TwInit(TW_OPENGL, nullptr);
 	bar = TwNewBar("OGLDEV");
+	
 	TwWindowSize(1280, 720);
 	
 
@@ -42,6 +41,18 @@ void MyScene::InitUI()
 
 	TwAddSeparator(bar, "particles:", "particles:");
 	TwAddVarRO(bar, "particles", TW_TYPE_INT32, &particles, "particles");
+
+
+	bar2 = TwNewBar("bar2");
+
+
+	TwDefine(" bar2 size='240 320' "); // resize bar
+
+
+	TwAddSeparator(bar2, "particles:", "particles:");
+	TwAddVarRO(bar2, "particles", TW_TYPE_INT32, &particles, "particles");
+
+	TwAddVarRO(bar2, "Paliwo Rakiety", TW_TYPE_STDSTRING, &fab->RocketFuel, "");
 
 }
 
@@ -113,8 +124,8 @@ MyScene::MyScene()
 	map = new Map(this);
 	this->Geometries.push_back(map->WithPosition(Vec3::Zero()));
 	
-	const auto fabula = new Fabula(this);
-	this->Geometries.push_back(fabula);
+	fab = new Fabula(this);
+	this->Geometries.push_back(fab);
 
 	for (auto geom : Geometries)
 	{
@@ -139,6 +150,7 @@ MyScene::~MyScene() = default;
 void MyScene::Update(float frametime)
 {
 	TwRefreshBar(bar);
+	TwRefreshBar(bar2);
 	particles = Particles.size();
 
 

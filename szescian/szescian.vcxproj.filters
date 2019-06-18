@@ -202,5 +202,12 @@
     <ClInclude Include="Mineral.h">
       <Filter>Objects\Fabula</Filter>
     </ClInclude>
+    <ClInclude Include="Proxy.h" />
+    <ClInclude Include="Rakieta.h">
+      <Filter>Objects\Fabula</Filter>
+    </ClInclude>
+    <ClInclude Include="Fabryka.h">
+      <Filter>Objects\Fabula</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

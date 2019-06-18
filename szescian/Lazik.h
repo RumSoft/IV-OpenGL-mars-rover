@@ -13,9 +13,9 @@ class IScene;
 class Lazik : public Geom
 {
 private:
-	IScene* _scene;
 	InputHandler* input;
 public:
+	IScene* _scene;
 	Chwytak* chwytak;
 	Kadlubek* kadlubek;
 	Kamera* kamera;
@@ -85,8 +85,8 @@ public:
 		_scene = scene;
 		
 		proxy = new Proxy(this);
-		proxy->Scale = Vec3(60, 50, 25);
-		proxy->Origin = Vec3(0, 0, 15);
+		proxy->Scale = Vec3(60, 50, 33);
+		proxy->Origin = Vec3(0, 0, 20);
 		input = InputHandler::GetInstance();
 		Fuel = (CAttribute*)(new CAttribute(50000, 5, 1));
 	}
@@ -207,8 +207,8 @@ public:
 
 		if (proxy->isColliding)
 		{
-			VelocityL *= 0.3;
-			VelocityR *= 0.3;
+			VelocityL *= 0.9;
+			VelocityR *= 0.9;
 		}
 	}
 
@@ -249,5 +249,8 @@ public:
 		wheel3L->Rotation = Quat::FromAngleAxis(LDist / WheelRadius, LEFT);
 		wheel3R->Rotation = Quat::FromAngleAxis(RDist / WheelRadius, LEFT);
 	}
-
+	void PostRender() override
+	{
+		this->proxy->DrawProxy();
+	}
 };

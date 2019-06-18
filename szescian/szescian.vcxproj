@@ -178,6 +178,7 @@
     <ClInclude Include="Cylinder.h" />
     <ClInclude Include="Disc.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Fabryka.h" />
     <ClInclude Include="Fabula.h" />
     <ClInclude Include="Face.h" />
     <ClInclude Include="Magnet.h" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="obj_loader.h" />
     <ClInclude Include="Proxy.h" />
+    <ClInclude Include="Rakieta.h" />
     <ClInclude Include="Ramie.h" />
     <ClInclude Include="TextureMemory.h" />
     <ClInclude Include="Vertex.h" />

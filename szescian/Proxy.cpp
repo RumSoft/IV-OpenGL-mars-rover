@@ -1,4 +1,7 @@
 ﻿#include "Proxy.h"
+#include "ObjFile.h"
+#include "Lazik.h"
+#include "Map.h"
 
 void Proxy::Update(float frametime)
 {
@@ -70,12 +73,16 @@ void Proxy::OnCollision(Proxy* obj)
 	// this - lazik
 	// obj - kamień
 
-	auto dir = obj->LastPos - this->LastPos;
-	dir.Z = 0;
+
+	auto lazik = (Lazik*)this->parent;
+	//
+	auto dir = obj->parent->Origin - this->parent->Origin;
 	dir = Vec3::Normalized(dir);
 	isColliding = true;
-	obj->Acceleration += dir / obj->Mass;
-	this->Velocity *= 0.5;
-	this->Acceleration *= 0.5;
+	//obj->Acceleration += dir / obj->Mass;
+	////this->Velocity *= 0.95;
+	////this->Acceleration *= 0.95;
 	obj->parent->Origin += dir;
+	////lazik->Velocity
+	obj->parent->Origin.Z = lazik->_scene->map->GetHeight(obj->parent->Origin) + 18;
 }
