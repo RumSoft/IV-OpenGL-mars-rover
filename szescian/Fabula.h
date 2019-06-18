@@ -37,7 +37,7 @@ public:
 		auto pos2 = Vec3(700, 200, -80);
 		factory = (Factory*)(new Factory(_scene))
 			->WithPosition(pos2)
-			->WithScale(15)
+			->WithScale(30)
 			->WithRotation(ROT(90, Vec3(1, 0, 0)));
 			//->WithRotation(Quat::FromAngleAxis(D2R(90), Vec3(1, 0, 0));
 		factory->proxy->Movable = false;
@@ -73,7 +73,6 @@ public:
 
 	void PostRender() override
 	{
-		this->factory->proxy->DrawProxy();
 	}
 
 
@@ -89,7 +88,7 @@ public:
 			if (i < fuell)
 				RocketFuel.push_back('[');
 			else 
-				RocketFuel.push_back('.');
+				RocketFuel.push_back(',');
 		RocketFuel.push_back(']');
 	}
 
