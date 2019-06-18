@@ -73,12 +73,21 @@ void Proxy::OnCollision(Proxy* obj)
 	// this - lazik
 	// obj - kamień
 
-
-	auto lazik = (Lazik*)this->parent;
-	//
-	auto dir = obj->parent->Origin - this->parent->Origin;
-	dir = Vec3::Normalized(dir);
 	isColliding = true;
+	auto dir = obj->parent->Origin - this->parent->Origin;
+	auto lazik = (Lazik*)this->parent;
+	dir = Vec3::Normalized(dir);
+
+	if (!obj->Movable)
+	{
+		lazik->VelocityL *= 0.1;
+		lazik->VelocityR *= 0.1;
+		lazik->Origin -= dir;
+		return;
+
+	}
+
+	//
 	//obj->Acceleration += dir / obj->Mass;
 	////this->Velocity *= 0.95;
 	////this->Acceleration *= 0.95;

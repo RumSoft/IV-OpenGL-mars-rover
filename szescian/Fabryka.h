@@ -5,9 +5,8 @@
 class Factory : public ObjFile {
 	
 public:
-	Factory(IScene* scene) : ObjFile("objects", "fabryka", 0)
+	Factory(IScene* scene) : ObjFile("objects", "box", 1, 30)
 	{
 		
-
 	}
 };

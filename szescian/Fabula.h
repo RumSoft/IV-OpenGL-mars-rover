@@ -30,10 +30,19 @@ public:
 	string RocketFuel = "";
 
 	Rocket* rocket;
-
+	Factory* factory;
 	Fabula(IScene* scene)
 	{
 		_scene = scene;
+		auto pos2 = Vec3(700, 200, -80);
+		factory = (Factory*)(new Factory(_scene))
+			->WithPosition(pos2)
+			->WithScale(15)
+			->WithRotation(ROT(90, Vec3(1, 0, 0)));
+			//->WithRotation(Quat::FromAngleAxis(D2R(90), Vec3(1, 0, 0));
+		factory->proxy->Movable = false;
+		this->Children.push_back(factory);
+
 		SpawnMinerals();
 		auto pos = Vec3(500, 100, -80);
 		auto scale = ONE * 150;
@@ -41,15 +50,12 @@ public:
 		rocket = (Rocket*)(new Rocket(_scene))
 			->WithPosition(pos)
 			->WithScale(scale)
-			->WithRotation(ROT(90, RIGHT));
+			->WithRotation(ROT(90, Vec3(1, 0, 0)));
+		
 		this->Children.push_back(rocket);
 
 
-		auto pos2 = Vec3(700, 200, -80);
-		auto factory = (new Factory(_scene))
-			->WithPosition(pos2)
-			->WithScale(100);
-		this->Children.push_back(factory);
+
 		UpdateRocketFuel();
 	}
 
@@ -68,6 +74,12 @@ public:
 		}
 
 	}
+
+	void PostRender() override
+	{
+		this->factory->proxy->DrawProxy();
+	}
+
 
 	void UpdateRocketFuel()
 	{

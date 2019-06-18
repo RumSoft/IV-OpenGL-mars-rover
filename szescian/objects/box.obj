@@ -1,7 +1,7 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 18.06.2019 15:24:37
+# File Created: 18.06.2019 15:26:21
 
-mtllib fabryka.mtl
+mtllib box.mtl
 
 #
 # object cube

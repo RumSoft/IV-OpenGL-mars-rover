@@ -2,6 +2,7 @@
 #include "Geom.h"
 #include "IScene.h"
 #include "ObjFile.h"
+#include "CollisionDetector.h"
 
 class Mineral : public ObjFile
 {
@@ -55,5 +56,9 @@ public:
 	{
 		IsPickedUp = false;
 		this->Origin.Z = _scene->map->GetHeight(Origin)  + proxy->heightOffset;
+
+		CollisionDetectorHelper::Intersects(proxy->)
+		
+		
 	}
 };

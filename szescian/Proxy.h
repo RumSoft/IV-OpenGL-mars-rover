@@ -10,6 +10,7 @@ public:
 	bool LastCollided;
 	bool Enabled = true;
 
+	bool Movable = true;
 	float heightOffset = 0;
 	Geom* parent;
 	float Mass = 50;
