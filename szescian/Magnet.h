@@ -79,13 +79,20 @@ public:
 		shape4->AddPoint(Vec3(4, h, 2.5), -RIGHT);
 		shape4->AddPoint(Vec3(4, 0, 1), -RIGHT);
 		shape4->AddPoint(Vec3(4, h, 1), -RIGHT);
-
+		
+		this->Shapes.push_back(new Face(Vec3(2.5, 0, 0), Vec3(3, 0, 1), Vec3(3.5, 0, 0), Vec3(4, 0, 1), LIGHTGRAY, true));		//lewa
+		this->Shapes.push_back(new Face(Vec3(2.5, h, 0), Vec3(3, h, 1), Vec3(3.5, h, 0), Vec3(4, h, 1), LIGHTGRAY));	//prawa
+		this->Shapes.push_back(new Face(Vec3(2.5, 0, 0), Vec3(2.5, h, 0), Vec3(3.5, 0, 1), Vec3(3.5, h, 1), LIGHTGRAY));	//przod
+		this->Shapes.push_back(new Face(Vec3(3.5, 0, 0), Vec3(3.5, h, 0), Vec3(4, 0, 1), Vec3(4, h, 1), LIGHTGRAY)); //tyl
 		this->Shapes.push_back(shape);
 		this->Shapes.push_back(shape2);
 		this->Shapes.push_back(shape3);
 		this->Shapes.push_back(shape4);
 		this->Shapes.push_back(new Face(Vec3(0.5, 0, 0), Vec3(0, 0, 1), Vec3(1.5, 0, 0), Vec3(1, 0, 1), LIGHTGRAY, true));
 		this->Shapes.push_back(new Face(Vec3(0.5, h, 0), Vec3(0, h, 1), Vec3(1.5, h, 0), Vec3(1, h, 1), LIGHTGRAY));
+		this->Shapes.push_back(new Face(Vec3(1.5,0,0), Vec3(1.5, h, 0), Vec3(1, 0, 1), Vec3(1, h, 1), LIGHTGRAY));
+		this->Shapes.push_back(new Face(Vec3(0.5, 0, 0), Vec3(0.5, h, 0), Vec3(0, 0, 1), Vec3(0, h, 1), LIGHTGRAY));
+		
 	}
 
 	void Update(float frametime) override
